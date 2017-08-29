@@ -17,7 +17,7 @@ public class Question {
     public String getQuestion() {
         return question;
     }
-    
+
     public boolean getAnswer() {
         return answer;
     }
