@@ -33,8 +33,7 @@ public class QuestionMain extends AppCompatActivity {
 
 
     public void onClick (View v) {
-        Intent quitQuiz =  new Intent(this, AppMain.class);
-        startActivity(quitQuiz);
+        finish();
         }
 
 
