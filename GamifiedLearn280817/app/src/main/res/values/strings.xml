@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">GamifiedLearn 280817</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profile">Profile</string>
+    <string name="sections">Sections</string>
+    <string name="saved">Saved</string>
+    <string name="profile_text">Profile</string>
+    <string name="saved_q_text">Saved Q</string>
+    <string name="sections_text">Sections</string>
+</resources>
