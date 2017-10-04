@@ -1,13 +1,14 @@
 package com.mjk.gamifiedlearn280817;
 
+
 /**
  * Created by owner on 29/08/2017.
  */
 
 public class Question {
-    String question;
-    boolean answer;
-    String name;
+String question;Boolean answer;
+
+
 
     public Question(String question, boolean answer) {
         this.question = question;
@@ -21,4 +22,7 @@ public class Question {
     public boolean getAnswer() {
         return answer;
     }
+
 }
+
+

@@ -13,34 +13,35 @@ import java.util.ArrayList;
 
 public class QuestionMain extends AppCompatActivity {
 
-    Button trueButton;
-    Button falseButton;
-    Button quitButton;
+    Button trueButton = (Button)findViewById(R.id.true_button);
+    Button falseButton = (Button)findViewById(R.id.false_button);
+    Button quitButton = (Button)findViewById(R.id.quit_button);
 
-    ArrayList<Question> questions;
+    //ArrayList<Question> questions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_main);
 
-        createQuestions();
+        //createQuestions();
         TextView textView = (TextView) findViewById(R.id.quiz_textView);
 
         Bundle bundle = getIntent().getExtras();
         String message = bundle.getString("test");
-        Log.d("Quiz",message);
+        Log.d("Quiz", message);
 
-        if (message !=  null) {
+        if (message != null) {
             textView.setText(message);
         }
 
-        if (questions.size() > 0) {
+        /*if (questions.size() > 0) {
 //            for (Question question : questions) {
 //                Log.d("questions",question.question);
 //            }
             textView.setText( questions.get(0).question);
         }
+
     }
 
 
@@ -65,7 +66,7 @@ public class QuestionMain extends AppCompatActivity {
 
     // final completion screen
 
-    private void createQuestions() {
+   /* private void createQuestions() {
         questions = new ArrayList<>();
         Question q1 = new Question("This is easier than i thought", true);
         Question q2 = new Question("The sky is green",false);
@@ -73,5 +74,5 @@ public class QuestionMain extends AppCompatActivity {
         questions.add(q1);
         questions.add(q2);
     }
-
-}
+    */
+    }}
