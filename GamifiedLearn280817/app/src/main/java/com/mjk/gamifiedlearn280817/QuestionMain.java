@@ -15,7 +15,6 @@ public class QuestionMain extends AppCompatActivity {
 
     Button trueButton = (Button)findViewById(R.id.true_button);
     Button falseButton = (Button)findViewById(R.id.false_button);
-    Button quitButton = (Button)findViewById(R.id.quit_button);
 
     //ArrayList<Question> questions;
 
@@ -41,7 +40,7 @@ public class QuestionMain extends AppCompatActivity {
 //            }
             textView.setText( questions.get(0).question);
         }
-
+        
     }
 
 
