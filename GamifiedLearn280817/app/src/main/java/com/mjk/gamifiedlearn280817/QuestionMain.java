@@ -70,7 +70,9 @@ public class QuestionMain extends AppCompatActivity {
         questions = new ArrayList<>();
         Question q1 = new Question("This is easier than i thought", true);
         Question q2 = new Question("The sky is green",false);
-
+        Question q3 = new Question("Earth is 70% land", false);
+        Question q4 = new Question("An elephant is smaller than the moon", true);
+        Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", true);
         questions.add(q1);
         questions.add(q2);
     }

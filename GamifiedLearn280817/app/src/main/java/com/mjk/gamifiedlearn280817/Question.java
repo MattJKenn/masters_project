@@ -6,7 +6,8 @@ package com.mjk.gamifiedlearn280817;
  */
 
 public class Question {
-String question;Boolean answer;
+    String question;
+    Boolean answer;
 
 
 
