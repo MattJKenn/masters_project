@@ -13,9 +13,8 @@ import java.util.ArrayList;
 
 public class QuestionMain extends AppCompatActivity {
 
-    Button trueButton = (Button)findViewById(R.id.true_button);
-    Button falseButton = (Button)findViewById(R.id.false_button);
-
+    Button trueButton, falseButton;
+    TextView textView;
     //ArrayList<Question> questions;
 
     @Override
@@ -24,15 +23,23 @@ public class QuestionMain extends AppCompatActivity {
         setContentView(R.layout.activity_question_main);
 
         //createQuestions();
-        TextView textView = (TextView) findViewById(R.id.quiz_textView);
+        textView = (TextView) findViewById(R.id.quiz_textView);
 
         Bundle bundle = getIntent().getExtras();
         String message = bundle.getString("test");
         Log.d("Quiz", message);
 
+        trueButton = (Button)findViewById(R.id.true_button);
+        falseButton = (Button)findViewById(R.id.false_button);
+
         if (message != null) {
             textView.setText(message);
-        }
+        }}
+
+
+
+        private void onTrueClicked(){String text = "dummy";}
+        private void onFalseClicked(){String text = "dummy";}
 
         /*if (questions.size() > 0) {
 //            for (Question question : questions) {
@@ -44,7 +51,7 @@ public class QuestionMain extends AppCompatActivity {
     }
 
 
-    public void onClick (View v) {
+    ///public void onClick (View v) {
         finish();
         }
 
@@ -76,4 +83,4 @@ public class QuestionMain extends AppCompatActivity {
         questions.add(q2);
     }
     */
-    }}
+    }
