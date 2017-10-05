@@ -13,8 +13,9 @@ import java.util.ArrayList;
 
 public class QuestionMain extends AppCompatActivity {
 
-    Button trueButton = (Button)findViewById(R.id.true_button);
-    Button falseButton = (Button)findViewById(R.id.false_button);
+    // you should declare your global variables at the top of the class
+    Button trueButton;
+    Button falseButton;
 
     //ArrayList<Question> questions;
 
@@ -22,6 +23,10 @@ public class QuestionMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_main);
+
+        // create buttons inside the onCreate, you cannot call findViewById from outside of this method.
+        trueButton = (Button)findViewById(R.id.true_button);
+        falseButton = (Button)findViewById(R.id.false_button);
 
         //createQuestions();
         TextView textView = (TextView) findViewById(R.id.quiz_textView);
