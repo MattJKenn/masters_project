@@ -36,7 +36,7 @@ public class SectionsFragment extends Fragment {
             @Override
             public void onClick (View v) {
                 Intent startQuiz =  new Intent(v.getContext(), QuestionMain.class);
-                startQuiz.putExtra("test","we sent this");
+                startQuiz.putExtra("test","True is the correct button");
                 startActivity(startQuiz);
             }
         });

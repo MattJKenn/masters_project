@@ -1,6 +1,7 @@
 package com.mjk.gamifiedlearn280817;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ public class QuestionMain extends AppCompatActivity {
 
     Button trueButton, falseButton;
     TextView textView;
+    boolean optionSelected;
     //ArrayList<Question> questions;
 
     @Override
@@ -29,31 +31,45 @@ public class QuestionMain extends AppCompatActivity {
         String message = bundle.getString("test");
         Log.d("Quiz", message);
 
-        trueButton = (Button)findViewById(R.id.true_button);
-        falseButton = (Button)findViewById(R.id.false_button);
+        trueButton = (Button) findViewById(R.id.true_button);
+        falseButton = (Button) findViewById(R.id.false_button);
 
         if (message != null) {
             textView.setText(message);
-        }}
+        }
+
+       trueButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               optionSelected = true;
+               textView.setText("Well done you are right");
+               finish();          }
+       });
+
+        falseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                optionSelected = false;
+                textView.setText("You are wrong sorry");
+                finish();
+            }
+        });
+
+    }
+
+    }
 
 
-
-        private void onTrueClicked(){String text = "dummy";}
-        private void onFalseClicked(){String text = "dummy";}
 
         /*if (questions.size() > 0) {
-//            for (Question question : questions) {
-//                Log.d("questions",question.question);
-//            }
+           for (Question question : questions) {
+              Log.d("questions",question.question);
+         }
             textView.setText( questions.get(0).question);
         }
         
     }
 
-
-    ///public void onClick (View v) {
-        finish();
-        }
 
 
     // catch string
@@ -72,15 +88,5 @@ public class QuestionMain extends AppCompatActivity {
 
     // final completion screen
 
-   /* private void createQuestions() {
-        questions = new ArrayList<>();
-        Question q1 = new Question("This is easier than i thought", true);
-        Question q2 = new Question("The sky is green",false);
-        Question q3 = new Question("Earth is 70% land", false);
-        Question q4 = new Question("An elephant is smaller than the moon", true);
-        Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", true);
-        questions.add(q1);
-        questions.add(q2);
     }
-    */
-    }
+*/
