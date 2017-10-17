@@ -4,12 +4,15 @@ package com.mjk.gamifiedlearn280817;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.ArraySet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import java.lang.reflect.Array;
 
 
 /**
@@ -22,7 +25,10 @@ public class SectionsFragment extends Fragment {
         // Required empty public constructor
     }
 
+    private Question Questions = new Question();
     Button sectionsButton;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,9 +41,10 @@ public class SectionsFragment extends Fragment {
 
             @Override
             public void onClick (View v) {
-                Intent startQuiz =  new Intent(v.getContext(), QuestionMain.class);
-                startQuiz.putExtra("test","True is the correct button");
-                startActivity(startQuiz);
+                Intent startQuiz1 =  new Intent(v.getContext(), QuestionMain.class);
+                String firstQuestion = Questions.mQuestions[0];
+                startQuiz1.putExtra("First Question", firstQuestion);
+                startActivity(startQuiz1);
             }
         });
         return sectionsView;

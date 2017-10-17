@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mjk.gamifiedlearn280817.ResultsScreen">
+
+    <TextView
+        android:id="@+id/finished_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="74dp"
+        android:text="Well Done, You Have Finished"
+        tools:layout_editor_absoluteX="101dp"
+        tools:layout_editor_absoluteY="87dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/finalScore_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/finished_textView"
+        android:layout_alignLeft="@+id/finished_textView"
+        android:layout_alignRight="@+id/finished_textView"
+        android:layout_alignStart="@+id/finished_textView"
+        android:layout_below="@+id/finished_textView"
+        android:layout_marginTop="90dp"
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="166dp" />
+
+    <Button
+        android:id="@+id/end_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="110dp"
+        android:text="Finish Quiz"
+        tools:layout_editor_absoluteX="141dp"
+        tools:layout_editor_absoluteY="315dp" />
+</RelativeLayout>

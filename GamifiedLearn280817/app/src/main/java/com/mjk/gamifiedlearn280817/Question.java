@@ -1,6 +1,7 @@
 package com.mjk.gamifiedlearn280817;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -8,40 +9,78 @@ import java.util.ArrayList;
  */
 
 public class Question {
-    String question;
-    Boolean answer;
 
-    ArrayList questions = new ArrayList();
+    public String[] mQuestions = {
+            "This is easier than i thought",
+            "The sky is green",
+            "Earth is 70% land",
+            "An elephant is smaller than the moon",
+            "There are 2 hydrogen atoms in a water molecule",
+    };
+
+    public String[][] mAnswerOptions = {
+            {"True", "False"},
+            {"True", "False"},
+            {"True", "False"},
+            {"True", "False"},
+            {"True", "False"},
+    };
+
+    public String[] mCorrectAnswers = {"True", "False", "False", "True", "True"};
+
+    public String getQuestion(int a) {
+        String question = mQuestions[a];
+        return question;
+    }
+
+    public String getTrueChoice(int a){
+        String answer = mAnswerOptions[a][0];
+        return answer;
+    }
+
+    public String getFalseChoice(int a){
+        String answer = mAnswerOptions[a][1];
+        return answer;
+    }
+
+    public String getCorrectAnswer(int a){
+        String answer = mCorrectAnswers[a];
+        return answer;
+    }
+}
 
 
-    public Question(String question, boolean answer) {
+
+
+    /*    String question;
+    String answer;
+
+    ArrayList<String> questions = new ArrayList();
+
+
+
+  public Question(String question, String answer) {
         this.question = question;
         this.answer = answer;
     }
 
-    public String getQuestion() {
-        return question;
+    public ArrayList<String> getQuestion() {
+        return questions;
     }
 
-    public boolean getAnswer() {
-        return answer;
-    }
 
     public ArrayList createQuestions()
     {
         questions = new ArrayList<>();
-        Question q1 = new Question("This is easier than i thought", true);
-        Question q2 = new Question("The sky is green",false);
-        Question q3 = new Question("Earth is 70% land", false);
-        Question q4 = new Question("An elephant is smaller than the moon", true);
-        Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", true);
+        Question q1 = new Question("This is easier than i thought", "Yes");
+        Question q2 = new Question("The sky is green", "No");
+        Question q3 = new Question("Earth is 70% land", "No");
+        Question q4 = new Question("An elephant is smaller than the moon", "Yes");
+        Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", "Yes");
         questions.add(q1);
-        questions.add(q2);
-        questions.add(q3);
-        questions.add(q4);
-        questions.add(q5);
         return questions;
     }
-}
+*/
+
 
 

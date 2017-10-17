@@ -1,7 +1,9 @@
 package com.mjk.gamifiedlearn280817;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,18 +11,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 
 public class QuestionMain extends AppCompatActivity {
 
 
     // you should declare your global variables at the top of the class
-    Button trueButton;
-    Button falseButton;
-    TextView textView;
+    Button trueButton, falseButton, quitButton;
+    TextView scoreText, questionText, questionNoText;
 
-    boolean optionSelected;
+    private String correctAnswer;
+    private String displayQuestion;
+
+    private Question Questions = new Question();
+
+    public int score = 0;
+    private int questionNo = 0;
+    private int mQuestionsLength = Questions.mQuestions.length;
 
     //ArrayList<Question> questions;
 
@@ -29,44 +40,83 @@ public class QuestionMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_main);
 
-        // create buttons inside the onCreate, you cannot call findViewById from outside of this method.
         trueButton = (Button)findViewById(R.id.true_button);
         falseButton = (Button)findViewById(R.id.false_button);
+        quitButton = (Button)findViewById(R.id.quit_button);
 
-        //createQuestions();
-        textView = (TextView) findViewById(R.id.quiz_textView);
+        questionText = (TextView) findViewById(R.id.quiz_textView);
+        questionText.setText(displayQuestion);
+        scoreText = (TextView) findViewById(R.id.score_textView);
+        questionNoText = (TextView) findViewById(R.id.questionNo_textView);
 
-        Bundle bundle = getIntent().getExtras();
-        String message = bundle.getString("test");
-        Log.d("Quiz", message);
+        Bundle startedQuiz = getIntent().getExtras();
+        displayQuestion = startedQuiz.getString("First Question");
 
-        trueButton = (Button) findViewById(R.id.true_button);
-        falseButton = (Button) findViewById(R.id.false_button);
+        scoreText.setText("Score: " + score);
+        questionNoText.setText("Question Number: " + (questionNo + 1));
 
-        if (message != null) {
-            textView.setText(message);
-        }
+        //Log.d("Quiz", message);
 
        trueButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               optionSelected = true;
-               textView.setText("Well done you are right");
-               finish();          }
+
+
+               if (trueButton.getText() == correctAnswer){
+                   score++;
+                   scoreText.setText("Score: " + score);
+               }
+               updateQuestion(questionNo);
+           }
        });
 
         falseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                optionSelected = false;
-                textView.setText("You are wrong sorry");
+                if (falseButton.getText() == correctAnswer){
+                    score++;
+                    scoreText.setText("Score: " + score);
+                }
+                updateQuestion(questionNo);
+            }
+            });
+
+
+
+        quitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
+
         });
-
     }
 
-    }
+        private void updateQuestion(int num){
+
+            if (questionNo >= mQuestionsLength) {
+                Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
+                displayResults.putExtra("Final Score", score);
+                startActivity(displayResults);
+                finish();
+            }
+            else {
+                questionText.setText(Questions.getQuestion(num));
+                trueButton.setText(Questions.getTrueChoice(num));
+                falseButton.setText(Questions.getFalseChoice(num));
+
+                correctAnswer = Questions.getCorrectAnswer(num);
+
+                questionNo++;
+                questionNoText.setText("Question Number: " + questionNo);
+            }
+        }
+
+
+}
+
+
+
 
 
 
