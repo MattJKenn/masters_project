@@ -8,6 +8,17 @@ import java.util.ArrayList;
  * Created by owner on 29/08/2017.
  */
 
+/*
+TODO: this is not a good way to implement your class for questions. What you had below around line 70 is a better structure.
+You should be having an array of Question objects. Each question object would contain all the information that it requires
+the way you have set this up is not scalable. Ideally the Question object would be parcelable so that you can pass it via intents
+The question object should have at least two attributes
+• question (String)
+• answer (Boolean)
+ you don't need anymore than that
+ */
+
+
 public class Question {
 
     public String[] mQuestions = {
@@ -18,6 +29,7 @@ public class Question {
             "There are 2 hydrogen atoms in a water molecule",
     };                                                         // populates an array with questions
 
+    // TODO: you shouldn't be using strings you should be using Booleans
     public String[][] mAnswerOptions = {
             {"True", "False"},
             {"True", "False"},
@@ -26,7 +38,7 @@ public class Question {
             {"True", "False"},
     };                                                         // populates another array with answer options
 
-
+    // TODO: you shouldn't be using strings you should be using Booleans
 public String[] mCorrectAnswers = {"True", "False", "False", "True", "True"};       // populates another array with correct answers
 
     public String getQuestion(int a) {
