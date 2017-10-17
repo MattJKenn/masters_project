@@ -65,7 +65,7 @@ public class QuestionMain extends AppCompatActivity {
                //  you should not be using == to compare strings instead you should be using .equals()
                // there is also too much code repetition here you can do this all with one function call. 
 
-               checkQuestion(trueButton.getText().toString(), correctAnswer);
+               checkQuestion(trueButton.getText().toString());
 
 //               if (trueButton.getText() == correctAnswer){
 //                   score++;
@@ -80,7 +80,7 @@ public class QuestionMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                checkQuestion(falseButton.getText().toString(), correctAnswer);
+                checkQuestion(falseButton.getText().toString());
 
 //                if (falseButton.getText() == correctAnswer){
 //                    score++;
@@ -102,8 +102,8 @@ public class QuestionMain extends AppCompatActivity {
         });
     }
 
-        private void checkQuestion(String question, String answer) {
-            if (question.equals(answer)) {
+        private void checkQuestion(String question) {
+            if (question.equals(correctAnswer)) {
                 score += 1;
                 scoreText.setText("Score: " + score);
             }
