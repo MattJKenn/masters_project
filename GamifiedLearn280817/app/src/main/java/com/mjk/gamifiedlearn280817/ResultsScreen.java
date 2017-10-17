@@ -23,10 +23,14 @@ public class ResultsScreen extends AppCompatActivity {
 
         endQuizButton = (Button)findViewById(R.id.end_button);
         finalScoreText = (TextView)findViewById(R.id.finalScore_textView);
+
+        // TODO: this needs to be retrieved before you get set your score value in the setText, otherwise it will always default to zero
+        Intent result = getIntent();
+        score = result.getIntExtra("Final Score", 0);
+
         finalScoreText.setText("Your Score is: " + score);
 
-        Intent result = getIntent();
-        score = result.getIntExtra("Final Score", 0); // Gets score value from QuestionMain activity
+// Gets score value from QuestionMain activity
 
         endQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
