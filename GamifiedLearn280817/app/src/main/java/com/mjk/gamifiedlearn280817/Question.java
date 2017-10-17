@@ -16,7 +16,7 @@ public class Question {
             "Earth is 70% land",
             "An elephant is smaller than the moon",
             "There are 2 hydrogen atoms in a water molecule",
-    };
+    };                                                         // populates an array with questions
 
     public String[][] mAnswerOptions = {
             {"True", "False"},
@@ -24,28 +24,29 @@ public class Question {
             {"True", "False"},
             {"True", "False"},
             {"True", "False"},
-    };
+    };                                                         // populates another array with answer options
 
-    public String[] mCorrectAnswers = {"True", "False", "False", "True", "True"};
+
+public String[] mCorrectAnswers = {"True", "False", "False", "True", "True"};       // populates another array with correct answers
 
     public String getQuestion(int a) {
         String question = mQuestions[a];
-        return question;
+        return question;                    // method to retrieve a question from the array
     }
 
     public String getTrueChoice(int a){
         String answer = mAnswerOptions[a][0];
-        return answer;
+        return answer;                      // method to retrieve the 'true' answer option from the array
     }
 
     public String getFalseChoice(int a){
         String answer = mAnswerOptions[a][1];
-        return answer;
+        return answer;                      // method to retrieve the 'false' answer option from the array
     }
 
     public String getCorrectAnswer(int a){
         String answer = mCorrectAnswers[a];
-        return answer;
+        return answer;                      // method to retrieve the correct answer from the array
     }
 }
 

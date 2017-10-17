@@ -20,7 +20,6 @@ import java.util.Random;
 public class QuestionMain extends AppCompatActivity {
 
 
-    // you should declare your global variables at the top of the class
     Button trueButton, falseButton, quitButton;
     TextView scoreText, questionText, questionNoText;
 
@@ -50,7 +49,7 @@ public class QuestionMain extends AppCompatActivity {
         questionNoText = (TextView) findViewById(R.id.questionNo_textView);
 
         Bundle startedQuiz = getIntent().getExtras();
-        displayQuestion = startedQuiz.getString("First Question");
+        displayQuestion = startedQuiz.getString("First Question");  //receives question in intent from SectionsFragment
 
         scoreText.setText("Score: " + score);
         questionNoText.setText("Question Number: " + (questionNo + 1));
@@ -64,9 +63,9 @@ public class QuestionMain extends AppCompatActivity {
 
                if (trueButton.getText() == correctAnswer){
                    score++;
-                   scoreText.setText("Score: " + score);
+                   scoreText.setText("Score: " + score);       // increases score if answer is correct
                }
-               updateQuestion(questionNo);
+               updateQuestion(questionNo);          // move to next question
            }
        });
 
@@ -75,9 +74,9 @@ public class QuestionMain extends AppCompatActivity {
             public void onClick(View v) {
                 if (falseButton.getText() == correctAnswer){
                     score++;
-                    scoreText.setText("Score: " + score);
+                    scoreText.setText("Score: " + score);        // increases score if answer is correct
                 }
-                updateQuestion(questionNo);
+                updateQuestion(questionNo);         // move to next question
             }
             });
 
@@ -94,21 +93,21 @@ public class QuestionMain extends AppCompatActivity {
 
         private void updateQuestion(int num){
 
-            if (questionNo >= mQuestionsLength) {
+            if (questionNo >= mQuestionsLength) {                   // if the quiz is over
                 Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
-                displayResults.putExtra("Final Score", score);
-                startActivity(displayResults);
+                displayResults.putExtra("Final Score", score);      // adds score value to intent
+                startActivity(displayResults);                      // sends intent with score to ResultsScreen
                 finish();
             }
             else {
                 questionText.setText(Questions.getQuestion(num));
                 trueButton.setText(Questions.getTrueChoice(num));
-                falseButton.setText(Questions.getFalseChoice(num));
+                falseButton.setText(Questions.getFalseChoice(num));     // populates fields with the next question's values
 
-                correctAnswer = Questions.getCorrectAnswer(num);
+                correctAnswer = Questions.getCorrectAnswer(num);        // checks for the correct answer in the corresponding array
 
                 questionNo++;
-                questionNoText.setText("Question Number: " + questionNo);
+                questionNoText.setText("Question Number: " + questionNo); // update the question number displayed to match question
             }
         }
 

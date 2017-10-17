@@ -26,7 +26,7 @@ public class ResultsScreen extends AppCompatActivity {
         finalScoreText.setText("Your Score is: " + score);
 
         Intent result = getIntent();
-        score = result.getIntExtra("Final Score", 0);
+        score = result.getIntExtra("Final Score", 0); // Gets score value from QuestionMain activity
 
         endQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override

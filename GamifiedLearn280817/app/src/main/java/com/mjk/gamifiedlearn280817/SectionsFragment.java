@@ -43,7 +43,7 @@ public class SectionsFragment extends Fragment {
             public void onClick (View v) {
                 Intent startQuiz1 =  new Intent(v.getContext(), QuestionMain.class);
                 String firstQuestion = Questions.mQuestions[0];
-                startQuiz1.putExtra("First Question", firstQuestion);
+                startQuiz1.putExtra("First Question", firstQuestion);   // Sends first question in array
                 startActivity(startQuiz1);
             }
         });
