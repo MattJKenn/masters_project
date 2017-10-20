@@ -20,7 +20,7 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    Button profileButton;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,13 +28,6 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View profileView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        profileButton = (Button) profileView.findViewById(R.id.profile_button);
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.wtf("profileFragment","clicked profile button");
-            }
-        });
         return profileView;
     }
 }
