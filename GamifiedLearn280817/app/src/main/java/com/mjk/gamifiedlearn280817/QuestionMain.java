@@ -1,108 +1,55 @@
 package com.mjk.gamifiedlearn280817;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import static com.mjk.gamifiedlearn280817.Question.questions;
-
 
 public class QuestionMain extends AppCompatActivity {
 
-
-    Button trueButton, falseButton, quitButton;
-    TextView scoreText, questionText, questionNoText;
+    private Button trueButton, falseButton, quitButton;
+    private TextView scoreText, questionText, questionNoText;
 
     private boolean correctAnswer;
-    private String displayQuestion;
-
-    private String True = String.valueOf(true);
-    private String False = String.valueOf(false);
-
-
-
-    private int quizLength = questions.size();
-
-    public int score = 0;
-    private int questionNo = 0;
-    //private int mQuestionsLength = Questions.mQuestions.length;
-
-    //ArrayList<Question> questions;
+    private Question currentQuestion;
+    private int score = 0;
+    private int currentQuestionNo = 0;
+    private ArrayList<Question> questions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_main);
 
-        // TODO: clearly separate your code: here we are creating the buttong
-        trueButton = (Button)findViewById(R.id.true_button);
-        falseButton = (Button)findViewById(R.id.false_button);
-        quitButton = (Button)findViewById(R.id.quit_button);
+        // create your questions there is no real reason to pass them via an intent
+        questions = createQuestions();
 
+        // set up ui elements
+        trueButton = (Button) findViewById(R.id.true_button);
+        falseButton = (Button) findViewById(R.id.false_button);
+        quitButton = (Button) findViewById(R.id.quit_button);
         questionText = (TextView) findViewById(R.id.quiz_textView);
         scoreText = (TextView) findViewById(R.id.score_textView);
         questionNoText = (TextView) findViewById(R.id.questionNo_textView);
 
-        // TODO: You need to make sure that you are retreiving all information from intents before setting it
-        Bundle startedQuiz = getIntent().getExtras();
-        displayQuestion = startedQuiz.getString("quiz");  //receives questions in intent from SectionsFragment
-
-
-        scoreText.setText("Score: " + score);
-        setText(0);
-        Question.createQuestions();
-
-
-
-        //Log.d("Quiz", message);
-
-
+        // setup onclicklisteners
         trueButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-                // TODO: You should be comparing boolean values and not strings
-               //  you should not be using == to compare strings instead you should be using .equals()
-               // there is also too much code repetition here you can do this all with one function call. 
-
-               checkQuestion(trueButton.getText().toString());
-
-//               if (trueButton.getText() == correctAnswer){
-//                   score++;
-//                   scoreText.setText("Score: " + score);       // increases score if answer is correct
-//               }
-//
-//               updateQuestion();          // move to next question
-           }
-       });
+            @Override
+            public void onClick(View v) {
+                checkQuestion(true);
+            }
+        });
 
         falseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                checkQuestion(falseButton.getText().toString());
-
-//                if (falseButton.getText() == correctAnswer){
-//                    score++;
-//                    scoreText.setText("Score: " + score);        // increases score if answer is correct
-//                }
-//                updateQuestion();
-                // move to next question
+                checkQuestion(false);
             }
-            });
-
-
+        });
 
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,89 +58,55 @@ public class QuestionMain extends AppCompatActivity {
             }
 
         });
+
+        // setup question
+        scoreText.setText("Score: " + score);
+        setQuestion(0);
     }
 
-        private void checkQuestion(String question) {
-            if (question.equals(correctAnswer)) {
-                score += 1;
-                scoreText.setText("Score: " + score);
-            }
-            updateQuestion();
+    private void checkQuestion(boolean usersAnswer) {
+        if (usersAnswer == correctAnswer) {
+            score += 1;
+            scoreText.setText("Score: " + score);
         }
+        updateQuestion();
+    }
 
-        private void updateQuestion(){
-            questionNo++;
-            if (questionNo >= quizLength) {                   // if the quiz is over
-                Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
-
-                //TODO: you shouldnt use split words for your names in the put extra it would be better to use final_score
-                // or even better should should declare them as final strings at the top of your class or in a separate class that can be accessed everywhere
-                // this can help to avoid spelling mistakes and is good practice
-
-                Log.wtf("questionMain", "final_score " + score);
-                displayResults.putExtra("final_score", score);      // adds score value to intent
-                startActivity(displayResults);                      // sends intent with score to ResultsScreen
-                finish();
-            }
-            else {
-                setText(questionNo);
-            }
+    private void updateQuestion() {
+        currentQuestionNo += 1;
+        if (currentQuestionNo >= questions.size()) {                   // if the quiz is over
+            Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
+            displayResults.putExtra("final_score", score);      // adds score value to intent
+            startActivity(displayResults);                      // sends intent with score to ResultsScreen
+            finish();
+        } else {
+            setQuestion(currentQuestionNo);
         }
+    }
 
-        public boolean getCorrectAnswer(){
-            if (questions.contains(true)){correctAnswer = true;}
-            else {correctAnswer = false;}
+    private void setQuestion(int num) {
+        currentQuestion = questions.get(num);
+        questionText.setText(currentQuestion.question);
+        correctAnswer = currentQuestion.answer;
 
-            return correctAnswer;
-        }
+        int number = num + 1;
+        questionNoText.setText("Question Number: " + number); // update the question number displayed to match question
 
-        // TODO: group commonly used items together.
+    }
 
-        private void setText(int num) {
-            questionText.setText(questions.get(questionNo).toString());
-            trueButton.setText(True);
-            falseButton.setText(False);     // populates fields with the next question's values
-
-            getCorrectAnswer();
-
-            int number = num + 1;
-            questionNoText.setText("Question Number: " + number); // update the question number displayed to match question
-
-        }
-
+    // creates an array of questions. This function could be used to load questions from a database
+    public static ArrayList<Question> createQuestions() {
+        ArrayList<Question> questions = new ArrayList<>();
+        Question q1 = new Question("This is easier than i thought", true);
+        Question q2 = new Question("The sky is green", false);
+        Question q3 = new Question("Earth is 70% land", false);
+        Question q4 = new Question("An elephant is smaller than the moon", true);
+        Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", true);
+        questions.add(q1);
+        questions.add(q2);
+        questions.add(q3);
+        questions.add(q4);
+        questions.add(q5);
+        return questions;
+    }
 }
-
-
-
-
-
-
-        /*if (questions.size() > 0) {
-           for (Question question : questions) {
-              Log.d("questions",question.question);
-         }
-            textView.setText( questions.get(0).question);
-        }
-        
-    }
-
-
-
-    // catch string
-
-    // load file
-
-    // create objects
-
-    // question counter
-
-    // score counter
-
-    // thread.sleep()
-
-    // close when last question is answered
-
-    // final completion screen
-
-    }
-*/
