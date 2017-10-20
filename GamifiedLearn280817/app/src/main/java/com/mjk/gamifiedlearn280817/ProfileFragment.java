@@ -15,11 +15,12 @@ import android.widget.Button;
  */
 public class ProfileFragment extends Fragment {
 
+    int badgeValue;
+    int quizScore;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
