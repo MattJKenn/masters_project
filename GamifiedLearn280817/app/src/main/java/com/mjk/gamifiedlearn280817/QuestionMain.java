@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.mjk.gamifiedlearn280817.Question.questions;
+
 
 public class QuestionMain extends AppCompatActivity {
 
@@ -23,14 +25,19 @@ public class QuestionMain extends AppCompatActivity {
     Button trueButton, falseButton, quitButton;
     TextView scoreText, questionText, questionNoText;
 
-    private String correctAnswer;
+    private boolean correctAnswer;
     private String displayQuestion;
 
-    private Question Questions = new Question();
+    private String True = String.valueOf(true);
+    private String False = String.valueOf(false);
+
+
+
+    private int quizLength = questions.size();
 
     public int score = 0;
     private int questionNo = 0;
-    private int mQuestionsLength = Questions.mQuestions.length;
+    //private int mQuestionsLength = Questions.mQuestions.length;
 
     //ArrayList<Question> questions;
 
@@ -50,10 +57,14 @@ public class QuestionMain extends AppCompatActivity {
 
         // TODO: You need to make sure that you are retreiving all information from intents before setting it
         Bundle startedQuiz = getIntent().getExtras();
-        displayQuestion = startedQuiz.getString("First Question");  //receives question in intent from SectionsFragment
+        displayQuestion = startedQuiz.getString("quiz");  //receives questions in intent from SectionsFragment
+
 
         scoreText.setText("Score: " + score);
         setText(0);
+        Question.createQuestions();
+
+
 
         //Log.d("Quiz", message);
 
@@ -112,15 +123,15 @@ public class QuestionMain extends AppCompatActivity {
 
         private void updateQuestion(){
             questionNo++;
-            if (questionNo >= mQuestionsLength) {                   // if the quiz is over
+            if (questionNo >= quizLength) {                   // if the quiz is over
                 Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
 
                 //TODO: you shouldnt use split words for your names in the put extra it would be better to use final_score
                 // or even better should should declare them as final strings at the top of your class or in a separate class that can be accessed everywhere
                 // this can help to avoid spelling mistakes and is good practice
 
-                Log.wtf("questionMain", "final score " + score);
-                displayResults.putExtra("Final Score", score);      // adds score value to intent
+                Log.wtf("questionMain", "final_score " + score);
+                displayResults.putExtra("final_score", score);      // adds score value to intent
                 startActivity(displayResults);                      // sends intent with score to ResultsScreen
                 finish();
             }
@@ -129,16 +140,27 @@ public class QuestionMain extends AppCompatActivity {
             }
         }
 
+        public boolean getCorrectAnswer(){
+            if (questions.contains(true)){correctAnswer = true;}
+            else {correctAnswer = false;}
+
+            return correctAnswer;
+        }
+
         // TODO: group commonly used items together.
 
         private void setText(int num) {
-            questionText.setText(Questions.getQuestion(num));
-            trueButton.setText(Questions.getTrueChoice(num));
-            falseButton.setText(Questions.getFalseChoice(num));     // populates fields with the next question's values
-            correctAnswer = Questions.getCorrectAnswer(num);        // checks for the correct answer in the corresponding array
+            questionText.setText(questions.get(questionNo).toString());
+            trueButton.setText(True);
+            falseButton.setText(False);     // populates fields with the next question's values
+
+            getCorrectAnswer();
+
             int number = num + 1;
-            questionNoText.setText("Question Number: " + number); // update the question number displayed to match questio
+            questionNoText.setText("Question Number: " + number); // update the question number displayed to match question
+
         }
+
 }
 
 

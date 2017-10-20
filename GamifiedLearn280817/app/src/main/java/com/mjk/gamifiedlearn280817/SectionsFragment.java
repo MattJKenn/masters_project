@@ -25,7 +25,7 @@ public class SectionsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private Question Questions = new Question();
+    //private Question Questions = new Question();
     Button sectionsButton;
 
 
@@ -42,8 +42,7 @@ public class SectionsFragment extends Fragment {
             @Override
             public void onClick (View v) {
                 Intent startQuiz1 =  new Intent(v.getContext(), QuestionMain.class);
-                String firstQuestion = Questions.mQuestions[0];
-                startQuiz1.putExtra("First Question", firstQuestion);   // Sends first question in array
+                startQuiz1.putExtra("quiz", Question.questions.indexOf(0));   // Sends first question in array
                 startActivity(startQuiz1);
             }
         });

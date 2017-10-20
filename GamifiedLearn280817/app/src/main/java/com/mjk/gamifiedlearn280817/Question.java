@@ -21,7 +21,7 @@ The question object should have at least two attributes
 
 public class Question {
 
-    public String[] mQuestions = {
+/*    public String[] mQuestions = {
             "This is easier than i thought",
             "The sky is green",
             "Earth is 70% land",
@@ -61,39 +61,40 @@ public String[] mCorrectAnswers = {"True", "False", "False", "True", "True"};   
         return answer;                      // method to retrieve the correct answer from the array
     }
 }
+*/
+
+    String question;
+    boolean answer;
+
+    public static ArrayList<Question> questions = new ArrayList<>();
 
 
-
-
-    /*    String question;
-    String answer;
-
-    ArrayList<String> questions = new ArrayList();
-
-
-
-  public Question(String question, String answer) {
+    public Question(String question, boolean answer) {
         this.question = question;
         this.answer = answer;
     }
 
-    public ArrayList<String> getQuestion() {
-        return questions;
-    }
+    //public ArrayList<Question> getQuestion() {return questions;}
 
 
-    public ArrayList createQuestions()
-    {
-        questions = new ArrayList<>();
-        Question q1 = new Question("This is easier than i thought", "Yes");
-        Question q2 = new Question("The sky is green", "No");
-        Question q3 = new Question("Earth is 70% land", "No");
-        Question q4 = new Question("An elephant is smaller than the moon", "Yes");
-        Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", "Yes");
+    public static ArrayList createQuestions() {
+        Question q1 = new Question("This is easier than i thought", true);
+        Question q2 = new Question("The sky is green", false);
+        Question q3 = new Question("Earth is 70% land", false);
+        Question q4 = new Question("An elephant is smaller than the moon", true);
+        Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", true);
         questions.add(q1);
+        questions.add(q2);
+        questions.add(q3);
+        questions.add(q4);
+        questions.add(q5);
         return questions;
     }
-*/
+
+}
+
+
+
 
 
 
