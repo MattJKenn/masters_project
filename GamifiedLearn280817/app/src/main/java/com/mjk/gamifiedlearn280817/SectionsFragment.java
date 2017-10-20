@@ -42,7 +42,6 @@ public class SectionsFragment extends Fragment {
             @Override
             public void onClick (View v) {
                 Intent startQuiz1 =  new Intent(v.getContext(), QuestionMain.class);
-                startQuiz1.putExtra("quiz", Question.questions.indexOf(0));   // Sends first question in array
                 startActivity(startQuiz1);
             }
         });
