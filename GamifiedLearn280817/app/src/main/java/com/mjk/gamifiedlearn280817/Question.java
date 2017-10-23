@@ -1,6 +1,8 @@
 package com.mjk.gamifiedlearn280817;
 
 
+import com.orm.SugarRecord;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -9,7 +11,7 @@ import java.util.ArrayList;
  */
 
 
-public class Question {
+public class Question extends SugarRecord {
 
     String question;
     boolean answer;
