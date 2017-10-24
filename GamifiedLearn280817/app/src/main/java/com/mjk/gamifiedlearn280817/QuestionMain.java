@@ -8,8 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import java.util.ArrayList;
+import com.mjk.gamifiedlearn280817.questiondb.QuestionDB;
 
 public class QuestionMain extends AppCompatActivity {
+
+
 
     private Button trueButton, falseButton, quitButton;
     private TextView scoreText, questionText, questionNoText;

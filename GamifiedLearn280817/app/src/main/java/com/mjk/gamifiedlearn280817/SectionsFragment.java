@@ -4,15 +4,14 @@ package com.mjk.gamifiedlearn280817;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.ArraySet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.TextView;
+import com.mjk.gamifiedlearn280817.questiondb.QuestionDB;
 
-import java.lang.reflect.Array;
+import java.util.List;
 
 
 /**
@@ -25,8 +24,13 @@ public class SectionsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    //private Question Questions = new Question();
+    private QuestionDB questionDB;
+    private List<QuestionDB> questions;
+    //private AdapterView questionAdapterView;
+
+
     Button sectionsButton;
+
 
 
 
@@ -37,11 +41,13 @@ public class SectionsFragment extends Fragment {
         View sectionsView = inflater.inflate(R.layout.fragment_sections, container, false);
 
         sectionsButton = (Button) sectionsView.findViewById(R.id.sections_button);
-        sectionsButton.setOnClickListener(new View.OnClickListener() {
+        sectionsButton.setOnClickListener(new View.OnClickListener(){  // new questionAdapterView.On(Item?)ClickListener
 
             @Override
-            public void onClick (View v) {
+            public void onClick (View v) { // (AdapterView<?> parent, int position, int qType)
+              //  QuestionDB questionSet1 = questions.get(qType & position);
                 Intent startQuiz1 =  new Intent(v.getContext(), QuestionMain.class);
+              //  startQuiz1.putExtra(getResources().getText(), questionDB.getQuestionType());
                 startActivity(startQuiz1);
             }
         });
