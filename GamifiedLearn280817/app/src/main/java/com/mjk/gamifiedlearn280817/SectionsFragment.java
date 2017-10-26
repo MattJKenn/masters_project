@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import com.mjk.gamifiedlearn280817.questiondb.QuestionDB;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,8 +27,9 @@ public class SectionsFragment extends Fragment {
     }
 
     private QuestionDB questionDB;
-    private List<QuestionDB> questions;
-    //private AdapterView questionAdapterView;
+    private ArrayList<Question> questions;
+
+    ArrayAdapter<QuestionDB> adapter;
 
 
     Button sectionsButton;
@@ -47,8 +50,10 @@ public class SectionsFragment extends Fragment {
             public void onClick (View v) { // (AdapterView<?> parent, int position, int qType)
               //  QuestionDB questionSet1 = questions.get(qType & position);
                 Intent startQuiz1 =  new Intent(v.getContext(), QuestionMain.class);
+              //  adapter = new ArrayAdapter<QuestionDB>(v.getContext(), getId()); ???
               //  startQuiz1.putExtra(getResources().getText(), questionDB.getQuestionType());
                 startActivity(startQuiz1);
+              //  ArrayList<Question> questions = new ArrayList<Question>();
             }
         });
         return sectionsView;
