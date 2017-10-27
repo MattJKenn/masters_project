@@ -3,17 +3,20 @@ package com.mjk.gamifiedlearn280817.questiondb;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mjk.gamifiedlearn280817.Question;
 import com.orm.SugarRecord;
+import com.orm.dsl.Unique;
+
+import java.util.ArrayList;
 
 
 /**
  * Created by owner on 23/10/2017.
  */
 
-
 public class QuestionDB extends SugarRecord implements Parcelable{
 
-
+    @Unique
     private int QuestionType;
     private String QuestionText;
     private Boolean CorrectAnswer;
@@ -59,6 +62,22 @@ public class QuestionDB extends SugarRecord implements Parcelable{
         parcel.writeByte((byte) (CorrectAnswer ? 0:1));
     }
 
+
+    public ArrayList<Question> createQuestions() {
+        ArrayList<Question> questions = new ArrayList<>();
+        Question q1 = new Question(1, "This is easier than i thought", true);
+        Question q2 = new Question(1, "The sky is green", false);
+        Question q3 = new Question(1, "Earth is 70% land", false);
+        Question q4 = new Question(1, "An elephant is smaller than the moon", true);
+        Question q5 = new Question(1, "There are 2 hydrogen atoms in a water molecule", true);
+        Question q6 = new Question(2, "This is the start of another set of questions", true);
+        Question q7 = new Question(2, "A jellyfish has more teeth than a dog", false);
+        Question q8 = new Question(2, "No human has eyes", false);
+        Question q9 = new Question(2, "This statement is not false", true);
+        Question q10 = new Question(2, "You have managed to get two independent quizzes running on different button clicks", true);
+        Question.saveInTx(questions);
+        return questions;
+    }
 
     public static final Parcelable.Creator<QuestionDB> CREATOR = new Parcelable.Creator<QuestionDB>(){
 

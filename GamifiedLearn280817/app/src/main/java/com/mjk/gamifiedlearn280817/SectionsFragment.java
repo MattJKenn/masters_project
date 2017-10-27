@@ -47,13 +47,11 @@ public class SectionsFragment extends Fragment {
         sectionsButton.setOnClickListener(new View.OnClickListener(){  // new questionAdapterView.On(Item?)ClickListener
 
             @Override
-            public void onClick (View v) { // (AdapterView<?> parent, int position, int qType)
-              //  QuestionDB questionSet1 = questions.get(qType & position);
+            public void onClick (View v){
+               // Question questionSet1 = questions.get(qType & position);
                 Intent startQuiz1 =  new Intent(v.getContext(), QuestionMain.class);
-              //  adapter = new ArrayAdapter<QuestionDB>(v.getContext(), getId()); ???
-              //  startQuiz1.putExtra(getResources().getText(), questionDB.getQuestionType());
+               // adapter = new ArrayAdapter<QuestionDB>(parent.getContext(), QuestionDB.listAll());
                 startActivity(startQuiz1);
-              //  ArrayList<Question> questions = new ArrayList<Question>();
             }
         });
         return sectionsView;
