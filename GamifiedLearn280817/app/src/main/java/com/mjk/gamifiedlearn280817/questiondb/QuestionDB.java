@@ -29,7 +29,7 @@ public class QuestionDB extends SugarRecord implements Parcelable{
     // Getters
     public int getQuestionType(){return QuestionType;}
     public String getQuestionText() {return QuestionText;}
-    public boolean getCorrectAnswer() {
+    public Boolean getCorrectAnswer() {
         return CorrectAnswer;
     }
 

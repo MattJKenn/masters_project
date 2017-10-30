@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import com.mjk.gamifiedlearn280817.questiondb.QuestionDB;
 
@@ -45,9 +44,8 @@ public class SectionsFragment extends Fragment {
 
             @Override
             public void onClick (View v) { // (AdapterView<?> parent, int position, int qType)
-              //  QuestionDB questionSet1 = questions.get(qType & position);
                 Intent startQuiz1 =  new Intent(v.getContext(), QuestionMain.class);
-              //  startQuiz1.putExtra(getResources().getText(), questionDB.getQuestionType());
+                startQuiz1.putExtra("question_type_1", ));
                 startActivity(startQuiz1);
             }
         });
