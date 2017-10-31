@@ -14,36 +14,30 @@ import com.orm.SugarRecord;
 public class QuestionDB extends SugarRecord implements Parcelable{
 
 
-    private int QuestionType;
     private String QuestionText;
     private Boolean CorrectAnswer;
 
     public QuestionDB(){}
 
-    public QuestionDB(int QuestionType, String QuestionText, Boolean CorrectAnswer){
-        this.QuestionType = QuestionType;
+    public QuestionDB(String QuestionText, Boolean CorrectAnswer){
         this.QuestionText = QuestionText;
         this.CorrectAnswer = CorrectAnswer;
     }
 
     // Getters
-    public int getQuestionType(){return QuestionType;}
     public String getQuestionText() {return QuestionText;}
     public boolean getCorrectAnswer() {
         return CorrectAnswer;
     }
 
     // Setters
-    public void setQuestionType(int questionType ){QuestionType = questionType;}
+
     public void setQuestionText(String questionText) {
         QuestionText = questionText;
     }
-    public void setCorrectAnswer(Boolean correctAnswer) {
-        CorrectAnswer = correctAnswer;
-    }
+    public void setCorrectAnswer(Boolean correctAnswer) {CorrectAnswer = correctAnswer;}
 
     private QuestionDB (Parcel in){
-        QuestionType = in.readInt();
         QuestionText = in.readString();
         CorrectAnswer = in.readByte() != 0;
     }
@@ -54,7 +48,6 @@ public class QuestionDB extends SugarRecord implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int flags){
-        parcel.writeInt(QuestionType);
         parcel.writeString(QuestionText);
         parcel.writeByte((byte) (CorrectAnswer ? 0:1));
     }

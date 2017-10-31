@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.List;
+
 import com.mjk.gamifiedlearn280817.questiondb.QuestionDB;
 
 public class QuestionMain extends AppCompatActivity {
@@ -17,11 +19,13 @@ public class QuestionMain extends AppCompatActivity {
     private Button trueButton, falseButton, quitButton;
     private TextView scoreText, questionText, questionNoText;
 
-    private boolean correctAnswer;
-    private Question currentQuestion;
+    private Boolean correctAnswer;
+    private QuestionDB currentQuestion;
+
     private int score = 0;
     private int currentQuestionNo = 0;
-    private ArrayList<Question> questions;
+
+    public List<QuestionDB> questions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,7 @@ public class QuestionMain extends AppCompatActivity {
         setContentView(R.layout.activity_question_main);
 
         // create your questions there is no real reason to pass them via an intent
-        questions = createQuestions();
+        createQuestions();
 
         // set up ui elements
         trueButton = (Button) findViewById(R.id.true_button);
@@ -88,9 +92,9 @@ public class QuestionMain extends AppCompatActivity {
     }
 
     private void setQuestion(int num) {
-        currentQuestion = questions.get(num);
-        questionText.setText(currentQuestion.question);
-        correctAnswer = currentQuestion.answer;
+        currentQuestion = questions.get(currentQuestionNo);
+        questionText.setText(currentQuestion.getQuestionText());
+        correctAnswer = currentQuestion.getCorrectAnswer();
 
         int number = num + 1;
         questionNoText.setText("Question Number: " + number); // update the question number displayed to match question
@@ -98,18 +102,21 @@ public class QuestionMain extends AppCompatActivity {
     }
 
     // creates an array of questions. This function could be used to load questions from a database
-    public static ArrayList<Question> createQuestions() {
-        ArrayList<Question> questions = new ArrayList<>();
-        Question q1 = new Question("This is easier than i thought", true);
-        Question q2 = new Question("The sky is green", false);
-        Question q3 = new Question("Earth is 70% land", false);
-        Question q4 = new Question("An elephant is smaller than the moon", true);
-        Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", true);
-        questions.add(q1);
-        questions.add(q2);
-        questions.add(q3);
-        questions.add(q4);
-        questions.add(q5);
-        return questions;
+    public void createQuestions() {
+
+        Intent getQuizType = getIntent();
+        int quizType = getQuizType.getIntExtra("quiz_type", 1);
+        
+        QuestionDB q1 = new QuestionDB("This is easier than i thought", true);
+        q1.save();
+        QuestionDB q2 = new QuestionDB("The sky is green", false);
+        q2.save();
+        QuestionDB q3 = new QuestionDB("Earth is 70% land", false);
+        q3.save();
+        QuestionDB q4 = new QuestionDB("An elephant is smaller than the moon", true);
+        q4.save();
+        QuestionDB q5 = new QuestionDB("There are 2 hydrogen atoms in a water molecule", true);
+        q5.save();
+
     }
 }

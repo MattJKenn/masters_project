@@ -31,7 +31,7 @@ public class SectionsFragment extends Fragment {
 
     Button sectionsButton;
 
-
+    int quizType;
 
 
     @Override
@@ -41,17 +41,17 @@ public class SectionsFragment extends Fragment {
         View sectionsView = inflater.inflate(R.layout.fragment_sections, container, false);
 
         sectionsButton = (Button) sectionsView.findViewById(R.id.sections_button);
-        sectionsButton.setOnClickListener(new View.OnClickListener(){  // new questionAdapterView.On(Item?)ClickListener
-
+        sectionsButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick (View v) { // (AdapterView<?> parent, int position, int qType)
-              //  QuestionDB questionSet1 = questions.get(qType & position);
+            public void onClick (View v) {
                 Intent startQuiz1 =  new Intent(v.getContext(), QuestionMain.class);
-              //  startQuiz1.putExtra(getResources().getText(), questionDB.getQuestionType());
+                startQuiz1.putExtra("quiz_type", quizType);
                 startActivity(startQuiz1);
             }
         });
         return sectionsView;
     }
+
+
 
 }
