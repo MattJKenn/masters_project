@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GamifiedLearn280817.iml" filepath="$PROJECT_DIR$/GamifiedLearn280817.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/path/to/sugar/library/sugar.iml" filepath="$PROJECT_DIR$/path/to/sugar/library/sugar.iml" />
     </modules>
   </component>
 </project>

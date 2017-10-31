@@ -1,14 +1,17 @@
 package com.mjk.gamifiedlearn280817;
 
 import android.content.Intent;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 import com.mjk.gamifiedlearn280817.questiondb.QuestionDB;
 
@@ -19,11 +22,13 @@ public class QuestionMain extends AppCompatActivity {
     private Button trueButton, falseButton, quitButton;
     private TextView scoreText, questionText, questionNoText;
 
+    private String currentQuestionText;
     private Boolean correctAnswer;
-    private QuestionDB currentQuestion;
+
+    private QuestionDB Question;
 
     private int score = 0;
-    private int currentQuestionNo = 0;
+    private int currentQuestionNo = 1;
 
     public List<QuestionDB> questions;
 
@@ -92,9 +97,13 @@ public class QuestionMain extends AppCompatActivity {
     }
 
     private void setQuestion(int num) {
-        currentQuestion = questions.get(currentQuestionNo);
-        questionText.setText(currentQuestion.getQuestionText());
-        correctAnswer = currentQuestion.getCorrectAnswer();
+
+        currentQuestionText = "DUMMY";
+        questionText.setText(currentQuestionText);
+
+        correctAnswer = true;
+        Question.setCorrectAnswer(correctAnswer);
+
 
         int number = num + 1;
         questionNoText.setText("Question Number: " + number); // update the question number displayed to match question
@@ -102,21 +111,41 @@ public class QuestionMain extends AppCompatActivity {
     }
 
     // creates an array of questions. This function could be used to load questions from a database
+
     public void createQuestions() {
 
         Intent getQuizType = getIntent();
         int quizType = getQuizType.getIntExtra("quiz_type", 1);
-        
-        QuestionDB q1 = new QuestionDB("This is easier than i thought", true);
-        q1.save();
-        QuestionDB q2 = new QuestionDB("The sky is green", false);
-        q2.save();
-        QuestionDB q3 = new QuestionDB("Earth is 70% land", false);
-        q3.save();
-        QuestionDB q4 = new QuestionDB("An elephant is smaller than the moon", true);
-        q4.save();
-        QuestionDB q5 = new QuestionDB("There are 2 hydrogen atoms in a water molecule", true);
-        q5.save();
 
+        switch (quizType) {
+
+            case(1):
+                QuestionDB q1 = new QuestionDB("This is easier than i thought", true);
+                q1.save();
+                QuestionDB q2 = new QuestionDB("The sky is green", false);
+                q2.save();
+                QuestionDB q3 = new QuestionDB("Earth is 70% land", false);
+                q3.save();
+                QuestionDB q4 = new QuestionDB("An elephant is smaller than the moon", true);
+                q4.save();
+                QuestionDB q5 = new QuestionDB("There are 2 hydrogen atoms in a water molecule", true);
+                q5.save();
+                break;
+
+            case(2):
+                QuestionDB q6 = new QuestionDB("This is a second quiz", true);
+                q6.save();
+                QuestionDB q7 = new QuestionDB("Spiders have 2 eyes", false);
+                q7.save();
+                QuestionDB q8 = new QuestionDB("This is an achievement", true);
+                q8.save();
+                QuestionDB q9 = new QuestionDB("Java is not a type of teapot", true);
+                q9.save();
+                QuestionDB q10 = new QuestionDB("No human has eyes", false);
+                q10.save();
+                break;
+
+            default:QuestionDB qx = new QuestionDB("getType Failed", true);
+        }
     }
 }

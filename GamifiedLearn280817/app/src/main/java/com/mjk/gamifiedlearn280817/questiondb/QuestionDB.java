@@ -3,17 +3,20 @@ package com.mjk.gamifiedlearn280817.questiondb;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mjk.gamifiedlearn280817.Question;
 import com.orm.SugarRecord;
+import com.orm.dsl.Unique;
+
+import java.util.ArrayList;
 
 
 /**
  * Created by owner on 23/10/2017.
  */
 
-
 public class QuestionDB extends SugarRecord implements Parcelable{
 
-
+    @Unique
     private String QuestionText;
     private Boolean CorrectAnswer;
 
@@ -26,15 +29,11 @@ public class QuestionDB extends SugarRecord implements Parcelable{
 
     // Getters
     public String getQuestionText() {return QuestionText;}
-    public boolean getCorrectAnswer() {
-        return CorrectAnswer;
-    }
+    public boolean getCorrectAnswer() {return CorrectAnswer;}
 
     // Setters
 
-    public void setQuestionText(String questionText) {
-        QuestionText = questionText;
-    }
+    public void setQuestionText(String questionText) {QuestionText = questionText;}
     public void setCorrectAnswer(Boolean correctAnswer) {CorrectAnswer = correctAnswer;}
 
     private QuestionDB (Parcel in){
@@ -51,7 +50,6 @@ public class QuestionDB extends SugarRecord implements Parcelable{
         parcel.writeString(QuestionText);
         parcel.writeByte((byte) (CorrectAnswer ? 0:1));
     }
-
 
     public static final Parcelable.Creator<QuestionDB> CREATOR = new Parcelable.Creator<QuestionDB>(){
 

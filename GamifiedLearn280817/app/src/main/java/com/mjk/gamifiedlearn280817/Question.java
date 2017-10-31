@@ -1,6 +1,8 @@
 package com.mjk.gamifiedlearn280817;
 
 
+import android.widget.Adapter;
+
 import com.orm.SugarRecord;
 
 import java.lang.reflect.Array;
@@ -11,12 +13,14 @@ import java.util.ArrayList;
  */
 
 
-public class Question extends SugarRecord {
+public class Question extends SugarRecord{
 
+    int questionType;
     String question;
-    boolean answer;
+    Boolean answer;
 
-    public Question(String question, boolean answer) {
+    public Question(int questionType, String question, Boolean answer) {
+        this.questionType = questionType;
         this.question = question;
         this.answer = answer;
     }
