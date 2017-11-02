@@ -50,7 +50,7 @@ public class SectionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 quizType = 1;
-                setParcelableIntent();
+                startQuiz();
             }
         });
 
@@ -59,7 +59,7 @@ public class SectionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 quizType = 2;
-                setParcelableIntent();
+                startQuiz();
 
             }
         });
@@ -67,10 +67,9 @@ public class SectionsFragment extends Fragment {
         return sectionsView;
     }
 
-    private void setParcelableIntent() {
+    private void startQuiz(){
         Intent startQuiz =  new Intent(getContext(), QuestionMain.class);
         startQuiz.putExtra("quiz_type", quizType);
-        startQuiz.putExtra("question_struc", questions);
         startActivity(startQuiz);
     }
 }
