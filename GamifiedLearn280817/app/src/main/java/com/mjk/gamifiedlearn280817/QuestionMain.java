@@ -18,19 +18,19 @@ import com.mjk.gamifiedlearn280817.questiondb.QuestionDB;
 public class QuestionMain extends AppCompatActivity {
 
 
-
     private Button trueButton, falseButton, quitButton;
     private TextView scoreText, questionText, questionNoText;
 
     private String currentQuestionText;
     private Boolean correctAnswer;
 
-    private QuestionDB Question;
 
     private int score = 0;
     private int currentQuestionNo = 1;
+    private int noOfQuestions;
 
-    public List<QuestionDB> questions;
+    public QuestionDB Questions;
+    public ArrayList<QuestionDB> questionsArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,8 @@ public class QuestionMain extends AppCompatActivity {
         setContentView(R.layout.activity_question_main);
 
         // create your questions there is no real reason to pass them via an intent
+        Questions = new QuestionDB();
+        questionsArrayList = new ArrayList<>();
         createQuestions();
 
         // set up ui elements
@@ -71,9 +73,12 @@ public class QuestionMain extends AppCompatActivity {
 
         });
 
+        noOfQuestions = questionsArrayList.size();
+
         // setup question
         scoreText.setText("Score: " + score);
         setQuestion(0);
+
     }
 
     private void checkQuestion(boolean usersAnswer) {
@@ -86,7 +91,7 @@ public class QuestionMain extends AppCompatActivity {
 
     private void updateQuestion() {
         currentQuestionNo += 1;
-        if (currentQuestionNo >= questions.size()) {                   // if the quiz is over
+        if (currentQuestionNo >= noOfQuestions) {                   // if the quiz is over
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
@@ -98,11 +103,11 @@ public class QuestionMain extends AppCompatActivity {
 
     private void setQuestion(int num) {
 
-        currentQuestionText = "DUMMY";
+        currentQuestionText = Questions.getQuestionText();
         questionText.setText(currentQuestionText);
 
-        correctAnswer = true;
-        Question.setCorrectAnswer(correctAnswer);
+        correctAnswer = Questions.getCorrectAnswer();
+        Questions.setCorrectAnswer(correctAnswer);
 
 
         int number = num + 1;
@@ -119,7 +124,7 @@ public class QuestionMain extends AppCompatActivity {
 
         switch (quizType) {
 
-            case(1):
+            case (1):
                 QuestionDB q1 = new QuestionDB("This is easier than i thought", true);
                 q1.save();
                 QuestionDB q2 = new QuestionDB("The sky is green", false);
@@ -130,9 +135,10 @@ public class QuestionMain extends AppCompatActivity {
                 q4.save();
                 QuestionDB q5 = new QuestionDB("There are 2 hydrogen atoms in a water molecule", true);
                 q5.save();
+                addQuestionsToArray();
                 break;
 
-            case(2):
+            case (2):
                 QuestionDB q6 = new QuestionDB("This is a second quiz", true);
                 q6.save();
                 QuestionDB q7 = new QuestionDB("Spiders have 2 eyes", false);
@@ -143,9 +149,20 @@ public class QuestionMain extends AppCompatActivity {
                 q9.save();
                 QuestionDB q10 = new QuestionDB("No human has eyes", false);
                 q10.save();
+                addQuestionsToArray();
                 break;
 
-            default:QuestionDB qx = new QuestionDB("getType Failed", true);
+            default:
+                QuestionDB qx = new QuestionDB("getType Failed", true);
+        }
+
+    }
+    private void addQuestionsToArray() {
+        for (int i = 0; i < noOfQuestions; i++) {
+            Questions = questionsArrayList.get(i);
+            questionsArrayList.add(Questions);
         }
     }
 }
+
+
