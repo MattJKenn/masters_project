@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,14 +33,18 @@ public class QuestionMain extends AppCompatActivity {
     public QuestionDB Questions;
     public ArrayList<QuestionDB> questionsArrayList;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_main);
 
         // create your questions there is no real reason to pass them via an intent
-        Questions = new QuestionDB();
-        questionsArrayList = new ArrayList<>();
+       // Questions = new QuestionDB();
+       // questionsArrayList = new ArrayList<>();
+
+
         createQuestions();
 
         // set up ui elements
@@ -119,8 +124,9 @@ public class QuestionMain extends AppCompatActivity {
 
     public void createQuestions() {
 
-        Intent getQuizType = getIntent();
-        int quizType = getQuizType.getIntExtra("quiz_type", 1);
+        Intent getSectionsIntent = getIntent();
+        int quizType = getSectionsIntent.getIntExtra("quiz_type", 1);
+        questionsArrayList = getSectionsIntent.getParcelableArrayListExtra("question_struc");
 
         switch (quizType) {
 
@@ -135,7 +141,7 @@ public class QuestionMain extends AppCompatActivity {
                 q4.save();
                 QuestionDB q5 = new QuestionDB("There are 2 hydrogen atoms in a water molecule", true);
                 q5.save();
-                addQuestionsToArray();
+                //addQuestionsToArray();
                 break;
 
             case (2):
@@ -149,7 +155,7 @@ public class QuestionMain extends AppCompatActivity {
                 q9.save();
                 QuestionDB q10 = new QuestionDB("No human has eyes", false);
                 q10.save();
-                addQuestionsToArray();
+                //addQuestionsToArray();
                 break;
 
             default:

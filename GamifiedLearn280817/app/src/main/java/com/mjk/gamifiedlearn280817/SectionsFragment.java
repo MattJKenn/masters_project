@@ -26,16 +26,17 @@ public class SectionsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private QuestionDB questionDB;
-    private ArrayList<Question> questions;
+    // private QuestionDB questionDB;
+    private ArrayList<QuestionDB> questions;
 
-    ArrayAdapter<QuestionDB> adapter;
+    //ArrayAdapter<QuestionDB> adapter;
 
 
     Button sectionsButton1;
     Button sectionsButton2;
 
     int quizType;
+
 
 
     @Override
@@ -49,10 +50,7 @@ public class SectionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 quizType = 1;
-
-                Intent startQuiz1 =  new Intent(v.getContext(), QuestionMain.class);
-                startQuiz1.putExtra("quiz_type", quizType);
-                startActivity(startQuiz1);
+                setParcelableIntent();
             }
         });
 
@@ -61,13 +59,18 @@ public class SectionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 quizType = 2;
+                setParcelableIntent();
 
-                Intent startQuiz1 =  new Intent(v.getContext(), QuestionMain.class);
-                startQuiz1.putExtra("quiz_type", quizType);
-                startActivity(startQuiz1);
             }
         });
 
         return sectionsView;
+    }
+
+    private void setParcelableIntent() {
+        Intent startQuiz =  new Intent(getContext(), QuestionMain.class);
+        startQuiz.putExtra("quiz_type", quizType);
+        startQuiz.putExtra("question_struc", questions);
+        startActivity(startQuiz);
     }
 }
