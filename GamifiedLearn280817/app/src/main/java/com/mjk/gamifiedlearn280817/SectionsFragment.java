@@ -27,7 +27,7 @@ public class SectionsFragment extends Fragment {
     }
 
     // private QuestionDB questionDB;
-    private ArrayList<QuestionDB> questions;
+   // private ArrayList<QuestionDB> questions;
 
     //ArrayAdapter<QuestionDB> adapter;
 

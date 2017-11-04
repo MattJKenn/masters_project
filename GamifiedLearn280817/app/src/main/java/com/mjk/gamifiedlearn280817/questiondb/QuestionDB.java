@@ -18,9 +18,9 @@ import com.orm.dsl.Unique;
 public class QuestionDB extends SugarRecord implements Parcelable{
 
     @Unique
-    private int QuestionType;
-    private String QuestionText;
-    private Boolean CorrectAnswer;
+    public int QuestionType;
+    public String QuestionText;
+    public Boolean CorrectAnswer;
 
     public QuestionDB(){}
 

@@ -29,6 +29,7 @@ public class QuestionMain extends AppCompatActivity {
 
     public QuestionDB Question;
     public List<QuestionDB> QuestionList;
+    public List<QuestionDB> FetchedQuestions;
 
 
     private int score = 0;
@@ -46,13 +47,6 @@ public class QuestionMain extends AppCompatActivity {
         // create your questions there is no real reason to pass them via an intent
        // Questions = new QuestionDB();
        // questionsArrayList = new ArrayList<>();
-
-        SugarContext.init(this);
-
-        SchemaGenerator schemaGenerator = new SchemaGenerator(this);
-        schemaGenerator.createDatabase(new SugarDb(this).getDB());
-
-        QuestionDB.createQuestions();
 
         // set up ui elements
         trueButton = (Button) findViewById(R.id.true_button);
@@ -85,12 +79,22 @@ public class QuestionMain extends AppCompatActivity {
 
         });
 
-        noOfQuestions = QuestionList.size();
+
+        resetTextViews();
 
         // setup question
         scoreText.setText("Score: " + score);
-        setQuestion(0);
+        QuestionLogic(currentQuestionNo);
 
+        SugarContext.init(this);
+
+        SchemaGenerator schemaGenerator = new SchemaGenerator(this);
+        schemaGenerator.createDatabase(new SugarDb(this).getDB());
+
+        Question.createQuestions();
+
+        QuestionList = Question.listAll(QuestionDB.class);
+        noOfQuestions = QuestionList.size();
     }
 
     private void checkQuestion(boolean usersAnswer) {
@@ -102,18 +106,31 @@ public class QuestionMain extends AppCompatActivity {
     }
 
     private void updateQuestion() {
-        currentQuestionNo += 1;
+
         if (currentQuestionNo >= noOfQuestions) {                   // if the quiz is over
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
             finish();
-        } else {
-            setQuestion(currentQuestionNo);
+        }
+        else {
+            QuestionLogic(currentQuestionNo);
         }
     }
 
-    private void setQuestion(int num) {
+  /*  private void setQuestion(int num) {
+
+    }
+    */
+    private void resetTextViews(){
+        questionText.setText("");
+        //currentQuestionNo = 1;
+        questionNoText.setText("Question Number: " + currentQuestionNo);
+    }
+
+    private void QuestionLogic(int num){
+        QuestionDB selectedQuestion = QuestionList.get(num);
+        questionText.setText(selectedQuestion.QuestionText);
 
         currentQuestionText = Question.getQuestionText();
         questionText.setText(currentQuestionText);
@@ -121,12 +138,10 @@ public class QuestionMain extends AppCompatActivity {
         correctAnswer = Question.getCorrectAnswer();
         Question.setCorrectAnswer(correctAnswer);
 
-
-        int number = num + 1;
-        questionNoText.setText("Question Number: " + number); // update the question number displayed to match question
+        num += 1;
+        questionNoText.setText("Question Number: " + num); // update the question number displayed to match question
 
     }
-
 }
 
 
