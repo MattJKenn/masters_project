@@ -29,12 +29,13 @@ public class QuestionMain extends AppCompatActivity {
 
     public QuestionDB Question;
     public List<QuestionDB> QuestionList;
-    public List<QuestionDB> FetchedQuestions;
+    //public List<QuestionDB> FetchedQuestions;
 
-
+    private int QuestionType;
     private int score = 0;
     private int currentQuestionNo = 1;
     private int noOfQuestions;
+    private int num = 1;
 
 
 
@@ -84,17 +85,21 @@ public class QuestionMain extends AppCompatActivity {
 
         // setup question
         scoreText.setText("Score: " + score);
-        QuestionLogic(currentQuestionNo);
 
         SugarContext.init(this);
 
         SchemaGenerator schemaGenerator = new SchemaGenerator(this);
         schemaGenerator.createDatabase(new SugarDb(this).getDB());
 
-        Question.createQuestions();
+        questionGenesis();
 
-        QuestionList = Question.listAll(QuestionDB.class);
         noOfQuestions = QuestionList.size();
+    }
+
+    public void questionGenesis() {
+        Question.createQuestions();
+        QuestionLogic(1);
+        QuestionList = Question.listAll(QuestionDB.class);
     }
 
     private void checkQuestion(boolean usersAnswer) {
@@ -124,15 +129,20 @@ public class QuestionMain extends AppCompatActivity {
     */
     private void resetTextViews(){
         questionText.setText("");
-        //currentQuestionNo = 1;
         questionNoText.setText("Question Number: " + currentQuestionNo);
     }
 
     private void QuestionLogic(int num){
-        QuestionDB selectedQuestion = QuestionList.get(num);
+
+        QuestionType = Question.getQuestionType();
+        Question.setQuestionType(num);
+
+
+        QuestionDB selectedQuestion = QuestionList.get(1);
         questionText.setText(selectedQuestion.QuestionText);
 
         currentQuestionText = Question.getQuestionText();
+        Question.setQuestionText(currentQuestionText);
         questionText.setText(currentQuestionText);
 
         correctAnswer = Question.getCorrectAnswer();
