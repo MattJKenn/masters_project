@@ -3,12 +3,17 @@ package com.mjk.gamifiedlearn280817.questiondb;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mjk.gamifiedlearn280817.QuestionMain;
+import com.orm.SchemaGenerator;
+import com.orm.SugarContext;
+import com.orm.SugarDb;
 import com.orm.SugarRecord;
 
 
 import com.orm.dsl.Unique;
 
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -43,29 +48,31 @@ public class QuestionDB extends SugarRecord implements Parcelable{
 
 
 
-    public static void createQuestions() {
+    public void createQuestions(List loadedQuestions, int questionType) {
 
-            QuestionDB q1 = new QuestionDB(1, "This is easier than i thought", true);
-            q1.save();
-            QuestionDB q2 = new QuestionDB(1, "The sky is green", false);
-            q2.save();
-            QuestionDB q3 = new QuestionDB(1, "Earth is 70% land", false);
-            q3.save();
-            QuestionDB q4 = new QuestionDB(1, "An elephant is smaller than the moon", true);
-            q4.save();
-            QuestionDB q5 = new QuestionDB(1, "There are 2 hydrogen atoms in a water molecule", true);
-            q5.save();
-            QuestionDB q6 = new QuestionDB(2, "This is a second quiz", true);
-            q6.save();
-            QuestionDB q7 = new QuestionDB(2, "Spiders have 2 eyes", false);
-            q7.save();
-            QuestionDB q8 = new QuestionDB(2, "This is an achievement", true);
-            q8.save();
-            QuestionDB q9 = new QuestionDB(2, "Java is not a type of teapot", true);
-            q9.save();
-            QuestionDB q10 = new QuestionDB(2, "No human has eyes", false);
-            q10.save();
-            }
+                loadedQuestions = new ArrayList();
+
+                QuestionDB q1 = new QuestionDB(1, "This is easier than i thought", true);
+                q1.save();
+                QuestionDB q2 = new QuestionDB(1, "The sky is green", false);
+                q2.save();
+                QuestionDB q3 = new QuestionDB(1, "Earth is 70% land", false);
+                q3.save();
+                QuestionDB q4 = new QuestionDB(1, "An elephant is smaller than the moon", true);
+                q4.save();
+                QuestionDB q5 = new QuestionDB(1, "There are 2 hydrogen atoms in a water molecule", true);
+                q5.save();
+                QuestionDB q6 = new QuestionDB(2, "This is a second quiz", true);
+                q6.save();
+                QuestionDB q7 = new QuestionDB(2, "Spiders have 2 eyes", false);
+                q7.save();
+                QuestionDB q8 = new QuestionDB(2, "This is an achievement", true);
+                q8.save();
+                QuestionDB q9 = new QuestionDB(2, "Java is not a type of teapot", true);
+                q9.save();
+                QuestionDB q10 = new QuestionDB(2, "No human has eyes", false);
+                q10.save();
+    }
 
     private QuestionDB (Parcel in){
         QuestionText = in.readString();

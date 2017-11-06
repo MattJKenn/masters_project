@@ -3,6 +3,7 @@ package com.mjk.gamifiedlearn280817;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +19,9 @@ import com.orm.SchemaGenerator;
 import com.orm.SugarContext;
 import com.orm.SugarDb;
 
+
 public class QuestionMain extends AppCompatActivity {
+
 
 
     private Button trueButton, falseButton, quitButton;
@@ -28,15 +31,14 @@ public class QuestionMain extends AppCompatActivity {
     private Boolean correctAnswer;
 
     public QuestionDB Question;
-    public List<QuestionDB> QuestionList;
+    public List QuestionList = new ArrayList<>();
     //public List<QuestionDB> FetchedQuestions;
 
-    private int QuestionType;
+    //private int QuestionType;
     private int score = 0;
     private int currentQuestionNo = 1;
     private int noOfQuestions;
-    private int num = 1;
-
+   // private int num = 1;
 
 
 
@@ -80,27 +82,33 @@ public class QuestionMain extends AppCompatActivity {
 
         });
 
-
         resetTextViews();
+        createDatabase();
 
         // setup question
         scoreText.setText("Score: " + score);
 
-        SugarContext.init(this);
+        createDatabase();
 
+        noOfQuestions = QuestionList.size();
+
+
+        //Question.setQuestionType(receivedType);
+    }
+
+
+    public void createDatabase(){
+        SugarContext.init(this);
         SchemaGenerator schemaGenerator = new SchemaGenerator(this);
         schemaGenerator.createDatabase(new SugarDb(this).getDB());
 
-        questionGenesis();
+        Intent getType = getIntent();
+        int receivedType = getType.getIntExtra("quiz_type", 1);
 
-        noOfQuestions = QuestionList.size();
+        Question.createQuestions(QuestionList, receivedType); //NPE ERROR
+        Question.listAll(QuestionDB.class);
     }
 
-    public void questionGenesis() {
-        Question.createQuestions();
-        QuestionLogic(1);
-        QuestionList = Question.listAll(QuestionDB.class);
-    }
 
     private void checkQuestion(boolean usersAnswer) {
         if (usersAnswer == correctAnswer) {
@@ -115,6 +123,7 @@ public class QuestionMain extends AppCompatActivity {
         if (currentQuestionNo >= noOfQuestions) {                   // if the quiz is over
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
+            QuestionList.clear();
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
             finish();
         }
@@ -129,17 +138,14 @@ public class QuestionMain extends AppCompatActivity {
     */
     private void resetTextViews(){
         questionText.setText("");
-        questionNoText.setText("Question Number: " + currentQuestionNo);
+        questionNoText.setText("Question Number: " + 1);
     }
 
     private void QuestionLogic(int num){
 
-        QuestionType = Question.getQuestionType();
-        Question.setQuestionType(num);
-
-
-        QuestionDB selectedQuestion = QuestionList.get(1);
-        questionText.setText(selectedQuestion.QuestionText);
+        //int QuestionType = Question.getQuestionType();
+        // Question.setQuestionType(QuestionType);
+        // int selectedQuestion = QuestionList.indexOf(1);
 
         currentQuestionText = Question.getQuestionText();
         Question.setQuestionText(currentQuestionText);
