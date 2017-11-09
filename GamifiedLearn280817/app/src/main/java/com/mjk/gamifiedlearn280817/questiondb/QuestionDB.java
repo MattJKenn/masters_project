@@ -33,9 +33,7 @@ public class QuestionDB extends SugarRecord implements Parcelable{
     public QuestionDB(){}
 
 
-    public List<Question> createQuestions(int questionType) {
-
-            List<Question> loadedQuestions = new ArrayList();
+    public void createQuestions(int questionType) {
 
                 switch(questionType) {
                     case(1):
@@ -66,7 +64,6 @@ public class QuestionDB extends SugarRecord implements Parcelable{
                         Question qx = new Question(1, "Nothing loaded", true);
                         qx.save();
                 }
-            return loadedQuestions;
     }
 
     private QuestionDB (Parcel in){

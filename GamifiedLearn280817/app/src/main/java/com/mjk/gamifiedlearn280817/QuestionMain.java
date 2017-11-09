@@ -34,7 +34,7 @@ public class QuestionMain extends AppCompatActivity {
     public QuestionDB QuestionDB;
 
 
-    public List<Question> FetchedQuestions;
+    public List<QuestionDB> FetchedQuestions;
 
     //private int QuestionType;
     private int score = 0;
@@ -61,7 +61,8 @@ public class QuestionMain extends AppCompatActivity {
 
         // create your questions there is no real reason to pass them via an intent
         QuestionDB = new QuestionDB();
-        FetchedQuestions = QuestionDB.createQuestions(receivedType);   // NST ERROR (LINKED TO ERROR IN QBD)
+        QuestionDB.createQuestions(receivedType);
+        FetchedQuestions = Question.listAll(QuestionDB.class) ;// NST ERROR (LINKED TO ERROR IN QBD)
 
 
         // set up ui elements
@@ -97,7 +98,7 @@ public class QuestionMain extends AppCompatActivity {
 
         resetTextViews();
 
-       // QuestionDB.onCreate();
+
 
         // setup question
 
