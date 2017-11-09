@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.content.Intent;
 
+import com.orm.SugarContext;
+
 public class ResultsScreen extends AppCompatActivity {
 
 
@@ -26,6 +28,8 @@ public class ResultsScreen extends AppCompatActivity {
 
         Intent result = getIntent();
         score = result.getIntExtra("final_score", 0);
+
+        SugarContext.terminate(); // closes the database to prevent leaks
 
         finalScoreText.setText("Your Score is: " + score);
 

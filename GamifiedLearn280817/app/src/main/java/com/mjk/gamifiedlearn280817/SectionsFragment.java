@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import com.mjk.gamifiedlearn280817.questiondb.QuestionDB;
+import com.orm.SchemaGenerator;
+import com.orm.SugarContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +38,6 @@ public class SectionsFragment extends Fragment {
     Button sectionsButton2;
 
     int quizType;
-
 
 
     @Override

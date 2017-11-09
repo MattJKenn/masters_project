@@ -1,8 +1,11 @@
 package com.mjk.gamifiedlearn280817.questiondb;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mjk.gamifiedlearn280817.Question;
 import com.mjk.gamifiedlearn280817.QuestionMain;
 import com.orm.SchemaGenerator;
 import com.orm.SugarContext;
@@ -29,52 +32,45 @@ public class QuestionDB extends SugarRecord implements Parcelable{
 
     public QuestionDB(){}
 
-    public QuestionDB(int QuestionType, String QuestionText, Boolean CorrectAnswer){
-        this.QuestionType = QuestionType;
-        this.QuestionText = QuestionText;
-        this.CorrectAnswer = CorrectAnswer;
-    }
 
-    // Getters
-    public int getQuestionType() {return QuestionType;}
-    public String getQuestionText() {return QuestionText;}
-    public Boolean getCorrectAnswer() {return CorrectAnswer;}
+    public List<Question> createQuestions(int questionType) {
 
-    // Setters
-    public void setQuestionType (int questionType) {QuestionType = questionType;}
-    public void setQuestionText(String questionText) {QuestionText = questionText;}
-    public void setCorrectAnswer(Boolean correctAnswer) {CorrectAnswer = correctAnswer;}
+            List<Question> loadedQuestions = new ArrayList();
 
+                switch(questionType) {
+                    case(1):
+                    Question q1 = new Question(1, "This is easier than i thought", true);
+                    q1.save();    // NST ERROR
+                    Question q2 = new Question(1, "The sky is green", false);
+                    q2.save();
+                    Question q3 = new Question(1, "Earth is 70% land", false);
+                    q3.save();
+                    Question q4 = new Question(1, "An elephant is smaller than the moon", true);
+                    q4.save();
+                    Question q5 = new Question(1, "There are 2 hydrogen atoms in a water molecule", true);
+                    q5.save();
 
+                    case(2):
+                    Question q6 = new Question(2, "This is a second quiz", true);
+                    q6.save();
+                    Question q7 = new Question(2, "Spiders have 2 eyes", false);
+                    q7.save();
+                    Question q8 = new Question(2, "This is an achievement", true);
+                    q8.save();
+                    Question q9 = new Question(2, "Java is not a type of teapot", true);
+                    q9.save();
+                    Question q10 = new Question(2, "No human has eyes", false);
+                    q10.save();
 
-
-    public void createQuestions(List loadedQuestions, int questionType) {
-
-                loadedQuestions = new ArrayList();
-
-                QuestionDB q1 = new QuestionDB(1, "This is easier than i thought", true);
-                q1.save();
-                QuestionDB q2 = new QuestionDB(1, "The sky is green", false);
-                q2.save();
-                QuestionDB q3 = new QuestionDB(1, "Earth is 70% land", false);
-                q3.save();
-                QuestionDB q4 = new QuestionDB(1, "An elephant is smaller than the moon", true);
-                q4.save();
-                QuestionDB q5 = new QuestionDB(1, "There are 2 hydrogen atoms in a water molecule", true);
-                q5.save();
-                QuestionDB q6 = new QuestionDB(2, "This is a second quiz", true);
-                q6.save();
-                QuestionDB q7 = new QuestionDB(2, "Spiders have 2 eyes", false);
-                q7.save();
-                QuestionDB q8 = new QuestionDB(2, "This is an achievement", true);
-                q8.save();
-                QuestionDB q9 = new QuestionDB(2, "Java is not a type of teapot", true);
-                q9.save();
-                QuestionDB q10 = new QuestionDB(2, "No human has eyes", false);
-                q10.save();
+                    default:
+                        Question qx = new Question(1, "Nothing loaded", true);
+                        qx.save();
+                }
+            return loadedQuestions;
     }
 
     private QuestionDB (Parcel in){
+        QuestionType = in.readInt();
         QuestionText = in.readString();
         CorrectAnswer = in.readByte() != 0;
     }
@@ -85,6 +81,7 @@ public class QuestionDB extends SugarRecord implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int flags){
+        parcel.writeInt(QuestionType);
         parcel.writeString(QuestionText);
         parcel.writeByte((byte) (CorrectAnswer ? 0:1));
     }

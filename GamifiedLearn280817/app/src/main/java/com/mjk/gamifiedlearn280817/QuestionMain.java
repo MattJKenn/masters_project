@@ -30,15 +30,19 @@ public class QuestionMain extends AppCompatActivity {
     private String currentQuestionText;
     private Boolean correctAnswer;
 
-    public QuestionDB Question;
-    public List QuestionList = new ArrayList<>();
-    //public List<QuestionDB> FetchedQuestions;
+    public Question Question;
+    public QuestionDB QuestionDB;
+
+
+    public List<Question> FetchedQuestions;
 
     //private int QuestionType;
     private int score = 0;
     private int currentQuestionNo = 1;
     private int noOfQuestions;
-   // private int num = 1;
+
+
+    // private int num = 1;
 
 
 
@@ -47,9 +51,18 @@ public class QuestionMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_main);
 
+        //to be moved?
+        SugarContext.init(this);
+        SchemaGenerator schemaGenerator = new SchemaGenerator(this);
+        schemaGenerator.createDatabase(new SugarDb(this).getDB());
+
+        Intent getType = getIntent();
+        int receivedType = getType.getIntExtra("quiz_type", 1);
+
         // create your questions there is no real reason to pass them via an intent
-       // Questions = new QuestionDB();
-       // questionsArrayList = new ArrayList<>();
+        QuestionDB = new QuestionDB();
+        FetchedQuestions = QuestionDB.createQuestions(receivedType);   // NST ERROR (LINKED TO ERROR IN QBD)
+
 
         // set up ui elements
         trueButton = (Button) findViewById(R.id.true_button);
@@ -83,31 +96,18 @@ public class QuestionMain extends AppCompatActivity {
         });
 
         resetTextViews();
-        createDatabase();
+
+       // QuestionDB.onCreate();
 
         // setup question
-        scoreText.setText("Score: " + score);
 
-        createDatabase();
-
-        noOfQuestions = QuestionList.size();
-
+         noOfQuestions = FetchedQuestions.size();
 
         //Question.setQuestionType(receivedType);
     }
 
 
-    public void createDatabase(){
-        SugarContext.init(this);
-        SchemaGenerator schemaGenerator = new SchemaGenerator(this);
-        schemaGenerator.createDatabase(new SugarDb(this).getDB());
 
-        Intent getType = getIntent();
-        int receivedType = getType.getIntExtra("quiz_type", 1);
-
-        Question.createQuestions(QuestionList, receivedType); //NPE ERROR
-        Question.listAll(QuestionDB.class);
-    }
 
 
     private void checkQuestion(boolean usersAnswer) {
@@ -123,7 +123,7 @@ public class QuestionMain extends AppCompatActivity {
         if (currentQuestionNo >= noOfQuestions) {                   // if the quiz is over
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
-            QuestionList.clear();
+            FetchedQuestions.clear();                                  // empties database of questions
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
             finish();
         }
@@ -139,13 +139,14 @@ public class QuestionMain extends AppCompatActivity {
     private void resetTextViews(){
         questionText.setText("");
         questionNoText.setText("Question Number: " + 1);
+        scoreText.setText("Score: " + score);
     }
 
     private void QuestionLogic(int num){
 
         //int QuestionType = Question.getQuestionType();
-        // Question.setQuestionType(QuestionType);
-        // int selectedQuestion = QuestionList.indexOf(1);
+        //Question.setQuestionType(QuestionType);
+        //int selectedQuestion = QuestionList.indexOf(1);
 
         currentQuestionText = Question.getQuestionText();
         Question.setQuestionText(currentQuestionText);
