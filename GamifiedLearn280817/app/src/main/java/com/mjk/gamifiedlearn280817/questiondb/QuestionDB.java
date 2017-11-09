@@ -32,38 +32,37 @@ public class QuestionDB extends SugarRecord implements Parcelable{
 
     public QuestionDB(){}
 
-
     public void createQuestions(int questionType) {
 
-                switch(questionType) {
-                    case(1):
-                    Question q1 = new Question(1, "This is easier than i thought", true);
-                    q1.save();    // NST ERROR
-                    Question q2 = new Question(1, "The sky is green", false);
-                    q2.save();
-                    Question q3 = new Question(1, "Earth is 70% land", false);
-                    q3.save();
-                    Question q4 = new Question(1, "An elephant is smaller than the moon", true);
-                    q4.save();
-                    Question q5 = new Question(1, "There are 2 hydrogen atoms in a water molecule", true);
-                    q5.save();
+        switch(questionType) {
+            case(1):
+                Question q1 = new Question(1, "This is easier than i thought", true);
+                q1.save();    // NST ERROR
+                Question q2 = new Question(1, "The sky is green", false);
+                q2.save();
+                Question q3 = new Question(1, "Earth is 70% land", false);
+                q3.save();
+                Question q4 = new Question(1, "An elephant is smaller than the moon", true);
+                q4.save();
+                Question q5 = new Question(1, "There are 2 hydrogen atoms in a water molecule", true);
+                q5.save();
 
-                    case(2):
-                    Question q6 = new Question(2, "This is a second quiz", true);
-                    q6.save();
-                    Question q7 = new Question(2, "Spiders have 2 eyes", false);
-                    q7.save();
-                    Question q8 = new Question(2, "This is an achievement", true);
-                    q8.save();
-                    Question q9 = new Question(2, "Java is not a type of teapot", true);
-                    q9.save();
-                    Question q10 = new Question(2, "No human has eyes", false);
-                    q10.save();
+            case(2):
+                Question q6 = new Question(2, "This is a second quiz", true);
+                q6.save();
+                Question q7 = new Question(2, "Spiders have 2 eyes", false);
+                q7.save();
+                Question q8 = new Question(2, "This is an achievement", true);
+                q8.save();
+                Question q9 = new Question(2, "Java is not a type of teapot", true);
+                q9.save();
+                Question q10 = new Question(2, "No human has eyes", false);
+                q10.save();
 
-                    default:
-                        Question qx = new Question(1, "Nothing loaded", true);
-                        qx.save();
-                }
+            default:
+                Question qx = new Question(1, "Nothing loaded", true);
+                qx.save();
+        }
     }
 
     private QuestionDB (Parcel in){

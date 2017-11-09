@@ -18,9 +18,10 @@ import com.mjk.gamifiedlearn280817.questiondb.QuestionDB;
 import com.orm.SchemaGenerator;
 import com.orm.SugarContext;
 import com.orm.SugarDb;
+import com.orm.SugarRecord;
 
 
-public class QuestionMain extends AppCompatActivity {
+public class QuestionMain extends AppCompatActivity{
 
 
 
@@ -30,8 +31,8 @@ public class QuestionMain extends AppCompatActivity {
     private String currentQuestionText;
     private Boolean correctAnswer;
 
-    public Question Question;
-    public QuestionDB QuestionDB;
+    public Question typeQuestion;
+    public QuestionDB typeQuestionDB;
 
 
     public List<QuestionDB> FetchedQuestions;
@@ -60,8 +61,8 @@ public class QuestionMain extends AppCompatActivity {
         int receivedType = getType.getIntExtra("quiz_type", 1);
 
         // create your questions there is no real reason to pass them via an intent
-        QuestionDB = new QuestionDB();
-        QuestionDB.createQuestions(receivedType);
+        typeQuestionDB = new QuestionDB();
+        typeQuestionDB.createQuestions(receivedType);
         FetchedQuestions = Question.listAll(QuestionDB.class) ;// NST ERROR (LINKED TO ERROR IN QBD)
 
 
@@ -99,14 +100,12 @@ public class QuestionMain extends AppCompatActivity {
         resetTextViews();
 
 
-
         // setup question
 
          noOfQuestions = FetchedQuestions.size();
 
         //Question.setQuestionType(receivedType);
     }
-
 
 
 
@@ -149,12 +148,12 @@ public class QuestionMain extends AppCompatActivity {
         //Question.setQuestionType(QuestionType);
         //int selectedQuestion = QuestionList.indexOf(1);
 
-        currentQuestionText = Question.getQuestionText();
-        Question.setQuestionText(currentQuestionText);
+        currentQuestionText = typeQuestion.getQuestionText();
+        typeQuestion.setQuestionText(currentQuestionText);
         questionText.setText(currentQuestionText);
 
-        correctAnswer = Question.getCorrectAnswer();
-        Question.setCorrectAnswer(correctAnswer);
+        correctAnswer = typeQuestion.getCorrectAnswer();
+        typeQuestion.setCorrectAnswer(correctAnswer);
 
         num += 1;
         questionNoText.setText("Question Number: " + num); // update the question number displayed to match question
