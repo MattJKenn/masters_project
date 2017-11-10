@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import com.mjk.gamifiedlearn280817.questiondb.QuestionDB;
+
 import com.orm.SchemaGenerator;
 import com.orm.SugarContext;
 import com.orm.SugarDb;
@@ -34,7 +34,7 @@ public class SectionsFragment extends Fragment {
 
     //ArrayAdapter<QuestionDB> adapter;
 
-    QuestionDB typeQuestionDB;
+    //QuestionDB typeQuestionDB;
 
     Button sectionsButton1;
     Button sectionsButton2;

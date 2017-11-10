@@ -13,11 +13,32 @@ import java.util.ArrayList;
  */
 
 
-public class Question extends SugarRecord{
+public class Question {
 
+    public Question() {}
+
+    //int questionType;         for database/file functionality
+    String questionText;
+    boolean correctAnswer;
+
+    public Question(String question, boolean answer) {
+        this.questionText = question;
+        this.correctAnswer = answer;
+    }
+}
+/*
+    // Getters
+    //public int getQuestionType() {return questionType;}
+    public String getQuestionText() {return questionText;}
+    public Boolean getCorrectAnswer() {return correctAnswer;}
+
+    // Setters
+    //public void setQuestionType (int QuestionType) {questionType = QuestionType;}
+    public void setQuestionText(String QuestionText) {questionText = QuestionText;}
+    public void setCorrectAnswer(Boolean CorrectAnswer) {correctAnswer = CorrectAnswer;}
 
 }
-
+*/
 
 
 

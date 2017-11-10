@@ -13,16 +13,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import com.mjk.gamifiedlearn280817.questiondb.QuestionDB;
 import com.orm.SchemaGenerator;
 import com.orm.SugarContext;
 import com.orm.SugarDb;
 import com.orm.SugarRecord;
 
 
-public class QuestionMain extends AppCompatActivity{
-
+public class QuestionMain extends AppCompatActivity {
 
 
     private Button trueButton, falseButton, quitButton;
@@ -31,19 +28,16 @@ public class QuestionMain extends AppCompatActivity{
     private String currentQuestionText;
     private Boolean correctAnswer;
 
-    public QuestionDB typeQuestionDB;
+    public Question objectQuestion;
 
 
-    public List<QuestionDB> FetchedQuestions;
-
-    //private int QuestionType;
     private int score = 0;
     private int currentQuestionNo = 1;
     private int noOfQuestions;
     private int quizType;
 
+    ArrayList<Question> questions;
     // private int num = 1;
-
 
 
     @Override
@@ -54,10 +48,8 @@ public class QuestionMain extends AppCompatActivity{
         Intent getType = getIntent();
         quizType = getType.getIntExtra("quiz_type", 1);
 
-        // create your questions there is no real reason to pass them via an intent
-        typeQuestionDB = new QuestionDB();
-        typeQuestionDB.createQuestions(quizType);
-        FetchedQuestions = Question.listAll(QuestionDB.class) ;// NST ERROR (LINKED TO ERROR IN QBD)
+        objectQuestion = new Question();
+        questions = createQuestions(quizType);
 
 
         // set up ui elements
@@ -96,12 +88,12 @@ public class QuestionMain extends AppCompatActivity{
 
         // setup question
 
-         noOfQuestions = FetchedQuestions.size();
 
+        noOfQuestions = questions.size();
+
+        setQuestion(0);
         //Question.setQuestionType(receivedType);
     }
-
-
 
 
     private void checkQuestion(Boolean usersAnswer) {
@@ -118,34 +110,57 @@ public class QuestionMain extends AppCompatActivity{
         if (currentQuestionNo >= noOfQuestions) {                   // if the quiz is over
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
-            FetchedQuestions.clear();                                  // empties database of questions
-            SugarContext.terminate(); // closes the database to prevent leaks
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
             finish();
-        }
-        else {
-            QuestionLogic(currentQuestionNo);
+        } else {
+            setQuestion(currentQuestionNo);
         }
     }
 
-    private void QuestionLogic(int num) {
-        currentQuestionText = typeQuestionDB.getQuestionText();
-        typeQuestionDB.setQuestionText(currentQuestionText);
+    private void setQuestion(int num) {
+        objectQuestion = questions.get(num);
         questionText.setText(currentQuestionText);
-
-        correctAnswer = typeQuestionDB.getCorrectAnswer();
-        typeQuestionDB.setCorrectAnswer(correctAnswer);
+        correctAnswer = objectQuestion.correctAnswer;
 
         num += 1;
         questionNoText.setText("Question Number: " + num); // update the question number displayed to match question
     }
 
-    private void resetTextViews(){
-        questionText.setText("");
-        questionNoText.setText("Question Number: " + 1);
+    private void resetTextViews() {
+        questionNoText.setText("Question Number: " + currentQuestionNo);
         scoreText.setText("Score: " + score);
     }
 
+    public static ArrayList<Question> createQuestions(int questionType) {
+        ArrayList<Question> questions = new ArrayList<>();
+        switch (questionType) {
+            case (1):
+                Question q1 = new Question("This is easier than i thought", true);
+                questions.add(q1);
+                Question q2 = new Question("The sky is green", false);
+                questions.add(q2);
+                Question q3 = new Question("Earth is 70% land", false);
+                questions.add(q3);
+                Question q4 = new Question("An elephant is smaller than the moon", true);
+                questions.add(q4);
+                Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", true);
+                questions.add(q5);
+
+            case (2):
+                Question q6 = new Question("This is a second quiz", true);
+                questions.add(q6);
+                Question q7 = new Question("Spiders have 2 eyes", false);
+                questions.add(q7);
+                Question q8 = new Question("This is an achievement", true);
+                questions.add(q8);
+                Question q9 = new Question("Java is not a type of teapot", true);
+                questions.add(q9);
+                Question q10 = new Question("No human has eyes", false);
+                questions.add(q10);
+        }
+
+        return questions;
+    }
 }
 
 
