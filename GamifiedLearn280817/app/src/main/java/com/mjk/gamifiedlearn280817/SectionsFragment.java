@@ -40,7 +40,6 @@ public class SectionsFragment extends Fragment {
     Button sectionsButton2;
 
     int quizType;
-    int setType;
 
 
 
@@ -73,9 +72,6 @@ public class SectionsFragment extends Fragment {
     }
 
     private void startQuiz(){
-        SugarContext.init(getContext());
-        SchemaGenerator schemaGenerator = new SchemaGenerator(getContext());
-        schemaGenerator.createDatabase(new SugarDb(getContext()).getDB());
 
         Intent startQuiz =  new Intent(getContext(), QuestionMain.class);
         startQuiz.putExtra("quiz_type", quizType);
