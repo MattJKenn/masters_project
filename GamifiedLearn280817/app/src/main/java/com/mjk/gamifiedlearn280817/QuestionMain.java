@@ -1,24 +1,43 @@
 package com.mjk.gamifiedlearn280817;
 
 import android.content.Intent;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import java.util.ArrayList;
+import java.util.List;
+
+import com.orm.SchemaGenerator;
+import com.orm.SugarContext;
+import com.orm.SugarDb;
+import com.orm.SugarRecord;
+
 
 public class QuestionMain extends AppCompatActivity {
+
 
     private Button trueButton, falseButton, quitButton;
     private TextView scoreText, questionText, questionNoText;
 
-    private boolean correctAnswer;
-    private Question currentQuestion;
+    private String currentQuestionText;
+    private Boolean correctAnswer;
+
+    public Question objectQuestion;
+
+
     private int score = 0;
-    private int currentQuestionNo = 0;
-    private ArrayList<Question> questions;
+    private int currentQuestionNo = 1;
+    private int noOfQuestions;
+
+    ArrayList<Question> questions;
+    // private int num = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +46,14 @@ public class QuestionMain extends AppCompatActivity {
 
 
         Intent getType = getIntent();
-        int receivedType = getType.getIntExtra("quiz_type", 1);
+        int quizType = getType.getIntExtra("quiz_type", 1);
 
         // create your questions there is no real reason to pass them via an intent
-        questions = createQuestions(receivedType);
+
+        objectQuestion = new Question();
+        questions = createQuestions(quizType);
+
+
 
         // set up ui elements
         trueButton = (Button) findViewById(R.id.true_button);
@@ -63,22 +86,31 @@ public class QuestionMain extends AppCompatActivity {
 
         });
 
+        resetTextViews();
+
+
         // setup question
-        scoreText.setText("Score: " + score);
+
+
+        noOfQuestions = questions.size();
+
         setQuestion(0);
+        //Question.setQuestionType(receivedType);
     }
 
-    private void checkQuestion(boolean usersAnswer) {
+
+    private void checkQuestion(Boolean usersAnswer) {
         if (usersAnswer == correctAnswer) {
             score += 1;
             scoreText.setText("Score: " + score);
         }
+
         updateQuestion();
     }
 
     private void updateQuestion() {
-        currentQuestionNo += 1;
-        if (currentQuestionNo >= questions.size()) {                   // if the quiz is over
+
+        if (currentQuestionNo >= noOfQuestions) {                   // if the quiz is over
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
@@ -89,18 +121,26 @@ public class QuestionMain extends AppCompatActivity {
     }
 
     private void setQuestion(int num) {
-        currentQuestion = questions.get(num);
-        questionText.setText(currentQuestion.question);
-        correctAnswer = currentQuestion.answer;
+        objectQuestion = questions.get(num);
+        questionText.setText(currentQuestionText);
+        correctAnswer = objectQuestion.correctAnswer;
 
-        int number = num + 1;
-        questionNoText.setText("Question Number: " + number); // update the question number displayed to match question
-
+        num += 1;
+        questionNoText.setText("Question Number: " + num); // update the question number displayed to match question
     }
 
+    private void resetTextViews() {
+        questionNoText.setText("Question Number: " + currentQuestionNo);
+        scoreText.setText("Score: " + score);
+    }
+
+
     // creates an array of questions. This function could be used to load questions from a database
+
+
     public static ArrayList<Question> createQuestions(int questionType) {
-        ArrayList<Question>questions = new ArrayList<>();
+        ArrayList<Question> questions = new ArrayList<>();
+
         switch (questionType) {
             case (1):
                 Question q1 = new Question("This is easier than i thought", true);
@@ -114,6 +154,7 @@ public class QuestionMain extends AppCompatActivity {
                 Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", true);
                 questions.add(q5);
                 return questions;
+
             case (2):
                 Question q6 = new Question("This is a second quiz", true);
                 questions.add(q6);
@@ -126,7 +167,9 @@ public class QuestionMain extends AppCompatActivity {
                 Question q10 = new Question("No human has eyes", false);
                 questions.add(q10);
                 return questions;
-        }
+            }
         return questions;
     }
 }
+
+

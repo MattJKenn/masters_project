@@ -38,4 +38,6 @@
         android:layout_toEndOf="@+id/sections_button1"
         android:layout_toRightOf="@+id/sections_button1"
         android:text="Start Quiz 2" />
+
 </RelativeLayout>
+

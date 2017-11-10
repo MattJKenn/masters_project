@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.content.Intent;
 
+import com.orm.SugarContext;
+
 public class ResultsScreen extends AppCompatActivity {
 
 

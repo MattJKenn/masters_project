@@ -1,6 +1,10 @@
 package com.mjk.gamifiedlearn280817;
 
 
+import android.widget.Adapter;
+
+import com.orm.SugarRecord;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -11,15 +15,30 @@ import java.util.ArrayList;
 
 public class Question {
 
-    String question;
-    boolean answer;
+    public Question() {}
+
+    //int questionType;         for database/file functionality
+    String questionText;
+    boolean correctAnswer;
 
     public Question(String question, boolean answer) {
-        this.question = question;
-        this.answer = answer;
+        this.questionText = question;
+        this.correctAnswer = answer;
     }
 }
+/*
+    // Getters
+    //public int getQuestionType() {return questionType;}
+    public String getQuestionText() {return questionText;}
+    public Boolean getCorrectAnswer() {return correctAnswer;}
 
+    // Setters
+    //public void setQuestionType (int QuestionType) {questionType = QuestionType;}
+    public void setQuestionText(String QuestionText) {questionText = QuestionText;}
+    public void setCorrectAnswer(Boolean CorrectAnswer) {correctAnswer = CorrectAnswer;}
+
+}
+*/
 
 
 
