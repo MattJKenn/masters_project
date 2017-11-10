@@ -13,6 +13,7 @@ import android.widget.Button;
 import com.mjk.gamifiedlearn280817.questiondb.QuestionDB;
 import com.orm.SchemaGenerator;
 import com.orm.SugarContext;
+import com.orm.SugarDb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +34,14 @@ public class SectionsFragment extends Fragment {
 
     //ArrayAdapter<QuestionDB> adapter;
 
+    QuestionDB typeQuestionDB;
 
     Button sectionsButton1;
     Button sectionsButton2;
 
     int quizType;
+    int setType;
+
 
 
     @Override
@@ -69,8 +73,13 @@ public class SectionsFragment extends Fragment {
     }
 
     private void startQuiz(){
+        SugarContext.init(getContext());
+        SchemaGenerator schemaGenerator = new SchemaGenerator(getContext());
+        schemaGenerator.createDatabase(new SugarDb(getContext()).getDB());
+
         Intent startQuiz =  new Intent(getContext(), QuestionMain.class);
         startQuiz.putExtra("quiz_type", quizType);
         startActivity(startQuiz);
     }
+
 }

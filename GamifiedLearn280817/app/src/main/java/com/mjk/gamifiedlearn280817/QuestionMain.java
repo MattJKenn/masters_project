@@ -31,7 +31,6 @@ public class QuestionMain extends AppCompatActivity{
     private String currentQuestionText;
     private Boolean correctAnswer;
 
-    public Question typeQuestion;
     public QuestionDB typeQuestionDB;
 
 
@@ -41,7 +40,7 @@ public class QuestionMain extends AppCompatActivity{
     private int score = 0;
     private int currentQuestionNo = 1;
     private int noOfQuestions;
-
+    private int quizType;
 
     // private int num = 1;
 
@@ -52,17 +51,12 @@ public class QuestionMain extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_main);
 
-        //to be moved?
-        SugarContext.init(this);
-        SchemaGenerator schemaGenerator = new SchemaGenerator(this);
-        schemaGenerator.createDatabase(new SugarDb(this).getDB());
-
         Intent getType = getIntent();
-        int receivedType = getType.getIntExtra("quiz_type", 1);
+        quizType = getType.getIntExtra("quiz_type", 1);
 
         // create your questions there is no real reason to pass them via an intent
         typeQuestionDB = new QuestionDB();
-        typeQuestionDB.createQuestions(receivedType);
+        typeQuestionDB.createQuestions(quizType);
         FetchedQuestions = Question.listAll(QuestionDB.class) ;// NST ERROR (LINKED TO ERROR IN QBD)
 
 
@@ -110,11 +104,12 @@ public class QuestionMain extends AppCompatActivity{
 
 
 
-    private void checkQuestion(boolean usersAnswer) {
+    private void checkQuestion(Boolean usersAnswer) {
         if (usersAnswer == correctAnswer) {
             score += 1;
             scoreText.setText("Score: " + score);
         }
+
         updateQuestion();
     }
 
@@ -124,6 +119,7 @@ public class QuestionMain extends AppCompatActivity{
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
             FetchedQuestions.clear();                                  // empties database of questions
+            SugarContext.terminate(); // closes the database to prevent leaks
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
             finish();
         }
@@ -132,33 +128,24 @@ public class QuestionMain extends AppCompatActivity{
         }
     }
 
-  /*  private void setQuestion(int num) {
+    private void QuestionLogic(int num) {
+        currentQuestionText = typeQuestionDB.getQuestionText();
+        typeQuestionDB.setQuestionText(currentQuestionText);
+        questionText.setText(currentQuestionText);
 
+        correctAnswer = typeQuestionDB.getCorrectAnswer();
+        typeQuestionDB.setCorrectAnswer(correctAnswer);
+
+        num += 1;
+        questionNoText.setText("Question Number: " + num); // update the question number displayed to match question
     }
-    */
+
     private void resetTextViews(){
         questionText.setText("");
         questionNoText.setText("Question Number: " + 1);
         scoreText.setText("Score: " + score);
     }
 
-    private void QuestionLogic(int num){
-
-        //int QuestionType = Question.getQuestionType();
-        //Question.setQuestionType(QuestionType);
-        //int selectedQuestion = QuestionList.indexOf(1);
-
-        currentQuestionText = typeQuestion.getQuestionText();
-        typeQuestion.setQuestionText(currentQuestionText);
-        questionText.setText(currentQuestionText);
-
-        correctAnswer = typeQuestion.getCorrectAnswer();
-        typeQuestion.setCorrectAnswer(correctAnswer);
-
-        num += 1;
-        questionNoText.setText("Question Number: " + num); // update the question number displayed to match question
-
-    }
 }
 
 

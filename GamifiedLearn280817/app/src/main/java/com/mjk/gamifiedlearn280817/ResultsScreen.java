@@ -29,8 +29,6 @@ public class ResultsScreen extends AppCompatActivity {
         Intent result = getIntent();
         score = result.getIntExtra("final_score", 0);
 
-        SugarContext.terminate(); // closes the database to prevent leaks
-
         finalScoreText.setText("Your Score is: " + score);
 
         endQuizButton.setOnClickListener(new View.OnClickListener() {
