@@ -26,9 +26,10 @@ public class SectionsFragment extends Fragment {
     }
 
     //private Question Questions = new Question();
-    Button sectionsButton;
+    Button sectionsButton1;
+    Button sectionsButton2;
 
-
+    int quizType;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,16 +37,32 @@ public class SectionsFragment extends Fragment {
         // Inflate the layout for this fragment
         View sectionsView = inflater.inflate(R.layout.fragment_sections, container, false);
 
-        sectionsButton = (Button) sectionsView.findViewById(R.id.sections_button);
-        sectionsButton.setOnClickListener(new View.OnClickListener() {
+        sectionsButton1 = (Button) sectionsView.findViewById(R.id.sections_button1);
+        sectionsButton1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                quizType = 1;
+                startQuiz();
+            }
+        });
+
+        sectionsButton2 = (Button) sectionsView.findViewById(R.id.sections_button2);
+        sectionsButton2.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick (View v) {
-                Intent startQuiz1 =  new Intent(v.getContext(), QuestionMain.class);
-                startActivity(startQuiz1);
+                quizType = 2;
+                startQuiz();
             }
         });
+
         return sectionsView;
     }
 
+    private void startQuiz(){
+        Intent startQuiz = new Intent(getContext(), QuestionMain.class);
+        startQuiz.putExtra("quiz_type", quizType);
+        startActivity(startQuiz);
+    }
 }

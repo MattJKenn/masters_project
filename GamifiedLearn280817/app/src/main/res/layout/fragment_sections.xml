@@ -4,14 +4,38 @@
     android:layout_height="match_parent"
     tools:context="com.mjk.gamifiedlearn280817.SectionsFragment">
 
+    <TextView
+        android:id="@+id/chooseQuestionView"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_above="@+id/sections_button2"
+        android:layout_alignEnd="@+id/sections_button2"
+        android:layout_alignRight="@+id/sections_button2"
+        android:layout_marginBottom="48dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginRight="29dp"
+        android:text="Choose a Quiz to complete" />
+
     <Button
-        android:id="@+id/sections_button"
+        android:id="@+id/sections_button1"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:onClick="onClick"
-        android:text="Start Quiz 1"
-        android:layout_marginTop="135dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginLeft="41dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="144dp"
+        android:text="Start Quiz 1" />
 
+    <Button
+        android:id="@+id/sections_button2"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_alignTop="@+id/sections_button1"
+        android:layout_marginLeft="45dp"
+        android:layout_marginStart="45dp"
+        android:layout_toEndOf="@+id/sections_button1"
+        android:layout_toRightOf="@+id/sections_button1"
+        android:text="Start Quiz 2" />
 </RelativeLayout>

@@ -25,8 +25,12 @@ public class QuestionMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_main);
 
+
+        Intent getType = getIntent();
+        int receivedType = getType.getIntExtra("quiz_type", 1);
+
         // create your questions there is no real reason to pass them via an intent
-        questions = createQuestions();
+        questions = createQuestions(receivedType);
 
         // set up ui elements
         trueButton = (Button) findViewById(R.id.true_button);
@@ -95,18 +99,34 @@ public class QuestionMain extends AppCompatActivity {
     }
 
     // creates an array of questions. This function could be used to load questions from a database
-    public static ArrayList<Question> createQuestions() {
-        ArrayList<Question> questions = new ArrayList<>();
-        Question q1 = new Question("This is easier than i thought", true);
-        Question q2 = new Question("The sky is green", false);
-        Question q3 = new Question("Earth is 70% land", false);
-        Question q4 = new Question("An elephant is smaller than the moon", true);
-        Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", true);
-        questions.add(q1);
-        questions.add(q2);
-        questions.add(q3);
-        questions.add(q4);
-        questions.add(q5);
+    public static ArrayList<Question> createQuestions(int questionType) {
+        ArrayList<Question>questions = new ArrayList<>();
+        switch (questionType) {
+            case (1):
+                Question q1 = new Question("This is easier than i thought", true);
+                questions.add(q1);
+                Question q2 = new Question("The sky is green", false);
+                questions.add(q2);
+                Question q3 = new Question("Earth is 70% land", false);
+                questions.add(q3);
+                Question q4 = new Question("An elephant is smaller than the moon", true);
+                questions.add(q4);
+                Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", true);
+                questions.add(q5);
+                return questions;
+            case (2):
+                Question q6 = new Question("This is a second quiz", true);
+                questions.add(q6);
+                Question q7 = new Question("Spiders have 2 eyes", false);
+                questions.add(q7);
+                Question q8 = new Question("This is an achievement", true);
+                questions.add(q8);
+                Question q9 = new Question("Java is not a type of teapot", true);
+                questions.add(q9);
+                Question q10 = new Question("No human has eyes", false);
+                questions.add(q10);
+                return questions;
+        }
         return questions;
     }
 }
