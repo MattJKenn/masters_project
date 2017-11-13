@@ -1,21 +1,26 @@
 package com.mjk.gamifiedlearn280817;
 
+import android.support.v7.app.AppCompatActivity;
+
 /**
- * Created by owner on 20/10/2017.
+ * Created by owner on 13/11/2017.
  */
 
-public enum Badge {
-    quiz1_Badge("Get correct answers in Quiz 1 to earn this Badge!", 0);
+public class Badge extends AppCompatActivity{
 
-    private final String dscrptn;
-    private int prog;
+    String name;
+    int progress;
+    int currentValue;
+    int bronzeUnlock;
+    int silverUnlock;
+    int goldUnlock;
 
-    Badge( String description, int progress){
-        dscrptn = description;
-        prog = progress;
+    public Badge(String badgeName, int badgeProgress, int badgeCurrentValue, int badgeBronzeUnlock, int badgeSilverUnlock, int badgeGoldUnlock) {
+        this.name = badgeName;
+        this.progress = badgeProgress;
+        this.currentValue = badgeCurrentValue;
+        this.bronzeUnlock = badgeBronzeUnlock;
+        this.silverUnlock = badgeSilverUnlock;
+        this.goldUnlock = badgeGoldUnlock;
     }
-
-    public String getDscrptn(){return dscrptn;}
-    public int getProg(){return prog;}
 }
-

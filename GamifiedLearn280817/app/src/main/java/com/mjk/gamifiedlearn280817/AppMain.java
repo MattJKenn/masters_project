@@ -1,5 +1,6 @@
 package com.mjk.gamifiedlearn280817;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -95,5 +96,15 @@ public class AppMain extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         System.out.println(adapter.getCount());
+    }
+
+    public void setupUserData() {
+        SharedPreferences badge1status = getSharedPreferences("badge1", MODE_PRIVATE);
+        SharedPreferences badge2status = getSharedPreferences("badge2", MODE_PRIVATE);
+        SharedPreferences badgetotalstatus = getSharedPreferences("badgetotal", MODE_PRIVATE);
+
+        SharedPreferences.OnSharedPreferenceChangeListener badge1progress;
+        SharedPreferences.OnSharedPreferenceChangeListener badge2progress;
+        SharedPreferences.OnSharedPreferenceChangeListener badgetotalprogress;
     }
 }
