@@ -23,6 +23,8 @@ public class ProfileFragment extends Fragment {
 
     int badge[] = {R.drawable.vanilla_badge1, R.drawable.vanilla_badge2, R.drawable.vanilla_badge3};
 
+    int progress [] = {10, 50, 100};
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -34,8 +36,8 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View profileView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        badgeView = (GridView)badgeView.findViewById(R.id.badge_view); //NPE ERROR
-        BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, badgeTitle, ProfileFragment.super.getContext());
+        badgeView = (GridView) profileView.findViewById(R.id.badge_view);
+        BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, badgeTitle, progress, ProfileFragment.super.getContext());
 
         badgeView.setAdapter(badgeViewAdapter);
 
@@ -43,7 +45,7 @@ public class ProfileFragment extends Fragment {
         badgeView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ProfileFragment.super.getContext(), "Clicked Badge " + position, Toast.LENGTH_LONG).show();
+                Toast.makeText(ProfileFragment.super.getContext(), "Clicked Badge", Toast.LENGTH_LONG).show();
             }
         });
         return profileView;

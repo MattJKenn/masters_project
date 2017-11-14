@@ -8,19 +8,24 @@ import android.support.v7.app.AppCompatActivity;
 
 public class Badge extends AppCompatActivity{
 
-    String name;
-    int progress;
-    int currentValue;
-    int bronzeUnlock;
-    int silverUnlock;
-    int goldUnlock;
+    public String name;
+    public int progress;
+    public int currentValue;
 
-    public Badge(String badgeName, int badgeProgress, int badgeCurrentValue, int badgeBronzeUnlock, int badgeSilverUnlock, int badgeGoldUnlock) {
+    public int bronzeUnlock;
+    public int silverUnlock;
+    public int goldUnlock;
+
+    public Badge(String badgeName, int badgeProgress, int badgeCurrentValue,
+                 int badgeBronzeUnlock, int badgeSilverUnlock, int badgeGoldUnlock) {
         this.name = badgeName;
         this.progress = badgeProgress;
         this.currentValue = badgeCurrentValue;
+
         this.bronzeUnlock = badgeBronzeUnlock;
         this.silverUnlock = badgeSilverUnlock;
         this.goldUnlock = badgeGoldUnlock;
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.mjk.gamifiedlearn280817;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,17 +22,20 @@ public class BadgeViewAdapter extends BaseAdapter {
 
     int badge[];
 
+    //Badge badgeContainer;
+
     String title[];
 
-    ProgressBar progress[];
+    int progress[];
 
     private Context context;
 
     private LayoutInflater layoutInflater;
 
-    public BadgeViewAdapter(int badge[], String title[], Context context){
-        this.badge = badge;
-        this.title = title;
+    public BadgeViewAdapter(int badges[], String titles[], int progresses[], Context context){
+        this.badge = badges;
+        this.title = titles;
+        this.progress = progresses;
         this.context = context;
     }
 
@@ -52,19 +56,19 @@ public class BadgeViewAdapter extends BaseAdapter {
             layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             assert layoutInflater != null;
-            badgeView = layoutInflater.inflate(R.layout.fragment_profile, parent, false);
+            badgeView = layoutInflater.inflate(R.layout.badge_view_adapter, parent, false);
         }
 
-        ImageButton badge = (ImageButton) badgeView.findViewById(R.id.badges);
-        TextView title = (TextView) badgeView.findViewById(R.id.badge_text);
-        //ProgressBar progress = (ProgressBar) badgeView.findViewById(R.id.progress);
+        ImageView badgeGraphic = (ImageView) badgeView.findViewById(R.id.badges);
+        TextView titleText = (TextView) badgeView.findViewById(R.id.badge_text);
+        ProgressBar progress = (ProgressBar) badgeView.findViewById(R.id.progress);
 
-
-        badge.setImageResource(position);
-        title.setText(position);
+        badgeGraphic.setImageResource(badge[position]);
+        titleText.setText(title[position]);
+        progress.setProgress(10);
         //progress.setProgress(0);
 
-        return null;
+        return badgeView;
     }
 
 }

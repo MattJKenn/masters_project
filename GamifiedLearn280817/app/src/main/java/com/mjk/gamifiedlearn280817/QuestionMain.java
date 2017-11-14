@@ -21,12 +21,11 @@ public class QuestionMain extends AppCompatActivity {
     private Button trueButton, falseButton, quitButton;
     private TextView scoreText, questionText, questionNoText;
 
-
+    private String currentQuestionText;
     private Boolean correctAnswer;
 
     public Question objectQuestion;
 
-    private String currentQuestionText;
 
     private int score = 0;
     private int currentQuestionNo = 1;
@@ -49,6 +48,7 @@ public class QuestionMain extends AppCompatActivity {
 
         objectQuestion = new Question();
         questions = createQuestions(quizType);
+
 
 
         // set up ui elements
@@ -91,7 +91,7 @@ public class QuestionMain extends AppCompatActivity {
         noOfQuestions = questions.size();
 
         setQuestion(0);
-
+        //Question.setQuestionType(receivedType);
     }
 
 
@@ -109,7 +109,6 @@ public class QuestionMain extends AppCompatActivity {
         if (currentQuestionNo >= noOfQuestions) {                   // if the quiz is over
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
-            //displayResults.putParcelableArrayListExtra("question_list", questions);
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
             finish();
         } else {
@@ -118,11 +117,9 @@ public class QuestionMain extends AppCompatActivity {
     }
 
     private void setQuestion(int num) {
-
         objectQuestion = questions.get(num);
-        questionText.setText(currentQuestionText);
+        questionText.setText(objectQuestion.questionText);
         correctAnswer = objectQuestion.correctAnswer;
-
 
         num += 1;
         questionNoText.setText("Question Number: " + num); // update the question number displayed to match question
@@ -166,7 +163,7 @@ public class QuestionMain extends AppCompatActivity {
                 Question q10 = new Question("No human has eyes", false);
                 questions.add(q10);
                 return questions;
-            }
+        }
         return questions;
     }
 }
