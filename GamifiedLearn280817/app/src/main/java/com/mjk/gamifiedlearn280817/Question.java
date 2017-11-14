@@ -11,11 +11,11 @@ public class Question {
     public Question() {}
 
     //int questionType;         for database/file functionality
-    String questionText;
+    String question;
     boolean correctAnswer;
 
     public Question(String question, boolean answer) {
-        this.questionText = question;
+        this.question = question;
         this.correctAnswer = answer;
     }
 }

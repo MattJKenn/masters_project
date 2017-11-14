@@ -23,16 +23,6 @@
         android:layout_marginTop="22dp"
         android:text="Quiz 1 Badge" />
 
-    <ProgressBar
-        android:id="@+id/progress"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="115dp"
-        android:layout_height="115dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:max="100"/>
 
 
 </RelativeLayout>

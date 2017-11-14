@@ -26,16 +26,16 @@ public class BadgeViewAdapter extends BaseAdapter {
 
     String title[];
 
-    int progress[];
+    //int progress[];
 
     private Context context;
 
     private LayoutInflater layoutInflater;
 
-    public BadgeViewAdapter(int badges[], String titles[], int progresses[], Context context){
+    public BadgeViewAdapter(int badges[], String titles[], /*int progresses[],*/ Context context){
         this.badge = badges;
         this.title = titles;
-        this.progress = progresses;
+        //this.progress = progresses;
         this.context = context;
     }
 
@@ -61,14 +61,27 @@ public class BadgeViewAdapter extends BaseAdapter {
 
         ImageView badgeGraphic = (ImageView) badgeView.findViewById(R.id.badges);
         TextView titleText = (TextView) badgeView.findViewById(R.id.badge_text);
-        ProgressBar progress = (ProgressBar) badgeView.findViewById(R.id.progress);
+        //ProgressBar progress = (ProgressBar) badgeView.findViewById(R.id.progress);
 
         badgeGraphic.setImageResource(badge[position]);
         titleText.setText(title[position]);
-        progress.setProgress(10);
         //progress.setProgress(0);
 
         return badgeView;
     }
 
 }
+
+/*<ProgressBar
+        android:id="@+id/progress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="115dp"
+                android:layout_height="115dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:max="100"/>
+
+                ^^^ for inclusion in xml layout when functionality ready
+*/

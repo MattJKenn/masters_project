@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,10 +22,9 @@ public class QuestionMain extends AppCompatActivity {
     private Button trueButton, falseButton, quitButton;
     private TextView scoreText, questionText, questionNoText;
 
-    private String currentQuestionText;
     private Boolean correctAnswer;
 
-    public Question objectQuestion;
+    public Question currentQuestion = new Question();
 
 
     private int score = 0;
@@ -45,8 +45,6 @@ public class QuestionMain extends AppCompatActivity {
         int quizType = getType.getIntExtra("quiz_type", 1);
 
         // create your questions there is no real reason to pass them via an intent
-
-        objectQuestion = new Question();
         questions = createQuestions(quizType);
 
 
@@ -100,8 +98,8 @@ public class QuestionMain extends AppCompatActivity {
             score += 1;
             scoreText.setText("Score: " + score);
         }
-
         updateQuestion();
+        Log.wtf("checkQuestion", "Question updated");
     }
 
     private void updateQuestion() {
@@ -117,12 +115,15 @@ public class QuestionMain extends AppCompatActivity {
     }
 
     private void setQuestion(int num) {
-        objectQuestion = questions.get(num);
-        questionText.setText(objectQuestion.questionText);
-        correctAnswer = objectQuestion.correctAnswer;
+        currentQuestion = questions.get(num);
+        questionText.setText(currentQuestion.question);
+        correctAnswer = currentQuestion.correctAnswer;
 
-        num += 1;
-        questionNoText.setText("Question Number: " + num); // update the question number displayed to match question
+        int number = num + 1;
+        questionNoText.setText("Question Number: " + number); // update the question number displayed to match question
+        Log.wtf("Question Number", "Question Number = " + currentQuestionNo);
+
+        currentQuestionNo = number;
     }
 
     private void resetTextViews() {
