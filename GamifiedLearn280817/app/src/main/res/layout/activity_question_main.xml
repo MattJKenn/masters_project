@@ -9,36 +9,42 @@
 
     <Button
         android:id="@+id/true_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="True"
-        android:layout_marginRight="47dp"
-        android:layout_marginEnd="47dp"
-        android:layout_alignBaseline="@+id/false_button"
-        android:layout_alignBottom="@+id/false_button"
-        android:layout_toLeftOf="@+id/questionNo_textView"
-        android:layout_toStartOf="@+id/questionNo_textView" />
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_above="@+id/quit_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="13dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginStart="44dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/tick"
+        android:scaleType="fitCenter" />
 
     <Button
         android:id="@+id/false_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="False"
-        android:layout_marginBottom="55dp"
-        android:layout_above="@+id/quit_button"
-        android:layout_alignRight="@+id/quit_button"
+        android:layout_width="140dp"
+        android:layout_height="185dp"
+        android:layout_above="@+id/score_textView"
         android:layout_alignEnd="@+id/quit_button"
-        android:layout_marginRight="42dp"
-        android:layout_marginEnd="42dp" />
+        android:layout_alignRight="@+id/quit_button"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/cross"
+        android:scaleType="fitCenter" />
 
     <TextView
         android:id="@+id/quiz_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/true_button"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/true_button"
-        android:layout_marginTop="68dp" />
+        android:layout_above="@+id/false_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="86dp"
+        android:text="Quiz TextView"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/score_textView"
@@ -46,8 +52,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/quit_button"
         android:layout_alignBottom="@+id/quit_button"
-        android:layout_toEndOf="@+id/true_button"
-        android:layout_toRightOf="@+id/true_button" />
+        android:layout_centerHorizontal="true"
+        android:text="score TextView"
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/questionNo_textView"
@@ -55,18 +63,22 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp" />
+        android:layout_marginTop="33dp"
+        android:text="questionNo textView"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/quit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quit"
-        android:layout_marginBottom="11dp"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="11dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginEnd="12dp" />
+        android:adjustViewBounds="true"
+        android:background="@drawable/exit"
+        android:scaleType="fitCenter" />
 
 </RelativeLayout>

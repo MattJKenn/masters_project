@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 
 
 /**
@@ -20,7 +21,7 @@ public class SavedQFragment extends Fragment {
         // Required empty public constructor
     }
 
-    Button savedQButton;
+    ListView savedQs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,13 +29,7 @@ public class SavedQFragment extends Fragment {
         // Inflate the layout for this fragment
         View savedQView = inflater.inflate(R.layout.fragment_saved_q, container, false);
 
-        savedQButton = (Button) savedQView.findViewById(R.id.saved_q_button);
-        savedQButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.wtf("savedQFragment","clicked saved button");
-            }
-        });
+
         return savedQView;
     }
 }

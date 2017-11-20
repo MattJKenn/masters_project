@@ -20,9 +20,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/badges"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="27dp"
         android:text="Quiz 1 Badge" />
 
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/badges"
+        android:layout_alignStart="@+id/badges"
+        android:layout_alignRight="@id/badges"
+        android:layout_alignEnd="@id/badges"
+        android:layout_below="@+id/badge_text"
+        android:layout_marginTop="12dp" />
 
 
 </RelativeLayout>

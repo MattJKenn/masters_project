@@ -1,6 +1,7 @@
 package com.mjk.gamifiedlearn280817;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment{
 
     GridView badgeView;
 
@@ -23,7 +24,7 @@ public class ProfileFragment extends Fragment {
 
     int badge[] = {R.drawable.vanilla_badge1, R.drawable.vanilla_badge2, R.drawable.vanilla_badge3};
 
-    //int progress [] = {10, 50, 100};
+    int progress [] = {10, 50, 100};
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -37,10 +38,9 @@ public class ProfileFragment extends Fragment {
         View profileView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         badgeView = (GridView) profileView.findViewById(R.id.badge_view);
-        BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, badgeTitle, /*progress,*/ ProfileFragment.super.getContext());
+        BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, badgeTitle, progress, ProfileFragment.super.getContext());
 
         badgeView.setAdapter(badgeViewAdapter);
-
 
         badgeView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

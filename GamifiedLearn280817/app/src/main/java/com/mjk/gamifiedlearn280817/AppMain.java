@@ -34,6 +34,9 @@ public class AppMain extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         fragmentManager = getSupportFragmentManager();
 
+        setupUserData();
+
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -99,12 +102,9 @@ public class AppMain extends AppCompatActivity {
     }
 
     public void setupUserData() {
-        SharedPreferences badge1status = getSharedPreferences("badge1", MODE_PRIVATE);
-        SharedPreferences badge2status = getSharedPreferences("badge2", MODE_PRIVATE);
-        SharedPreferences badgetotalstatus = getSharedPreferences("badgetotal", MODE_PRIVATE);
+        SharedPreferences badgeProgressPref = getSharedPreferences("progress", MODE_PRIVATE);
+        //SharedPreferences badge2status = getSharedPreferences("badge2", MODE_PRIVATE);
 
-        SharedPreferences.OnSharedPreferenceChangeListener badge1progress;
-        SharedPreferences.OnSharedPreferenceChangeListener badge2progress;
-        SharedPreferences.OnSharedPreferenceChangeListener badgetotalprogress;
+        //BadgeLogic.setBadges();
     }
 }

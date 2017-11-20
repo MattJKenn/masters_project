@@ -14,6 +14,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mjk.gamifiedlearn280817.BadgeLogic;
+
 
 
 public class QuestionMain extends AppCompatActivity {
@@ -30,8 +32,10 @@ public class QuestionMain extends AppCompatActivity {
     private int score = 0;
     private int currentQuestionNo = 1;
     private int noOfQuestions;
+    private int noCorrectAnswer;
 
     ArrayList<Question> questions;
+    //ArrayList<Question> savedQuestions;
     // private int num = 1;
 
 
@@ -97,16 +101,25 @@ public class QuestionMain extends AppCompatActivity {
         if (usersAnswer == correctAnswer) {
             score += 1;
             scoreText.setText("Score: " + score);
+            noCorrectAnswer++;
         }
+        //else{saveQuestion(currentQuestion);}
         updateQuestion();
         Log.wtf("checkQuestion", "Question updated");
     }
 
+    private void saveQuestion(Question question) {
+        //savedQuestions.add(question);
+    }
+
     private void updateQuestion() {
 
-        if (currentQuestionNo >= noOfQuestions) {                   // if the quiz is over
+        if (currentQuestionNo >= noOfQuestions) {   // if the quiz is over
+            noCorrectAnswer = getCorrectAnswers();
+
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
+            displayResults.putExtra("correct_answers", noCorrectAnswer);
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
             finish();
         } else {
@@ -131,6 +144,10 @@ public class QuestionMain extends AppCompatActivity {
         scoreText.setText("Score: " + score);
     }
 
+
+    public int getCorrectAnswers(){
+        return noCorrectAnswer;
+    }
 
     // creates an array of questions. This function could be used to load questions from a database
 

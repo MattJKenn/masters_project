@@ -11,8 +11,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mjk.gamifiedlearn280817.Badge;
-import com.mjk.gamifiedlearn280817.R;
+import com.mjk.gamifiedlearn280817.BadgeLogic;
 
 /**
  * Created by owner on 13/11/2017.
@@ -22,20 +21,22 @@ public class BadgeViewAdapter extends BaseAdapter {
 
     int badge[];
 
-    //Badge badgeContainer;
 
     String title[];
 
-    //int progress[];
+
+    int progress[];
+
 
     private Context context;
 
     private LayoutInflater layoutInflater;
 
-    public BadgeViewAdapter(int badges[], String titles[], /*int progresses[],*/ Context context){
+
+    public BadgeViewAdapter(int badges[], String titles[], int progresses[], Context context){
         this.badge = badges;
         this.title = titles;
-        //this.progress = progresses;
+        this.progress = progresses;
         this.context = context;
     }
 
@@ -59,29 +60,17 @@ public class BadgeViewAdapter extends BaseAdapter {
             badgeView = layoutInflater.inflate(R.layout.badge_view_adapter, parent, false);
         }
 
+        // assign variables to layout assets
         ImageView badgeGraphic = (ImageView) badgeView.findViewById(R.id.badges);
         TextView titleText = (TextView) badgeView.findViewById(R.id.badge_text);
-        //ProgressBar progress = (ProgressBar) badgeView.findViewById(R.id.progress);
+        ProgressBar progress = (ProgressBar) badgeView.findViewById(R.id.progress);
 
+        // set variable values
         badgeGraphic.setImageResource(badge[position]);
         titleText.setText(title[position]);
-        //progress.setProgress(0);
+        progress.setProgress(0); // placeholder
 
         return badgeView;
     }
-
 }
 
-/*<ProgressBar
-        android:id="@+id/progress"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="115dp"
-                android:layout_height="115dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:max="100"/>
-
-                ^^^ for inclusion in xml layout when functionality ready
-*/
