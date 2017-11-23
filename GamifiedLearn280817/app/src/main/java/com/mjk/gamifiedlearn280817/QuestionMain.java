@@ -1,6 +1,7 @@
 package com.mjk.gamifiedlearn280817;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,7 +51,6 @@ public class QuestionMain extends AppCompatActivity {
 
         // create your questions there is no real reason to pass them via an intent
         questions = createQuestions(quizType);
-
 
 
         // set up ui elements

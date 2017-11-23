@@ -2,6 +2,7 @@ package com.mjk.gamifiedlearn280817;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.GridView;
+import android.widget.ImageView;
+
+import com.mjk.gamifiedlearn280817.Badge;
 
 public class AppMain extends AppCompatActivity {
 
@@ -25,6 +30,7 @@ public class AppMain extends AppCompatActivity {
     MenuItem prevMenuItem = null;
     int tabPosition = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +39,6 @@ public class AppMain extends AppCompatActivity {
         viewPager = (NonSwipeableViewPager) findViewById(R.id.viewPager);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         fragmentManager = getSupportFragmentManager();
-
-        setupUserData();
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -101,10 +105,12 @@ public class AppMain extends AppCompatActivity {
         System.out.println(adapter.getCount());
     }
 
-    public void setupUserData() {
+    void setupSharedPreferences(){
         SharedPreferences badgeProgressPref = getSharedPreferences("progress", MODE_PRIVATE);
-        //SharedPreferences badge2status = getSharedPreferences("badge2", MODE_PRIVATE);
+        SharedPreferences badgeRankPref = getSharedPreferences("rank", MODE_PRIVATE);
 
-        //BadgeLogic.setBadges();
+        //badgeProgressPref =;
+        //badgeRankPref =;
     }
+
 }
