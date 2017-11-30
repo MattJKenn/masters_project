@@ -1,7 +1,9 @@
 package com.mjk.gamifiedlearn280817;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,8 +38,12 @@ public class QuestionMain extends AppCompatActivity {
     private int noCorrectAnswer;
 
     ArrayList<Question> questions;
-    //ArrayList<Question> savedQuestions;
+    ArrayList<Question> savedQuestions;
+
     // private int num = 1;
+
+    SQLiteDatabase database;
+    DatabaseAccess databaseAccess;
 
 
     @Override
@@ -103,26 +109,28 @@ public class QuestionMain extends AppCompatActivity {
             scoreText.setText("Score: " + score);
             noCorrectAnswer++;
         }
-        //else{saveQuestion(currentQuestion);}
+        //else{savedQuestions.add(currentQuestion);}
+
         updateQuestion();
         Log.wtf("checkQuestion", "Question updated");
     }
 
-    private void saveQuestion(Question question) {
-        //savedQuestions.add(question);
-    }
+
 
     private void updateQuestion() {
 
         if (currentQuestionNo >= noOfQuestions) {   // if the quiz is over
             noCorrectAnswer = getCorrectAnswers();
 
+
+
+
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
             displayResults.putExtra("correct_answers", noCorrectAnswer);
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
             finish();
-        } else {
+        } else {                            // moves to next question
             setQuestion(currentQuestionNo);
         }
     }
@@ -149,12 +157,19 @@ public class QuestionMain extends AppCompatActivity {
         return noCorrectAnswer;
     }
 
-    // creates an array of questions. This function could be used to load questions from a database
+    // creates an array of questions
 
+    public ArrayList<Question> createQuestions(int questionType) {
+        databaseAccess = DatabaseAccess.getInstance(this);
+        databaseAccess.open();
+        questions = databaseAccess.getQuestions(questionType);
+        databaseAccess.close();
 
-    public static ArrayList<Question> createQuestions(int questionType) {
-        ArrayList<Question> questions = new ArrayList<>();
+        return questions;
 
+    }
+}
+/*
         switch (questionType) {
             case (1):
                 Question q1 = new Question("This is easier than i thought", true);
@@ -182,8 +197,7 @@ public class QuestionMain extends AppCompatActivity {
                 questions.add(q10);
                 return questions;
         }
-        return questions;
-    }
-}
+
+        */
 
 

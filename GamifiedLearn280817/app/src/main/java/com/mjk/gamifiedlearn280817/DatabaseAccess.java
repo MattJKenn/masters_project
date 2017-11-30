@@ -1,26 +1,28 @@
 package com.mjk.gamifiedlearn280817;
 
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DatabaseAccess {
-    private SQLiteOpenHelper openHelper;
+    private DatabaseOpenHelper openHelper;
     private SQLiteDatabase database;
     private static DatabaseAccess instance;
 
     /**
-     * Private constructor to aboid object creation from outside classes.
+     * Private constructor to avoid object creation from outside classes.
      *
      * @param context
      */
+
     private DatabaseAccess(Context context) {
         this.openHelper = new DatabaseOpenHelper(context);
     }
+
 
     /**
      * Return a singleton instance of DatabaseAccess.
@@ -35,13 +37,11 @@ public class DatabaseAccess {
         return instance;
     }
 
+
     /**
      * Open the database connection.
      */
-    public void open() {
-        this.database = openHelper.getWritableDatabase();
-    }
-
+    public void open() {this.database = openHelper.getWritableDatabase();}
     /**
      * Close the database connection.
      */
@@ -51,17 +51,38 @@ public class DatabaseAccess {
         }
     }
 
-    // below method a sample one REPLACE WITH FUNCTIONALITY FOR THIS APP
 
-    public List<String> getQuotes() {
-        List<String> list = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT * FROM quotes", null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            list.add(cursor.getString(0));
-            cursor.moveToNext();
+
+    public ArrayList<Question> getQuestions(int qType) {
+        ArrayList<Question> questionArrayList = new ArrayList<>();
+        String[] columns = new String[]{"QuestionType", "QuestionText", "CorrectAnswer"};
+
+        Cursor cursor = database.query("QuestionBank", columns, "QuestionType =" + qType + "",
+                    null, null, null, null);
+
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            int iQType = cursor.getInt(cursor.getColumnIndex("QuestionType"));
+            int iQText = cursor.getColumnIndex("QuestionText");
+            int iCorrectAns = cursor.getColumnIndex("CorrectAnswer");
+
+              // error?
+
+            do {
+                int type = cursor.getInt(iQType);
+                String text = cursor.getString(iQText);
+                int rawAnswer = cursor.getInt(iCorrectAns);
+                boolean answer = (rawAnswer != 0);
+
+                Question question = new Question(type, text, answer);//change this loop!!
+                questionArrayList.add(question);
+            }
+            while (cursor.moveToNext());
+
+            cursor.close();
         }
-        cursor.close();
-        return list;
+        return questionArrayList;
     }
+
 }

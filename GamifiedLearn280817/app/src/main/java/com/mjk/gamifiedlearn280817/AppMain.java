@@ -30,6 +30,7 @@ public class AppMain extends AppCompatActivity {
     MenuItem prevMenuItem = null;
     int tabPosition = 0;
 
+    DatabaseAccess db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,6 @@ public class AppMain extends AppCompatActivity {
         viewPager = (NonSwipeableViewPager) findViewById(R.id.viewPager);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         fragmentManager = getSupportFragmentManager();
-
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -104,7 +104,7 @@ public class AppMain extends AppCompatActivity {
 
         System.out.println(adapter.getCount());
     }
-
+/*
     void setupSharedPreferences(){
         SharedPreferences badgeProgressPref = getSharedPreferences("progress", MODE_PRIVATE);
         SharedPreferences badgeRankPref = getSharedPreferences("rank", MODE_PRIVATE);
@@ -112,5 +112,5 @@ public class AppMain extends AppCompatActivity {
         //badgeProgressPref =;
         //badgeRankPref =;
     }
-
+*/
 }

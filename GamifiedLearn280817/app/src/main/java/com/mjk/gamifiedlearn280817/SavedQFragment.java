@@ -29,6 +29,7 @@ public class SavedQFragment extends Fragment {
         // Inflate the layout for this fragment
         View savedQView = inflater.inflate(R.layout.fragment_saved_q, container, false);
 
+        savedQs = (ListView) savedQView.findViewById(R.id.savedq_list);
 
         return savedQView;
     }

@@ -10,11 +10,12 @@ public class Question {
 
     public Question() {}
 
-    //int questionType;         for database/file functionality
+    int type;
     String question;
     boolean correctAnswer;
 
-    public Question(String question, boolean answer) {
+    public Question(int type, String question, boolean answer) {
+        this.type = type;
         this.question = question;
         this.correctAnswer = answer;
     }

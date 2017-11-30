@@ -13,7 +13,7 @@ public class ResultsScreen extends AppCompatActivity {
     Button endQuizButton;
     TextView finalScoreText;
 
-    private int score, badgeProgress;
+    private int score;
 
 
     @Override
@@ -29,6 +29,8 @@ public class ResultsScreen extends AppCompatActivity {
 
         finalScoreText.setText("Your Score is: " + score);
 
+        
+
         endQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,5 +38,6 @@ public class ResultsScreen extends AppCompatActivity {
             }
         });
     }
+
 
 }
