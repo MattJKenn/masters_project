@@ -3,6 +3,7 @@ package com.mjk.gamifiedlearn280817;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 
 /**
@@ -28,19 +33,21 @@ public class BadgeViewAdapter extends BaseAdapter {
 
     int progress[];
 
-
     private Context context;
 
     private LayoutInflater layoutInflater;
 
+    DatabaseAccess databaseAccess;
 
-    Badge badge1, badge2, badgetotal;              // badge object variables
+    ArrayList<Badge> badges = new ArrayList<>();
 
+    // Badge badge1, badge2, badgetotal;              // badge object variables
 
+        /*
     int[] badge1Values = {0, 10, 25, 50};
     int[] badge2Values = {0, 10, 25, 50};
     int[] badgeTotalValues = {0, 25, 50, 100};
-
+        */
     ImageView badgeGraphic;
     GridView badgeView;
 
@@ -81,24 +88,37 @@ public class BadgeViewAdapter extends BaseAdapter {
         // assign variables to layout assets
         ImageView badgeGraphic = (ImageView) badgeView.findViewById(R.id.badges);
         TextView titleText = (TextView) badgeView.findViewById(R.id.badge_text);
-        ProgressBar progress = (ProgressBar) badgeView.findViewById(R.id.progress);
+        TextView progress = (TextView) badgeView.findViewById(R.id.progress);
+
+        //receiveBadges();
+
+        //BadgeLogic.updateBadgeRank();
 
         // set variable values
+
         badgeGraphic.setImageResource(badge[position]);
         titleText.setText(title[position]);
-        progress.setProgress(0); // placeholder
+        progress.setText("0/0"); // placeholder
 
-        badge1 = new Badge("Quiz 1 Badge", badge1Values,
-                false, false, false);
+        /*
+        badge1 = new Badge("Quiz 1 Badge", bronze,
+                silver, gold);
         badge2 = new Badge("Quiz 2 Badge", badge2Values,
                 false, false, false);
         badgetotal = new Badge("Quiz Total Badge", badgeTotalValues,
                 false, false, false);
-
+        */
         //badgeProgressPref = getSharedPreferences("progress", MODE_PRIVATE);
         //badgeRankPref = getSharedPreferences("badge2", MODE_PRIVATE);
 
         return badgeView;
+    }
+
+    public void receiveBadges(){
+        databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+        badges = databaseAccess.getBadges();
+        databaseAccess.close();
     }
 
 }

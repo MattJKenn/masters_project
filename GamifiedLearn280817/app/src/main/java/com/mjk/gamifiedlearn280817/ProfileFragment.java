@@ -18,7 +18,7 @@ import android.widget.Toast;
  */
 public class ProfileFragment extends Fragment{
 
-    GridView badgeView;
+    static GridView badgeView;
 
     String badgeTitle[] = {"Quiz Badge 1", "Quiz Badge 2", "Quiz Total Badge"};
 

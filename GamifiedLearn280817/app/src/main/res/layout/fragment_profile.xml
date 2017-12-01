@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.mjk.gamifiedlearn280817.ProfileFragment"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
     android:weightSum="1">
 
     <TextView
@@ -41,9 +42,22 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/user_imageView"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="88dp"
         android:numColumns="auto_fit"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
         android:stretchMode="columnWidth" />
+
+    <TextView
+        android:id="@+id/badges_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:fontFamily="monospace"
+        android:text="BADGES"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

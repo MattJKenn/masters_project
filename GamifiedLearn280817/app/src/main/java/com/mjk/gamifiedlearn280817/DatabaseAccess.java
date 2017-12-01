@@ -4,6 +4,7 @@ package com.mjk.gamifiedlearn280817;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.ListView;
 
 
 import java.util.ArrayList;
@@ -41,7 +42,10 @@ public class DatabaseAccess {
     /**
      * Open the database connection.
      */
-    public void open() {this.database = openHelper.getWritableDatabase();}
+    public void open() {
+        this.database = openHelper.getWritableDatabase();
+    }
+
     /**
      * Close the database connection.
      */
@@ -52,13 +56,12 @@ public class DatabaseAccess {
     }
 
 
-
     public ArrayList<Question> getQuestions(int qType) {
         ArrayList<Question> questionArrayList = new ArrayList<>();
         String[] columns = new String[]{"QuestionType", "QuestionText", "CorrectAnswer"};
 
         Cursor cursor = database.query("QuestionBank", columns, "QuestionType =" + qType + "",
-                    null, null, null, null);
+                null, null, null, null);
 
 
         if (cursor.getCount() > 0) {
@@ -67,7 +70,7 @@ public class DatabaseAccess {
             int iQText = cursor.getColumnIndex("QuestionText");
             int iCorrectAns = cursor.getColumnIndex("CorrectAnswer");
 
-              // error?
+            // error?
 
             do {
                 int type = cursor.getInt(iQType);
@@ -85,4 +88,36 @@ public class DatabaseAccess {
         return questionArrayList;
     }
 
+
+    public ArrayList<Badge> getBadges() {
+        ArrayList<Badge> badgeList = new ArrayList<>();
+        String[] columns = new String[]{"Badge Name", "Bronze Unlock", "Silver Unlock", "Gold Unlock"};
+
+        Cursor cursor = database.query("Badges", columns, null,
+                null, null, null, null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            int iName = cursor.getColumnIndex("Badge Name");
+            int iBronze = cursor.getColumnIndex("Bronze Unlock");
+            int iSilver = cursor.getColumnIndex("Silver Unlock");
+            int iGold = cursor.getColumnIndex("Gold Unlock");
+
+
+            do {
+                String badgeName = cursor.getString(iName);
+                int bronzeUnlock = cursor.getInt(iBronze);
+                int silverUnlock = cursor.getInt(iSilver);
+                int goldUnlock = cursor.getInt(iGold);
+
+
+                Badge badge = new Badge(badgeName, bronzeUnlock, silverUnlock, goldUnlock);//change this loop!!
+                badgeList.add(badge);
+            }
+            while (cursor.moveToNext());
+
+            cursor.close();
+        }
+        return badgeList;
+    }
 }

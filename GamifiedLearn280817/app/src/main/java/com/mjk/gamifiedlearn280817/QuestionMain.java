@@ -112,7 +112,6 @@ public class QuestionMain extends AppCompatActivity {
         //else{savedQuestions.add(currentQuestion);}
 
         updateQuestion();
-        Log.wtf("checkQuestion", "Question updated");
     }
 
 
@@ -121,9 +120,6 @@ public class QuestionMain extends AppCompatActivity {
 
         if (currentQuestionNo >= noOfQuestions) {   // if the quiz is over
             noCorrectAnswer = getCorrectAnswers();
-
-
-
 
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
