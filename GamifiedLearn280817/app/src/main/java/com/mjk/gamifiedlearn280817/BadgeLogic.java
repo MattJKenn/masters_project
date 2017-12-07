@@ -11,18 +11,23 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.mjk.gamifiedlearn280817.AppMain.badge1Prog;
+import static com.mjk.gamifiedlearn280817.AppMain.badge2Prog;
+import static com.mjk.gamifiedlearn280817.AppMain.badgeTotalProg;
+import static com.mjk.gamifiedlearn280817.AppMain.userData;
 
 
 /**
  * Created by owner on 13/11/2017.
  */
 
-public class BadgeLogic extends ProfileFragment{
+public class BadgeLogic extends BadgeViewAdapter{
 
 
-    public BadgeLogic() {}
-
-    //public SharedPreferences badgeRankPref, badgeProgressPref;              // user data for progress variables
+    public BadgeLogic(int[] badges, String[] titles, int[] progresses, Context context) {
+        super(badges, titles, progresses, context);
+    }
+    //public static SharedPreferences userSettings;              // user data for progress variables
 
     static int badgeProgress;
     static int bronze;
@@ -30,21 +35,26 @@ public class BadgeLogic extends ProfileFragment{
     static int gold;
     static int noCorrectAnswers;              // counted variables
 
+
+    static String badgeKey;
+    static SharedPreferences preferences;
+
     //public int [] Values  = {bronze, silver, gold};          // individual properties for each badge
 
     //boolean bronzeUnlocked, silverUnlocked, goldUnlocked, rankUnlocked= false;       // check variables for rank unlocks
 
-    static ImageView badge;                            // badge display variable
+    ImageView badge;                            // badge display variable
 
 
 
-
-
-    public static void updateBadgeRank(){
+    public void updateBadgeRank(){
 
         badgeView = (GridView) badge.findViewById(R.id.badge_view);  // assign display to asset in layout
 
-        badgeProgress = updateBadgeProgress();         // increment progress
+        //DatabaseAccess.getBadges();
+
+        //badgeKey = ;
+        badgeProgress = updateBadgeProgress(noCorrectAnswers /*, badgeKey*/);         // increment progress
 
         // check on new progress amount for unlock thresholds
         if(badgeProgress >= bronze && badgeProgress < silver){
@@ -63,16 +73,15 @@ public class BadgeLogic extends ProfileFragment{
 `       */
     }
 
-    public static int updateBadgeProgress(){
-        int gainedProgress =  noCorrectAnswers;      // get the number of correct answers
-        badgeProgress = badgeProgress + gainedProgress;     // add correct answers to running total
-        /*
-        SharedPreferences.Editor changeBadgeProgress = badgeProgressPref.edit();
-        changeBadgeProgress.putInt("progress", badgeProgress);
+    public int updateBadgeProgress(int addedProgress){// get the number of correct answers
+
+        badgeProgress = badgeProgress + addedProgress;     // add correct answers to running total
+
+        /*SharedPreferences.Editor changeBadgeProgress = preferences.edit();
+        changeBadgeProgress.putInt(badgeKey, badgeProgress);
         changeBadgeProgress.apply();                // save progress in user settings
         */
         return badgeProgress;
 
     }
-
 }

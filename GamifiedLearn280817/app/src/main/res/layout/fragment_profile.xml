@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.mjk.gamifiedlearn280817.ProfileFragment"
-    android:scrollbarAlwaysDrawVerticalTrack="true"
     android:weightSum="1">
 
     <TextView

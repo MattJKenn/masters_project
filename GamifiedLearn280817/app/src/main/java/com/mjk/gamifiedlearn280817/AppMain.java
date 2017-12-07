@@ -30,7 +30,16 @@ public class AppMain extends AppCompatActivity {
     MenuItem prevMenuItem = null;
     int tabPosition = 0;
 
-    DatabaseAccess db;
+    public static final String userData = "USER_DATA";
+    public static final String badge1Prog = "BADGE_1";
+    public static final String badge2Prog = "BADGE_2";
+    public static final String badgeTotalProg = "BADGE_TOTAL";
+
+    int progressB1, progressB2, progressBTotal;
+    int Default = 0;
+
+    SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +49,8 @@ public class AppMain extends AppCompatActivity {
         viewPager = (NonSwipeableViewPager) findViewById(R.id.viewPager);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         fragmentManager = getSupportFragmentManager();
+
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -90,6 +101,8 @@ public class AppMain extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {}
         });
         setupViewPager(viewPager);
+
+        //loadUserData();
     }
 
     void setupViewPager(ViewPager viewPager) {
@@ -104,10 +117,25 @@ public class AppMain extends AppCompatActivity {
 
         System.out.println(adapter.getCount());
     }
-/*
-    void setupSharedPreferences(){
-        SharedPreferences badgeProgressPref = getSharedPreferences("progress", MODE_PRIVATE);
-        SharedPreferences badgeRankPref = getSharedPreferences("rank", MODE_PRIVATE);
+
+    /*void loadUserData(){
+
+        sharedPreferences = getSharedPreferences(userData, MODE_PRIVATE);
+
+        if(sharedPreferences == null) {
+            SharedPreferences.Editor edit = sharedPreferences.edit();
+            edit.putInt(badge1Prog, Default);
+            edit.putInt(badge1Prog, Default);
+            edit.putInt(badge1Prog, Default);
+
+            edit.apply();
+        }
+
+
+        progressB1 = sharedPreferences.getInt(badge1Prog, Default);
+        progressB2 = sharedPreferences.getInt(badge2Prog, Default);
+        progressBTotal = sharedPreferences.getInt(badgeTotalProg, Default);
+
 
         //badgeProgressPref =;
         //badgeRankPref =;

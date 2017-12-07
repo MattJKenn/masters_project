@@ -18,6 +18,8 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 /**
  * Created by owner on 13/11/2017.
@@ -41,6 +43,9 @@ public class BadgeViewAdapter extends BaseAdapter {
 
     ArrayList<Badge> badges = new ArrayList<>();
 
+    Badge badgeObject;
+
+
     // Badge badge1, badge2, badgetotal;              // badge object variables
 
         /*
@@ -50,6 +55,8 @@ public class BadgeViewAdapter extends BaseAdapter {
         */
     ImageView badgeGraphic;
     GridView badgeView;
+
+    SharedPreferences badgeProgressPref;
 
 
     public BadgeViewAdapter(int badges[], String titles[], int progresses[], Context context) {
@@ -90,15 +97,17 @@ public class BadgeViewAdapter extends BaseAdapter {
         TextView titleText = (TextView) badgeView.findViewById(R.id.badge_text);
         TextView progress = (TextView) badgeView.findViewById(R.id.progress);
 
-        //receiveBadges();
+        receiveBadges();
 
         //BadgeLogic.updateBadgeRank();
 
         // set variable values
 
+
+
         badgeGraphic.setImageResource(badge[position]);
         titleText.setText(title[position]);
-        progress.setText("0/0"); // placeholder
+        progress.setText(this.progress.toString() + "/" + badgeObject.gold); // placeholder
 
         /*
         badge1 = new Badge("Quiz 1 Badge", bronze,
@@ -108,11 +117,11 @@ public class BadgeViewAdapter extends BaseAdapter {
         badgetotal = new Badge("Quiz Total Badge", badgeTotalValues,
                 false, false, false);
         */
-        //badgeProgressPref = getSharedPreferences("progress", MODE_PRIVATE);
-        //badgeRankPref = getSharedPreferences("badge2", MODE_PRIVATE);
+        //badgeProgressPref = getSharedPreferences("progress", MODE_PRIVATE)
 
         return badgeView;
     }
+
 
     public void receiveBadges(){
         databaseAccess = DatabaseAccess.getInstance(context);
