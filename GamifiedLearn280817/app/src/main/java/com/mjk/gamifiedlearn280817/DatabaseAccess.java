@@ -96,7 +96,7 @@ public class DatabaseAccess {
         String[] columns = new String[]{"BadgeName", "BronzeUnlock", "SilverUnlock", "GoldUnlock"};
 
         Cursor cursor = database.query("Badges", columns, null,
-                null, null, null, null, null);
+                null, null, null, null);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
