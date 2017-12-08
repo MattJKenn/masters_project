@@ -118,7 +118,7 @@ public class DatabaseAccess {
             }
             while (cursor.moveToNext());
 
-            /// test message
+            // test message
 
             cursor.close();
         }
