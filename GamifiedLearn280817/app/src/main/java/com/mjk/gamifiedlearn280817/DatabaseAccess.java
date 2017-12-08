@@ -113,7 +113,7 @@ public class DatabaseAccess {
                 int goldUnlock = cursor.getInt(iGold);
 
 
-                Badge badge = new Badge(badgeName, 1, 1, 1);//change this loop!!
+                Badge badge = new Badge(badgeName, bronzeUnlock, silverUnlock, goldUnlock);
                 badgeList.add(badge);
             }
             while (cursor.moveToNext());
