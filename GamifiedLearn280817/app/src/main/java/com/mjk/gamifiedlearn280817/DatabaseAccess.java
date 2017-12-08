@@ -69,7 +69,7 @@ public class DatabaseAccess {
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            int iQType = cursor.getInt(cursor.getColumnIndex("QuestionType"));
+            int iQType = cursor.getColumnIndex("QuestionType");
             int iQText = cursor.getColumnIndex("QuestionText");
             int iCorrectAns = cursor.getColumnIndex("CorrectAnswer");
 
@@ -113,7 +113,7 @@ public class DatabaseAccess {
                 int goldUnlock = cursor.getInt(iGold);
 
 
-                Badge badge = new Badge(badgeName, bronzeUnlock, silverUnlock, goldUnlock);//change this loop!!
+                Badge badge = new Badge(badgeName, 1, 1, 1);//change this loop!!
                 badgeList.add(badge);
             }
             while (cursor.moveToNext());
