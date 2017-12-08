@@ -118,6 +118,8 @@ public class DatabaseAccess {
             }
             while (cursor.moveToNext());
 
+            /// test message
+
             cursor.close();
         }
         Log.wtf("badges", String.valueOf(badgeList));
