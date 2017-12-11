@@ -101,8 +101,6 @@ public class BadgeViewAdapter extends BaseAdapter {
 
         //BadgeLogic.updateBadgeRank();
 
-        // app working
-
         // set variable values
 
 

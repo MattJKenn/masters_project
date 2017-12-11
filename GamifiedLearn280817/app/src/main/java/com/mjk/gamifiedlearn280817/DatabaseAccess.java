@@ -93,7 +93,7 @@ public class DatabaseAccess {
 
     public ArrayList<Badge> getBadges() {
         ArrayList<Badge> badgeList = new ArrayList<>();
-        String[] columns = new String[]{"BadgeName", "BronzeUnlock", "SilverUnlock", "GoldUnlock"};
+        String[] columns = new String[]{"BadgeName", "BronzeUnlock", "SilverUnlock", "GoldUnlock", "Progress"};
 
         Cursor cursor = database.query("Badges", columns, null,
                 null, null, null, null);
@@ -104,16 +104,17 @@ public class DatabaseAccess {
             int iBronze = cursor.getColumnIndex("BronzeUnlock");
             int iSilver = cursor.getColumnIndex("SilverUnlock");
             int iGold = cursor.getColumnIndex("GoldUnlock");
-
+            int iProg = cursor.getColumnIndex("Progress");
 
             do {
                 String badgeName = cursor.getString(iName);
                 int bronzeUnlock = cursor.getInt(iBronze);
                 int silverUnlock = cursor.getInt(iSilver);
                 int goldUnlock = cursor.getInt(iGold);
+                int progress = cursor.getInt(iProg);
 
 
-                Badge badge = new Badge(badgeName, bronzeUnlock, silverUnlock, goldUnlock);
+                Badge badge = new Badge(badgeName, bronzeUnlock, silverUnlock, goldUnlock, progress);
                 badgeList.add(badge);
             }
             while (cursor.moveToNext());

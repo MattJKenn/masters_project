@@ -49,7 +49,7 @@ public class BadgeLogic extends BadgeViewAdapter{
 
     public void updateBadgeRank(){
 
-        badgeView = (GridView) badge.findViewById(R.id.badge_view);  // assign display to asset in layout
+        badgeView = (GridView) badge.findViewById(R.id.badges);  // assign display to asset in layout
 
         //DatabaseAccess.getBadges();
 
