@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +29,20 @@ import static android.content.Context.MODE_PRIVATE;
 public class BadgeViewAdapter extends BaseAdapter {
 
     int badge[];
-
-
     String title[];
+    int progresses[];
 
+    int badgeProgress;
+    int bronze;
+    int silver;
+    int gold;
+    int noCorrectAnswers;              // counted variables
 
-    int progress[];
+    int target = bronze;
+
+    //static String badgeKey;
+    //static SharedPreferences preferences;
+
 
     private Context context;
 
@@ -53,8 +62,9 @@ public class BadgeViewAdapter extends BaseAdapter {
     int[] badge2Values = {0, 10, 25, 50};
     int[] badgeTotalValues = {0, 25, 50, 100};
         */
-    ImageView badgeGraphic;
+
     GridView badgeView;
+    ImageView badgeGraphic;
 
     SharedPreferences badgeProgressPref;
 
@@ -62,7 +72,7 @@ public class BadgeViewAdapter extends BaseAdapter {
     public BadgeViewAdapter(int badges[], String titles[], int progresses[], Context context) {
         this.badge = badges;
         this.title = titles;
-        this.progress = progresses;
+        this.progresses = progresses;
         this.context = context;
     }
 
@@ -98,16 +108,12 @@ public class BadgeViewAdapter extends BaseAdapter {
         TextView progress = (TextView) badgeView.findViewById(R.id.progress);
 
         receiveBadges();
-
-        //BadgeLogic.updateBadgeRank();
-
-        // set variable values
-
+        updateBadgeRank();          //error
 
 
         badgeGraphic.setImageResource(badge[position]);
         titleText.setText(title[position]);
-        progress.setText(this.progress.toString() + "/50"); // placeholder
+        progress.setText(progresses[position] + "/" + target);
 
         /*
         badge1 = new Badge("Quiz 1 Badge", bronze,
@@ -127,10 +133,51 @@ public class BadgeViewAdapter extends BaseAdapter {
         databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
         badges = databaseAccess.getBadges();
+        System.out.println(badges);
         databaseAccess.close();
     }
 
+    public void updateBadgeRank(){
+        // assign display to asset in layout
+
+            //noCorrectAnswers =;   SharedPreferences!
+
+            badgeProgress = updateBadgeProgress(noCorrectAnswers);         // increment progress
+
+            // check on new progress amount for unlock thresholds
+            if(badgeProgress >= bronze && badgeProgress < silver){
+                badgeGraphic.setImageResource(R.drawable.bronze_badge);
+                target = silver;
+            }
+            else if(badgeProgress >= silver && badgeProgress < gold) {
+                badgeGraphic.setImageResource(R.drawable.silver_badge);
+                target = gold;
+
+            }
+            else if(badgeProgress >= gold){
+                badgeGraphic.setImageResource(R.drawable.gold_badge);
+            }
+            // save changes to user settings
+        /*SharedPreferences.Editor changeBadgeRank = badgeRankPref.edit();
+        changeBadgeRank.putBoolean("badge_rank_unlocked", rankUnlocked);
+        changeBadgeRank.apply();
+`       */
+        }
+
+    public int updateBadgeProgress(int addedProgress){// get the number of correct answers
+
+        badgeProgress = badgeProgress + addedProgress;     // add correct answers to running total
+
+        /*SharedPreferences.Editor changeBadgeProgress = preferences.edit();
+        changeBadgeProgress.putInt(badgeKey, badgeProgress);
+        changeBadgeProgress.apply();                // save progress in user settings
+        */
+        return badgeProgress;
+
+    }
 }
+
+
 
 
 

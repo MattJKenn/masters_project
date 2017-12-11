@@ -28,13 +28,14 @@ public class BadgeLogic extends BadgeViewAdapter{
         super(badges, titles, progresses, context);
     }
     //public static SharedPreferences userSettings;              // user data for progress variables
-
-    static int badgeProgress;
+/*
+    int badgeProgress;
     static int bronze;
     static int silver;
     static int gold;
-    static int noCorrectAnswers;              // counted variables
+    int noCorrectAnswers;              // counted variables
 
+    int target = bronze;
 
     static String badgeKey;
     static SharedPreferences preferences;
@@ -54,14 +55,18 @@ public class BadgeLogic extends BadgeViewAdapter{
         //DatabaseAccess.getBadges();
 
         //badgeKey = ;
-        badgeProgress = updateBadgeProgress(noCorrectAnswers /*, badgeKey*/);         // increment progress
+        badgeProgress = updateBadgeProgress(noCorrectAnswers /*, badgeKey*/;         // increment progress
 
         // check on new progress amount for unlock thresholds
+    /*
         if(badgeProgress >= bronze && badgeProgress < silver){
             badge.setImageResource(R.drawable.bronze_badge);
+            target = silver;
         }
         else if(badgeProgress >= silver && badgeProgress < gold) {
             badge.setImageResource(R.drawable.silver_badge);
+            target = gold;
+
         }
         else if(badgeProgress >= gold){
             badge.setImageResource(R.drawable.gold_badge);
@@ -72,7 +77,7 @@ public class BadgeLogic extends BadgeViewAdapter{
         changeBadgeRank.apply();
 `       */
     }
-
+    /*
     public int updateBadgeProgress(int addedProgress){// get the number of correct answers
 
         badgeProgress = badgeProgress + addedProgress;     // add correct answers to running total
@@ -81,7 +86,9 @@ public class BadgeLogic extends BadgeViewAdapter{
         changeBadgeProgress.putInt(badgeKey, badgeProgress);
         changeBadgeProgress.apply();                // save progress in user settings
         */
+    /*
         return badgeProgress;
 
-    }
+                }
 }
+*/

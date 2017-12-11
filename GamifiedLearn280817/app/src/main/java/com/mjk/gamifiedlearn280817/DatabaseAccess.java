@@ -123,7 +123,7 @@ public class DatabaseAccess {
 
             cursor.close();
         }
-        Log.wtf("badges", String.valueOf(badgeList));
+
         return badgeList;
     }
 
