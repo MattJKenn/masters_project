@@ -107,7 +107,7 @@ public class BadgeViewAdapter extends BaseAdapter {
 
         badgeGraphic.setImageResource(badge[position]);
         titleText.setText(title[position]);
-        progress.setText(this.progress.toString() + "/" + badgeObject.gold); // placeholder
+        progress.setText(this.progress.toString() + "/50"); // placeholder
 
         /*
         badge1 = new Badge("Quiz 1 Badge", bronze,
