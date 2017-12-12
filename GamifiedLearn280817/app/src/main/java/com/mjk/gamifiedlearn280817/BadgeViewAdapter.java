@@ -63,10 +63,10 @@ public class BadgeViewAdapter extends BaseAdapter {
     int[] badgeTotalValues = {0, 25, 50, 100};
         */
 
-    GridView badgeView;
+    //GridView badgeView;
     ImageView badgeGraphic;
 
-    SharedPreferences badgeProgressPref;
+    SharedPreferences sharedPreferences;
 
 
     public BadgeViewAdapter(int badges[], String titles[], int progresses[], Context context) {
@@ -102,13 +102,22 @@ public class BadgeViewAdapter extends BaseAdapter {
             badgeView = layoutInflater.inflate(R.layout.badge_view_adapter, parent, false);
         }
 
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userData", MODE_PRIVATE);
+        SharedPreferences.Editor updater = sharedPreferences.edit();
+
+        updater.putInt("Badge1Progress", 0);
+        updater.putInt("Badge2Progress", 0);
+        updater.putInt("BadgeTotalProgress", 0);
+
+        updater.apply();
+
         // assign variables to layout assets
         badgeGraphic = (ImageView) badgeView.findViewById(R.id.badges);
         TextView titleText = (TextView) badgeView.findViewById(R.id.badge_text);
         TextView progress = (TextView) badgeView.findViewById(R.id.progress);
 
         receiveBadges();
-        target = updateBadgeRank();          //error
+        updateBadgeRank();
 
 
         badgeGraphic.setImageResource(badge[position]);
@@ -137,7 +146,7 @@ public class BadgeViewAdapter extends BaseAdapter {
         databaseAccess.close();
     }
 
-    public int updateBadgeRank(){
+    public void updateBadgeRank(){
         // assign display to asset in layout
 
             //noCorrectAnswers =;   SharedPreferences!
@@ -162,7 +171,6 @@ public class BadgeViewAdapter extends BaseAdapter {
         changeBadgeRank.putBoolean("badge_rank_unlocked", rankUnlocked);
         changeBadgeRank.apply();
 `       */
-        return target;
         }
 
     public int updateBadgeProgress(int addedProgress){// get the number of correct answers
