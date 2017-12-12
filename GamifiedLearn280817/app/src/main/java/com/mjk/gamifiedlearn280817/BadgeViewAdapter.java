@@ -103,12 +103,12 @@ public class BadgeViewAdapter extends BaseAdapter {
         }
 
         // assign variables to layout assets
-        ImageView badgeGraphic = (ImageView) badgeView.findViewById(R.id.badges);
+        badgeGraphic = (ImageView) badgeView.findViewById(R.id.badges);
         TextView titleText = (TextView) badgeView.findViewById(R.id.badge_text);
         TextView progress = (TextView) badgeView.findViewById(R.id.progress);
 
         receiveBadges();
-        updateBadgeRank();          //error
+        target = updateBadgeRank();          //error
 
 
         badgeGraphic.setImageResource(badge[position]);
@@ -137,7 +137,7 @@ public class BadgeViewAdapter extends BaseAdapter {
         databaseAccess.close();
     }
 
-    public void updateBadgeRank(){
+    public int updateBadgeRank(){
         // assign display to asset in layout
 
             //noCorrectAnswers =;   SharedPreferences!
@@ -162,6 +162,7 @@ public class BadgeViewAdapter extends BaseAdapter {
         changeBadgeRank.putBoolean("badge_rank_unlocked", rankUnlocked);
         changeBadgeRank.apply();
 `       */
+        return target;
         }
 
     public int updateBadgeProgress(int addedProgress){// get the number of correct answers
