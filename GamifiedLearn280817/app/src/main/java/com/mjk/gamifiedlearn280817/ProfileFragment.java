@@ -24,7 +24,7 @@ public class ProfileFragment extends Fragment{
 
     int badge[] = {R.drawable.vanilla_badge1, R.drawable.vanilla_badge2, R.drawable.vanilla_badge3};
 
-    int progress [] = {10, 50, 100};
+    int progress [] = {0, 0, 0};
 
     public ProfileFragment() {
         // Required empty public constructor

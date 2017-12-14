@@ -32,10 +32,10 @@ public class QuestionMain extends AppCompatActivity {
     public Question currentQuestion = new Question();
 
 
+    private String badge;
     private int score = 0;
     private int currentQuestionNo = 1;
-    private int noOfQuestions;
-    private int noCorrectAnswer;
+    private int noOfQuestions, noCorrectAnswer, oldValue, newValue;
 
     ArrayList<Question> questions;
     ArrayList<Question> savedQuestions;
@@ -45,6 +45,8 @@ public class QuestionMain extends AppCompatActivity {
     SQLiteDatabase database;
     DatabaseAccess databaseAccess;
 
+
+    public SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,11 @@ public class QuestionMain extends AppCompatActivity {
         // create your questions there is no real reason to pass them via an intent
         questions = createQuestions(quizType);
 
+        switch(quizType){
+            case 1: badge = "Badge1Progress";
+            case 2: badge = "Badge2Progress";
+            default: badge = "Badge1Progress";
+        }
 
         // set up ui elements
         trueButton = (Button) findViewById(R.id.true_button);
@@ -125,6 +132,20 @@ public class QuestionMain extends AppCompatActivity {
             displayResults.putExtra("final_score", score);      // adds score value to intent
             displayResults.putExtra("correct_answers", noCorrectAnswer);
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
+
+
+            sharedPreferences = getSharedPreferences("userData", MODE_PRIVATE);
+            SharedPreferences.Editor updater = sharedPreferences.edit();
+
+            oldValue = sharedPreferences.getInt(badge, 0);
+            newValue = oldValue + noCorrectAnswer;
+
+            updater.putInt(badge, newValue);
+            updater.putInt("BadgeTotalProgress", newValue);
+
+            updater.apply();
+
+
             finish();
         } else {                            // moves to next question
             setQuestion(currentQuestionNo);
@@ -149,9 +170,7 @@ public class QuestionMain extends AppCompatActivity {
     }
 
 
-    public int getCorrectAnswers(){
-        return noCorrectAnswer;
-    }
+    public int getCorrectAnswers(){return noCorrectAnswer;}
 
     // creates an array of questions
 

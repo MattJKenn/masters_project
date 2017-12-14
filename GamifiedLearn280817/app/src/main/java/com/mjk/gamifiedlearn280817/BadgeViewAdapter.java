@@ -66,7 +66,7 @@ public class BadgeViewAdapter extends BaseAdapter {
     //GridView badgeView;
     ImageView badgeGraphic;
 
-    SharedPreferences sharedPreferences;
+    public SharedPreferences sharedPreferences;
 
 
     public BadgeViewAdapter(int badges[], String titles[], int progresses[], Context context) {
@@ -102,14 +102,6 @@ public class BadgeViewAdapter extends BaseAdapter {
             badgeView = layoutInflater.inflate(R.layout.badge_view_adapter, parent, false);
         }
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userData", MODE_PRIVATE);
-        SharedPreferences.Editor updater = sharedPreferences.edit();
-
-        updater.putInt("Badge1Progress", 0);
-        updater.putInt("Badge2Progress", 0);
-        updater.putInt("BadgeTotalProgress", 0);
-
-        updater.apply();
 
         // assign variables to layout assets
         badgeGraphic = (ImageView) badgeView.findViewById(R.id.badges);
@@ -149,9 +141,9 @@ public class BadgeViewAdapter extends BaseAdapter {
     public void updateBadgeRank(){
         // assign display to asset in layout
 
-            //noCorrectAnswers =;   SharedPreferences!
 
-            badgeProgress = updateBadgeProgress(noCorrectAnswers);         // increment progress
+
+            //badgeProgress = updateBadgeProgress(noCorrectAnswers);         // increment progress
 
             // check on new progress amount for unlock thresholds
             if(badgeProgress >= bronze && badgeProgress < silver){
@@ -173,17 +165,19 @@ public class BadgeViewAdapter extends BaseAdapter {
 `       */
         }
 
-    public int updateBadgeProgress(int addedProgress){// get the number of correct answers
+    /*public int updateBadgeProgress(String key, int progress){// get the number of correct answers
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.
+        editor.apply();
 
         badgeProgress = badgeProgress + addedProgress;     // add correct answers to running total
 
-        /*SharedPreferences.Editor changeBadgeProgress = preferences.edit();
-        changeBadgeProgress.putInt(badgeKey, badgeProgress);
-        changeBadgeProgress.apply();                // save progress in user settings
-        */
+
         return badgeProgress;
 
-    }
+    }*/
 }
 
 
