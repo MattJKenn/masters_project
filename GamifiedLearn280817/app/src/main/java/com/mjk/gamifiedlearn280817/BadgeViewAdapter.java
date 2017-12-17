@@ -38,9 +38,9 @@ public class BadgeViewAdapter extends BaseAdapter {
     ArrayList<Badge> badges = new ArrayList<>();
 
     int badgeProgress;
-    int bronze = badgeObject.bronze;
-    int silver = badgeObject.silver;
-    int gold = badgeObject.gold;
+    int bronze = 5;
+    int silver = 10;
+    int gold = 15;
     int noCorrectAnswers;              // counted variables
 
     int target;
@@ -61,7 +61,6 @@ public class BadgeViewAdapter extends BaseAdapter {
 
 
     public SharedPreferences sharedPreferences;
-    private final ArrayList<Badge> badges1 = badges;
 
 
     public BadgeViewAdapter(int badge[], String titles[], int progresses[], Context context) {
@@ -132,8 +131,9 @@ public class BadgeViewAdapter extends BaseAdapter {
 
         target = bronze;
 
-        for (int i = 0; i <= badges.size(); i++) {
-                badgeProgress = sharedPreferences.getInt(dbtitles[i], 0);
+        for (int i = 1; i < badges.size(); i++) {
+
+            badgeProgress = sharedPreferences.getInt(dbtitles[i], 0);
 
             if(badgeProgress >= bronze && badgeProgress < silver){
                 badgeGraphic.setImageResource(R.drawable.bronze_badge);
@@ -149,6 +149,9 @@ public class BadgeViewAdapter extends BaseAdapter {
                 badgeGraphic.setImageResource(R.drawable.gold_badge);
                 target = badgeProgress;
             }
+
+
+
         }
     }
 }

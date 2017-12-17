@@ -119,12 +119,11 @@ public class DatabaseAccess {
             }
             while (cursor.moveToNext());
 
-            // test message
-
             cursor.close();
         }
 
         return badgeList;
     }
+
 
 }

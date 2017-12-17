@@ -32,7 +32,7 @@ public class QuestionMain extends AppCompatActivity {
     public Question currentQuestion = new Question();
 
 
-    private String badge;
+    private String badgeKey;
     private int score = 0;
     private int currentQuestionNo = 1;
     private int noOfQuestions, noCorrectAnswer, oldValue, newValue;
@@ -61,9 +61,9 @@ public class QuestionMain extends AppCompatActivity {
         questions = createQuestions(quizType);
 
         switch(quizType){
-            case 1: badge = "Badge1Progress";
-            case 2: badge = "Badge2Progress";
-            default: badge = "Badge1Progress";
+            case 1: badgeKey = "Badge1Progress";
+            case 2: badgeKey = "Badge2Progress";
+            default: badgeKey = "Badge1Progress";
         }
 
         // set up ui elements
@@ -133,20 +133,21 @@ public class QuestionMain extends AppCompatActivity {
             displayResults.putExtra("correct_answers", noCorrectAnswer);
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
 
-
             sharedPreferences = getSharedPreferences("userData", MODE_PRIVATE);
             SharedPreferences.Editor updater = sharedPreferences.edit();
 
-            oldValue = sharedPreferences.getInt(badge, 0);
+            oldValue = sharedPreferences.getInt(badgeKey, 0);
             newValue = oldValue + noCorrectAnswer;
 
-            updater.putInt(badge, newValue);
+            updater.putInt(badgeKey, newValue);
             updater.putInt("BadgeTotalProgress", newValue);
 
             updater.apply();
 
-
             finish();
+
+
+
         } else {                            // moves to next question
             setQuestion(currentQuestionNo);
         }
