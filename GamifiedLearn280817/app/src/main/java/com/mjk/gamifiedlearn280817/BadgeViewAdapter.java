@@ -28,22 +28,24 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class BadgeViewAdapter extends BaseAdapter {
 
-    int badge[];
-    String title[];
-    int progresses[];
-    String dbtitles[] = {"Badge1Progress", "Badge2Progress", "BadgeTotalProgress"};
+
 
     Badge badgeObject;
 
     ArrayList<Badge> badges = new ArrayList<>();
 
-    int badgeProgress;
-    int bronze = 5;
-    int silver = 10;
-    int gold = 15;
+    int badgeProgress1, badgeProgress2, badgeProgressTotal;
+    int bronze [] = {5, 5, 10};
+    int silver [] = {10, 10, 20};
+    int gold [] = {15, 15, 30};
     int noCorrectAnswers;              // counted variables
 
     int target;
+
+    int badge[];
+    String title[];
+    int progresses[] = {badgeProgress1, badgeProgress2, badgeProgressTotal};
+    String dbtitles[] = {"Badge1Progress", "Badge2Progress", "BadgeTotalProgress"};
 
     //static String badgeKey;
     //static SharedPreferences preferences;
@@ -128,26 +130,34 @@ public class BadgeViewAdapter extends BaseAdapter {
         // assign display to asset in layout
 
         sharedPreferences = context.getSharedPreferences("userInfo", MODE_PRIVATE);
+        /*
+        SharedPreferences.Editor updater = sharedPreferences.edit();
+        updater.putInt("Badge1Progress", badgeProgress1);
+        updater.putInt("Badge2Progress", badgeProgress2);
+        updater.putInt("BadgeTotalProgress", badgeProgressTotal);
+        updater.apply();
+        */
 
-        target = bronze;
 
         for (int i = 1; i < badges.size(); i++) {
 
-            badgeProgress = sharedPreferences.getInt(dbtitles[i], 0);
+            target = bronze[i];
 
-            if(badgeProgress >= bronze && badgeProgress < silver){
+            progresses[i] = sharedPreferences.getInt(dbtitles[i], 0);
+
+            if(progresses[i] >= bronze[i] && progresses[i] < silver[i]){
                 badgeGraphic.setImageResource(R.drawable.bronze_badge);
-                target = silver;
+                target = silver[i];
 
             }
-            else if(badgeProgress >= silver && badgeProgress < gold) {
+            else if(progresses[i] >= silver[i] && progresses[i] < gold[i]) {
                 badgeGraphic.setImageResource(R.drawable.silver_badge);
-                target = gold;
+                target = gold[i];
 
             }
-            else if(badgeProgress >= gold){
+            else if(progresses[i] >= gold[i]){
                 badgeGraphic.setImageResource(R.drawable.gold_badge);
-                target = badgeProgress;
+                target = progresses[i];
             }
 
 
