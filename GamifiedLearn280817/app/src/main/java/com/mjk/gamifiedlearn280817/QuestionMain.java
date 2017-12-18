@@ -35,7 +35,7 @@ public class QuestionMain extends AppCompatActivity {
     private String badgeKey;
     private int score = 0;
     private int currentQuestionNo = 1;
-    private int noOfQuestions, noCorrectAnswer, oldValue, newValue;
+    private int noOfQuestions, oldValue, newValue;
 
     ArrayList<Question> questions;
     ArrayList<Question> savedQuestions;
@@ -114,7 +114,7 @@ public class QuestionMain extends AppCompatActivity {
         if (usersAnswer == correctAnswer) {
             score += 1;
             scoreText.setText("Score: " + score);
-            noCorrectAnswer++;
+            //noCorrectAnswer++;
         }
         //else{savedQuestions.add(currentQuestion);}
 
@@ -126,18 +126,21 @@ public class QuestionMain extends AppCompatActivity {
     private void updateQuestion() {
 
         if (currentQuestionNo >= noOfQuestions) {   // if the quiz is over
-            noCorrectAnswer = getCorrectAnswers();
+            score = getCorrectAnswers();
 
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
-            displayResults.putExtra("correct_answers", noCorrectAnswer);
+            Intent sendProgress = new Intent(QuestionMain.this, BadgeViewAdapter.class);
+            sendProgress.putExtra("progress", score);
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
+
+
 
             sharedPreferences = getSharedPreferences("userData", MODE_PRIVATE);
             SharedPreferences.Editor updater = sharedPreferences.edit();
 
             oldValue = sharedPreferences.getInt(badgeKey, 0);
-            newValue = oldValue + noCorrectAnswer;
+            newValue = oldValue + score;
 
             updater.putInt(badgeKey, newValue);
             updater.putInt("BadgeTotalProgress", newValue);
@@ -160,7 +163,7 @@ public class QuestionMain extends AppCompatActivity {
 
         int number = num + 1;
         questionNoText.setText("Question Number: " + number); // update the question number displayed to match question
-        Log.wtf("Question Number", "Question Number = " + currentQuestionNo);
+        //Log.wtf("Question Number", "Question Number = " + currentQuestionNo);
 
         currentQuestionNo = number;
     }
@@ -171,7 +174,7 @@ public class QuestionMain extends AppCompatActivity {
     }
 
 
-    public int getCorrectAnswers(){return noCorrectAnswer;}
+    public int getCorrectAnswers(){return score;}
 
     // creates an array of questions
 

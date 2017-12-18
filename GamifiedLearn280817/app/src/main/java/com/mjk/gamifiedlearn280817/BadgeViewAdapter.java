@@ -1,25 +1,25 @@
 package com.mjk.gamifiedlearn280817;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Build;
-import android.provider.ContactsContract;
-import android.util.Log;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import static android.content.Context.MODE_PRIVATE;
+
 
 
 /**
@@ -30,26 +30,22 @@ public class BadgeViewAdapter extends BaseAdapter {
 
 
 
-    Badge badgeObject;
 
     ArrayList<Badge> badges = new ArrayList<>();
 
-    int badgeProgress1, badgeProgress2, badgeProgressTotal;
-    int bronze [] = {5, 5, 10};
-    int silver [] = {10, 10, 20};
-    int gold [] = {15, 15, 30};
-    int noCorrectAnswers;              // counted variables
+
 
     int target;
 
     int badge[];
     String title[];
-    int progresses[] = {badgeProgress1, badgeProgress2, badgeProgressTotal};
-    String dbtitles[] = {"Badge1Progress", "Badge2Progress", "BadgeTotalProgress"};
+    List<Integer> progresses = new ArrayList<>(3);
+    //String dbtitles[] = {"Badge1Progress", "Badge2Progress", "BadgeTotalProgress"};
 
     //static String badgeKey;
     //static SharedPreferences preferences;
 
+    Badge badgeObject;
 
     private Context context;
 
@@ -62,14 +58,18 @@ public class BadgeViewAdapter extends BaseAdapter {
 
 
 
-    public SharedPreferences sharedPreferences;
+    //public SharedPreferences sharedPreferences;
 
 
-    public BadgeViewAdapter(int badge[], String titles[], int progresses[], Context context) {
+    public BadgeViewAdapter(int badge[], String titles[], ArrayList<Integer> progresses, Context context){
         this.badge = badge;
         this.title = titles;
         this.progresses = progresses;
         this.context = context;
+
+        progresses.add(1, 0);
+        progresses.add(2, 0);
+        progresses.add(3, 0);
 
         receiveBadges();
         updateBadgeRank(badges);
@@ -111,7 +111,7 @@ public class BadgeViewAdapter extends BaseAdapter {
 
         badgeGraphic.setImageResource(badge[position]);
         titleText.setText(title[position]);
-        progress.setText(progresses[position] + "/" + target);
+        progress.setText(progresses + "/" + target);
 
 
 
@@ -126,10 +126,10 @@ public class BadgeViewAdapter extends BaseAdapter {
         databaseAccess.close();
     }
 
-    public void updateBadgeRank(ArrayList<Badge> badges){
+    public void updateBadgeRank(ArrayList<Badge> badges) {
         // assign display to asset in layout
 
-        sharedPreferences = context.getSharedPreferences("userInfo", MODE_PRIVATE);
+        //sharedPreferences = context.getSharedPreferences("userInfo", MODE_PRIVATE);
         /*
         SharedPreferences.Editor updater = sharedPreferences.edit();
         updater.putInt("Badge1Progress", badgeProgress1);
@@ -139,31 +139,58 @@ public class BadgeViewAdapter extends BaseAdapter {
         */
 
 
+
+
         for (int i = 1; i < badges.size(); i++) {
 
-            target = bronze[i];
+            Badge badgeObject = badges.get(i);
+            int bronze = badgeObject.getBronze();
+            int silver = badgeObject.getSilver();
+            int gold = badgeObject.getGold();
+            int progress = badgeObject.getProgress();
 
-            progresses[i] = sharedPreferences.getInt(dbtitles[i], 0);
+            String dbBadgeName = "";
+            switch (i){
+                case(1): dbBadgeName = "Quiz Badge 1"; break;
+                case(2): dbBadgeName = "Quiz Badge 2"; break;
+                case(3): dbBadgeName = "Quiz Total Badge"; break;
 
-            if(progresses[i] >= bronze[i] && progresses[i] < silver[i]){
+            }
+            Intent getProgress = new Intent();
+            int addedProgress = getProgress.getIntExtra("progress", 0);
+
+            int newProgress = progress + addedProgress;
+
+
+            target = bronze;
+
+            //progress = sharedPreferences.getInt(dbtitles[i], 0);
+
+            if(newProgress >= bronze && newProgress < silver){
                 badgeGraphic.setImageResource(R.drawable.bronze_badge);
-                target = silver[i];
+                target = silver;
 
             }
-            else if(progresses[i] >= silver[i] && progresses[i] < gold[i]) {
+            else if(newProgress >= silver && newProgress < gold) {
                 badgeGraphic.setImageResource(R.drawable.silver_badge);
-                target = gold[i];
+                target = gold;
 
             }
-            else if(progresses[i] >= gold[i]){
+            else if(newProgress >= gold){
                 badgeGraphic.setImageResource(R.drawable.gold_badge);
-                target = progresses[i];
+                target = newProgress;
             }
 
+            progresses.set(i, newProgress);
+
+            databaseAccess.open();
+            databaseAccess.updateBadgeProgress(dbBadgeName, newProgress);
+            databaseAccess.close();
 
 
         }
     }
+
 }
 
 

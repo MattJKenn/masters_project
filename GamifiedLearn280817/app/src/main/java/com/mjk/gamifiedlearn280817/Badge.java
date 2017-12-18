@@ -22,4 +22,12 @@ public class Badge extends AppCompatActivity{
         this.progress = progress;
     }
 
+    public int getBronze(){return bronze;}
+
+    public int getSilver() {return silver;}
+
+    public int getGold() {return gold;}
+
+    public int getProgress() {return progress;}
+
 }

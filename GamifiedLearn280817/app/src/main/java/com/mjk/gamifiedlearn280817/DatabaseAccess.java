@@ -2,11 +2,9 @@ package com.mjk.gamifiedlearn280817;
 
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-import android.widget.ListView;
+
 
 
 import java.util.ArrayList;
@@ -125,5 +123,8 @@ public class DatabaseAccess {
         return badgeList;
     }
 
+    public void updateBadgeProgress(String badgeName, int newProgress){
+        database.execSQL("UPDATE 'Badges' SET 'Progress' = " + newProgress + " WHERE 'BadgeName' = " + "'" + badgeName + "'");
+    }
 
 }

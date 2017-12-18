@@ -12,6 +12,8 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +26,7 @@ public class ProfileFragment extends Fragment{
 
     int badge[] = {R.drawable.vanilla_badge1, R.drawable.vanilla_badge2, R.drawable.vanilla_badge3};
 
-    int progress [] = {0, 0, 0};
+    ArrayList<Integer> progress = new ArrayList<>();
 
     public ProfileFragment() {
         // Required empty public constructor
