@@ -14,10 +14,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.mjk.gamifiedlearn280817.BadgeLogic;
 
 
 
@@ -48,6 +47,8 @@ public class QuestionMain extends AppCompatActivity {
 
     public SharedPreferences sharedPreferences;
 
+    BadgeViewAdapter badgeViewAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,17 +76,30 @@ public class QuestionMain extends AppCompatActivity {
         questionNoText = (TextView) findViewById(R.id.questionNo_textView);
 
         // setup onclicklisteners
+
         trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkQuestion(true);
+
+                try {
+                    checkQuestion(true);
+                }
+                catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         falseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkQuestion(false);
+
+                try {
+                    checkQuestion(false);
+                }
+                catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -110,32 +124,37 @@ public class QuestionMain extends AppCompatActivity {
     }
 
 
-    private void checkQuestion(Boolean usersAnswer) {
+    private void checkQuestion(Boolean usersAnswer) throws URISyntaxException {
         if (usersAnswer == correctAnswer) {
             score += 1;
             scoreText.setText("Score: " + score);
             //noCorrectAnswer++;
         }
-        //else{savedQuestions.add(currentQuestion);}
+        else{savedQuestions.add(currentQuestion);}
 
         updateQuestion();
     }
 
 
 
-    private void updateQuestion() {
+    private void updateQuestion() throws URISyntaxException {
 
         if (currentQuestionNo >= noOfQuestions) {   // if the quiz is over
-            score = getCorrectAnswers();
 
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
-            Intent sendProgress = new Intent(QuestionMain.this, BadgeViewAdapter.class);
-            sendProgress.putExtra("progress", score);
+            Intent sendScore = new Intent(QuestionMain.this, BadgeViewAdapter.class);
+            sendScore.putExtra("progress", score);
+
+            ArrayList<Badge> badges = badgeViewAdapter.receiveBadges();
+            badgeViewAdapter.updateBadgeRank(badges);
+            saveQuestions();
+
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
 
 
 
+            /*
             sharedPreferences = getSharedPreferences("userData", MODE_PRIVATE);
             SharedPreferences.Editor updater = sharedPreferences.edit();
 
@@ -148,7 +167,7 @@ public class QuestionMain extends AppCompatActivity {
             updater.apply();
 
             finish();
-
+            */
 
 
         } else {                            // moves to next question
@@ -174,8 +193,6 @@ public class QuestionMain extends AppCompatActivity {
     }
 
 
-    public int getCorrectAnswers(){return score;}
-
     // creates an array of questions
 
     public ArrayList<Question> createQuestions(int questionType) {
@@ -188,6 +205,12 @@ public class QuestionMain extends AppCompatActivity {
 
     }
 
+    public void saveQuestions(){
+        databaseAccess = DatabaseAccess.getInstance(this);
+        databaseAccess.open();
+        databaseAccess.saveQuestions(savedQuestions);
+        databaseAccess.close();
+    }
 
 }
 /*

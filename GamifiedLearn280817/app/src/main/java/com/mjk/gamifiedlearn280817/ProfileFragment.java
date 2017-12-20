@@ -12,6 +12,7 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 
@@ -41,7 +42,12 @@ public class ProfileFragment extends Fragment{
         View profileView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         badgeView = (GridView) profileView.findViewById(R.id.badge_view);
-        BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, badgeTitle, progress, ProfileFragment.super.getContext());
+        BadgeViewAdapter badgeViewAdapter = null;
+        try {
+            badgeViewAdapter = new BadgeViewAdapter(badge, badgeTitle, progress, ProfileFragment.super.getContext());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
         badgeView.setAdapter(badgeViewAdapter);
 

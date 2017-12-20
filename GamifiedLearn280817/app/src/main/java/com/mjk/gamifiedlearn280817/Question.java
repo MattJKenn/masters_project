@@ -19,20 +19,20 @@ public class Question {
         this.question = question;
         this.correctAnswer = answer;
     }
-}
-/*
+
+
     // Getters
-    //public int getQuestionType() {return questionType;}
-    public String getQuestionText() {return questionText;}
+    public int getQuestionType() {return type;}
+    public String getQuestionText() {return question;}
     public Boolean getCorrectAnswer() {return correctAnswer;}
 
     // Setters
-    //public void setQuestionType (int QuestionType) {questionType = QuestionType;}
-    public void setQuestionText(String QuestionText) {questionText = QuestionText;}
+    public void setQuestionType (int QuestionType) {type = QuestionType;}
+    public void setQuestionText(String QuestionText) {question = QuestionText;}
     public void setCorrectAnswer(Boolean CorrectAnswer) {correctAnswer = CorrectAnswer;}
 
 }
-*/
+
 
 
 

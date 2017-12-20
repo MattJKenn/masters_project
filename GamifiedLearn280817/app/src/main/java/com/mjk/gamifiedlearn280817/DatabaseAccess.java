@@ -1,6 +1,7 @@
 package com.mjk.gamifiedlearn280817;
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,6 +15,7 @@ public class DatabaseAccess {
     private SQLiteDatabase database;
     private static DatabaseAccess instance;
 
+    Question questionObject = new Question();
 
     /**
      * Private constructor to avoid object creation from outside classes.
@@ -125,6 +127,20 @@ public class DatabaseAccess {
 
     public void updateBadgeProgress(String badgeName, int newProgress){
         database.execSQL("UPDATE 'Badges' SET 'Progress' = " + newProgress + " WHERE 'BadgeName' = " + "'" + badgeName + "'");
+    }
+
+    public void saveQuestions(ArrayList<Question> savedQuestions){
+
+        int type = questionObject.getQuestionType();
+        String question = questionObject.getQuestionText();
+        boolean correctAnswer = questionObject.getCorrectAnswer();
+
+
+        for (int i = 0; i < savedQuestions.size(); i++){
+            database.execSQL("INSERT INTO 'SavedQuestions'(" + type + question + correctAnswer +"");
+        }
+
+
     }
 
 }

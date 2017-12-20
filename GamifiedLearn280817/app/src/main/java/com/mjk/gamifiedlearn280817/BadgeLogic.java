@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import java.util.List;
+
 import static android.content.Context.MODE_PRIVATE;
 import static com.mjk.gamifiedlearn280817.AppMain.badge1Prog;
 import static com.mjk.gamifiedlearn280817.AppMain.badge2Prog;
@@ -21,11 +23,10 @@ import static com.mjk.gamifiedlearn280817.AppMain.userData;
  * Created by owner on 13/11/2017.
  */
 
-public class BadgeLogic extends BadgeViewAdapter{
+public class BadgeLogic {
 
 
-    public BadgeLogic(int[] badges, String[] titles, int[] progresses, Context context) {
-        super(badges, titles, progresses, context);
+    public BadgeLogic(int[] badges, String[] titles, List<Integer> progresses, Context context) {
     }
     //public static SharedPreferences userSettings;              // user data for progress variables
 /*
