@@ -23,7 +23,7 @@ public class DatabaseAccess {
      * @param context
      */
 
-    private DatabaseAccess(Context context) {
+    public DatabaseAccess(Context context) {
         this.openHelper = new DatabaseOpenHelper(context);
     }
 
@@ -128,7 +128,7 @@ public class DatabaseAccess {
     public void updateBadgeProgress(String badgeName, int newProgress){
         database.execSQL("UPDATE 'Badges' SET 'Progress' = " + newProgress + " WHERE 'BadgeName' = " + "'" + badgeName + "'");
     }
-
+    /*
     public void saveQuestions(ArrayList<Question> savedQuestions){
 
         int type = questionObject.getQuestionType();
@@ -143,4 +143,36 @@ public class DatabaseAccess {
 
     }
 
+*/
+    public ArrayList<Question> receiveSavedQuestions(){
+        ArrayList<Question> savedQuestionArrayList = new ArrayList<>();
+        String[] columns = new String[]{"QuestionType", "QuestionText", "CorrectAnswer"};
+
+        Cursor cursor = database.query("SavedQuestions", columns, null,
+                null, null, null, null);
+
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            int iQType = cursor.getColumnIndex("QuestionType");
+            int iQText = cursor.getColumnIndex("QuestionText");
+            int iCorrectAns = cursor.getColumnIndex("CorrectAnswer");
+
+
+            do {
+                int type = cursor.getInt(iQType);
+                String text = cursor.getString(iQText);
+                int rawAnswer = cursor.getInt(iCorrectAns);
+                boolean answer = (rawAnswer != 0);
+
+                Question question = new Question(type, text, answer);
+                savedQuestionArrayList.add(question);
+            }
+            while (cursor.moveToNext());
+
+            cursor.close();
+        }
+        return savedQuestionArrayList;
+    }
 }
+

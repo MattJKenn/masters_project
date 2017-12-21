@@ -179,7 +179,7 @@ public class BadgeViewAdapter extends BaseAdapter {
                 target = progress;
             }
 
-            badgeObject.setProgress(progress);
+            badgeObject.setNewProgress(progress);
 
 
             databaseAccess.open();

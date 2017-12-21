@@ -30,4 +30,6 @@ public class Badge extends AppCompatActivity{
 
     public int getProgress() {return progress;}
 
+    public void setNewProgress(int newProgress){this.progress = newProgress;}
+
 }

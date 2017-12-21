@@ -148,7 +148,7 @@ public class QuestionMain extends AppCompatActivity {
 
             ArrayList<Badge> badges = badgeViewAdapter.receiveBadges();
             badgeViewAdapter.updateBadgeRank(badges);
-            saveQuestions();
+            //saveQuestions();
 
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
 
@@ -204,14 +204,14 @@ public class QuestionMain extends AppCompatActivity {
         return questions;
 
     }
-
+/*
     public void saveQuestions(){
         databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
         databaseAccess.saveQuestions(savedQuestions);
         databaseAccess.close();
     }
-
+*/
 }
 /*
         switch (questionType) {
