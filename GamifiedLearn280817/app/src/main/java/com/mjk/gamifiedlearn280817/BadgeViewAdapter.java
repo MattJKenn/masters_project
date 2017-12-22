@@ -150,9 +150,9 @@ public class BadgeViewAdapter extends BaseAdapter {
 
             String dbBadgeName = "";
             switch (i){
-                case(0): dbBadgeName = "Quiz Badge 1"; break;
-                case(1): dbBadgeName = "Quiz Badge 2"; break;
-                case(2): dbBadgeName = "Quiz Total Badge"; break;
+                case(0): dbBadgeName = "'Quiz Badge 1'"; break;
+                case(1): dbBadgeName = "'Quiz Badge 2'"; break;
+                case(2): dbBadgeName = "'Quiz Total Badge'"; break;
             }
 
 

@@ -126,7 +126,7 @@ public class DatabaseAccess {
     }
 
     public void updateBadgeProgress(String badgeName, int newProgress){
-        database.execSQL("UPDATE 'Badges' SET 'Progress' = " + newProgress + " WHERE 'BadgeName' = " + "'" + badgeName + "'");
+        database.execSQL("UPDATE 'Badges' SET 'Progress' = " + newProgress + " WHERE 'BadgeName' = " + badgeName);
     }
     /*
     public void saveQuestions(ArrayList<Question> savedQuestions){
@@ -150,7 +150,6 @@ public class DatabaseAccess {
 
         Cursor cursor = database.query("SavedQuestions", columns, null,
                 null, null, null, null);
-
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
