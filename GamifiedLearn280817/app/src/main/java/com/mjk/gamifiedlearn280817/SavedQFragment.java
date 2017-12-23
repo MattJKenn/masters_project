@@ -58,11 +58,9 @@ public class SavedQFragment extends Fragment {
 
     ListView savedQs;
 
-    Question questionObject;
     List<String> questionList = new ArrayList<>();
-    ArrayList<Question> savedQuestions = new ArrayList<>();
 
-    DatabaseAccess databaseAccess;
+
 
 
 
@@ -73,40 +71,13 @@ public class SavedQFragment extends Fragment {
         View savedQView = inflater.inflate(R.layout.fragment_saved_q, container, false);
 
 
-        savedQs = (ListView) savedQView.findViewById(R.id.savedq_list);
+        savedQs = (ListView) savedQView.findViewById(R.id.saved_q_view);
 
-        getSavedQuestions();
 
-        questionList = setSavedQuestions();
-
-        ArrayAdapter<String> questionArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.fragment_saved_q, questionList);
-        savedQs.setAdapter(questionArrayAdapter);
+        //SavedQViewAdapter savedQViewAdapter = new SavedQViewAdapter(getContext());
+        //ArrayAdapter<String> questionArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.fragment_saved_q, );
+        //savedQs.setAdapter(savedQViewAdapter);
 
         return savedQView;
-    }
-
-    public void getSavedQuestions(){
-        databaseAccess = new DatabaseAccess(getContext());
-        databaseAccess.open();
-        savedQuestions = databaseAccess.receiveSavedQuestions();
-        databaseAccess.close();
-    }
-
-    public List<String> setSavedQuestions() {
-
-
-
-        if (savedQuestions.size() > 0) {
-            for (int i = 0; i < savedQuestions.size(); i++) {
-                Question selectedQ = savedQuestions.get(i);
-                String question = selectedQ.getQuestionText();
-                questionList.add(i, question);
-            }
-        }
-        else {
-            String emptyMessage = "Questions You Answer Incorrectly Will Appear Here";
-            questionList.add(0, emptyMessage);
-        }
-        return questionList;
     }
 }
