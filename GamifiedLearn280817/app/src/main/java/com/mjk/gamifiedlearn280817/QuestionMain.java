@@ -32,9 +32,9 @@ public class QuestionMain extends AppCompatActivity {
 
 
     private String badgeKey;
-    private int score = 0;
+    public int score = 0;
     private int currentQuestionNo = 1;
-    private int noOfQuestions, oldValue, newValue;
+    private int noOfQuestions; /*oldValue, newValue*/;
 
     ArrayList<Question> questions;
     ArrayList<Question> savedQuestions;
@@ -143,12 +143,11 @@ public class QuestionMain extends AppCompatActivity {
 
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
-            Intent sendScore = new Intent(QuestionMain.this, BadgeViewAdapter.class);
-            sendScore.putExtra("progress", score);
+
 
             ArrayList<Badge> badges = badgeViewAdapter.receiveBadges();
-            badgeViewAdapter.updateBadgeRank(badges);
-            //saveQuestions();
+            for(int i = 0; i < badges.size(); i++){badgeViewAdapter.updateBadgeRank(i, badges, score);}
+            databaseAccess.saveQuestions(savedQuestions);
 
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
 
@@ -204,6 +203,8 @@ public class QuestionMain extends AppCompatActivity {
         return questions;
 
     }
+
+//   public int getScore(){return score;}
 /*
     public void saveQuestions(){
         databaseAccess = DatabaseAccess.getInstance(this);

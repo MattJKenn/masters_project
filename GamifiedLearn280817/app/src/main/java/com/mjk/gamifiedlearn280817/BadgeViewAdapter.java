@@ -30,23 +30,26 @@ public class BadgeViewAdapter extends BaseAdapter {
 
 
 
-    int target;
-
+    int target[] = new int[3];
     int badge[];
     String title[];
-    ArrayList<Integer> progresses = new ArrayList<>(3);
-    //String dbtitles[] = {"Badge1Progress", "Badge2Progress", "BadgeTotalProgress"};
+    int progresses [] = new int[3];
 
+
+    //String dbtitles[] = {"Badge1Progress", "Badge2Progress", "BadgeTotalProgress"};
+    int score;
     //static String badgeKey;
     //static SharedPreferences preferences;
 
-    //Badge badgeObject;
+
 
     private Context context;
 
     private LayoutInflater layoutInflater;
 
     DatabaseAccess databaseAccess;
+
+    Badge badgeObject;
 
     QuestionMain questionMain;
 
@@ -58,18 +61,20 @@ public class BadgeViewAdapter extends BaseAdapter {
     //public SharedPreferences sharedPreferences;
 
 
-    public BadgeViewAdapter(int[] badge, String[] titles, ArrayList<Integer> progresses, Context context) throws URISyntaxException {
+    public BadgeViewAdapter(int[] badge, String[] titles, int [] progresses, Context context) throws URISyntaxException {
         this.badge = badge;
         this.title = titles;
         this.progresses = progresses;
         this.context = context;
 
-        for (int index = 0; index < progresses.size(); index++) {
-            progresses.add(index, 0);
+        receiveBadges();
+
+        for (int i = 0; i < progresses.length; i++ ) {
+            progresses[i] = 0;
+            score = 0;
+            updateBadgeRank(i, badges, score);
         }
 
-        receiveBadges();
-        updateBadgeRank(badges);
     }
 
     @Override
@@ -108,9 +113,7 @@ public class BadgeViewAdapter extends BaseAdapter {
 
         badgeGraphic.setImageResource(badge[position]);
         titleText.setText(title[position]);
-
-        for (int index = 0; index < progresses.size(); index++)
-        {progress.setText(progresses.get(index) + "/" + target);}
+        progress.setText(progresses[position] + "/" + target);
 
 
         return badgeView;
@@ -127,7 +130,7 @@ public class BadgeViewAdapter extends BaseAdapter {
     }
 
 
-    public void updateBadgeRank(ArrayList<Badge> badges) throws URISyntaxException {
+    public void updateBadgeRank(int index, ArrayList<Badge> badges, int score) throws URISyntaxException {
         // assign display to asset in layout
 
         //sharedPreferences = context.getSharedPreferences("userInfo", MODE_PRIVATE);
@@ -139,55 +142,52 @@ public class BadgeViewAdapter extends BaseAdapter {
         updater.apply();
 
         */
+        badgeObject = badges.get(index);
+        int bronze = badgeObject.getBronze();
+        int silver = badgeObject.getSilver();
+        int gold = badgeObject.getGold();
+        int progress = badgeObject.getProgress();
 
-        for (int i = 0; i < badges.size(); i++) {
+        String dbBadgeName = "";
+        switch (index){
+            case(0): dbBadgeName = "'Quiz Badge 1'"; break;
+            case(1): dbBadgeName = "'Quiz Badge 2'"; break;
+            case(2): dbBadgeName = "'Quiz Total Badge'"; break;
+        }
 
-            Badge badgeObject = badges.get(i);
-            int bronze = badgeObject.getBronze();
-            int silver = badgeObject.getSilver();
-            int gold = badgeObject.getGold();
-            int progress = badgeObject.getProgress();
+        progress = progress + score;
 
-            String dbBadgeName = "";
-            switch (i){
-                case(0): dbBadgeName = "'Quiz Badge 1'"; break;
-                case(1): dbBadgeName = "'Quiz Badge 2'"; break;
-                case(2): dbBadgeName = "'Quiz Total Badge'"; break;
-            }
+        target[index] = bronze;
 
 
-            Intent getProgress = Intent.getIntentOld("sendScore");
-            int addedProgress = getProgress.getIntExtra("progress", 0);
-            progress = progress + addedProgress;
-
-            target = bronze;
 
             //progress = sharedPreferences.getInt(dbtitles[i], 0);
 
-            if(progress >= bronze && progress < silver){
-                badgeGraphic.setImageResource(R.drawable.bronze_badge);
-                target = silver;
-
-            }
-            else if(progress >= silver && progress < gold) {
-                badgeGraphic.setImageResource(R.drawable.silver_badge);
-                target = gold;
-
-            }
-            else if(progress >= gold){
-                badgeGraphic.setImageResource(R.drawable.gold_badge);
-                target = progress;
-            }
-
-            badgeObject.setNewProgress(progress);
-
-
-            databaseAccess.open();
-            databaseAccess.updateBadgeProgress(dbBadgeName, progress);
-            databaseAccess.close();
-
+        if(progress >= bronze && progress < silver){
+            badgeGraphic.setImageResource(R.drawable.bronze_badge);
+            target[index] = silver;
         }
+        else if(progress >= silver && progress < gold) {
+            badgeGraphic.setImageResource(R.drawable.silver_badge);
+            target[index] = gold;
+        }
+        else if(progress >= gold){
+            badgeGraphic.setImageResource(R.drawable.gold_badge);
+            target[index] = progress;
+        }
+
+        badgeObject.setNewProgress(progress);
+
+        databaseAccess.open();
+        databaseAccess.updateBadgeProgress(dbBadgeName, progress);
+        databaseAccess.close();
+
+        progresses[index] = progress;
     }
+
+
+
+
 
 }
 

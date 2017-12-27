@@ -17,6 +17,8 @@ public class DatabaseAccess {
 
     Question questionObject = new Question();
 
+    int progress;
+
     /**
      * Private constructor to avoid object creation from outside classes.
      *
@@ -129,6 +131,11 @@ public class DatabaseAccess {
         database.execSQL("UPDATE 'Badges' SET 'Progress' = " + newProgress + " WHERE 'BadgeName' = " + badgeName);
     }
     /*
+    public int getProgress(int position){
+        return progress;
+    }
+    */
+
     public void saveQuestions(ArrayList<Question> savedQuestions){
 
         int type = questionObject.getQuestionType();
@@ -143,7 +150,6 @@ public class DatabaseAccess {
 
     }
 
-*/
     public ArrayList<Question> receiveSavedQuestions(){
         ArrayList<Question> savedQuestionArrayList = new ArrayList<>();
         String[] columns = new String[]{"QuestionType", "QuestionText", "CorrectAnswer"};
