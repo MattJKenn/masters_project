@@ -29,12 +29,6 @@ public class SavedQViewAdapter extends CursorAdapter {
     SQLiteDatabase database;
     DatabaseAccess databaseAccess;
 
-    private static final String ID_COLUMN_MODIFIER = "ALTER TABLE SavedQuestions DROP column '_id'";
-
-    private static final String SAVED_QUESTIONS_TABLE_NAME = "SavedQuestions";
-    private static final String QUESTION_TEXT_COLUMN_NAME = "QuestionText";
-
-    private static final String CURSOR_SELECT_STATEMENT = "SELECT " + QUESTION_TEXT_COLUMN_NAME + " FROM " + SAVED_QUESTIONS_TABLE_NAME;
 
 
     @Override
@@ -48,7 +42,9 @@ public class SavedQViewAdapter extends CursorAdapter {
 
         TextView questionListView = (TextView) view.findViewById(R.id.saved_q_view);
 
+        databaseAccess.open();
         ArrayList<String> questionTextList = databaseAccess.getQuestionTextList();
+        databaseAccess.close();
 
         /*
         if(cursor.getCount() != 0){
