@@ -71,13 +71,14 @@ public class SavedQFragment extends Fragment {
 
 
         DatabaseOpenHelper databaseOpenHelper = new DatabaseOpenHelper(getContext());
-        SQLiteDatabase db = databaseOpenHelper.getWritableDatabase();
+        SQLiteDatabase database = databaseOpenHelper.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT QuestionText FROM SavedQuestions", null);
+        Cursor cursor = database.rawQuery("SELECT QuestionText FROM SavedQuestions", null);
 
         ListView savedQs = (ListView) savedQView.findViewById(R.id.saved_q_view);
 
-        SavedQViewAdapter savedQViewAdapter = new SavedQViewAdapter(getContext(), cursor);;
+        SavedQViewAdapter savedQViewAdapter = new SavedQViewAdapter(getContext(), cursor);
+
         savedQs.setAdapter(savedQViewAdapter);
 
         cursor.close();

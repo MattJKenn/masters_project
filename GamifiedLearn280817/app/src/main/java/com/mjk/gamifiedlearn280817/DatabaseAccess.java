@@ -17,7 +17,20 @@ public class DatabaseAccess {
 
     Question questionObject = new Question();
 
-    int progress;
+    private static final String QUESTION_BANK_TABLE_NAME = "QuestionBank";
+    private static final String SAVED_QUESTION_TABLE_NAME = "SavedQuestions";
+    private static final String BADGES_TABLE_NAME = "Badges";
+
+    private static final String QUESTION_TYPE_COLUMN_NAME = "QuestionType";
+    private static final String QUESTION_TEXT_COLUMN_NAME = "QuestionText";
+    private static final String CORRECT_ANSWER_COLUMN_NAME = "CorrectAnswer";
+    private static final String BADGE_NAME_COLUMN_NAME = "BadgeName";
+    private static final String BRONZE_UNLOCK_COLUMN_NAME = "BronzeUnlock";
+    private static final String SILVER_UNLOCK_COLUMN_NAME = "SilverUnlock";
+    private static final String GOLD_UNLOCK_COLUMN_NAME = "GoldUnlock";
+    private static final String PROGRESS_COLUMN_NAME = "Progress";
+
+    //int progress;
 
     /**
      * Private constructor to avoid object creation from outside classes.
@@ -63,17 +76,17 @@ public class DatabaseAccess {
 
     public ArrayList<Question> getQuestions(int qType) {
         ArrayList<Question> questionArrayList = new ArrayList<>();
-        String[] columns = new String[]{"QuestionType", "QuestionText", "CorrectAnswer"};
+        String[] columns = new String[]{QUESTION_TYPE_COLUMN_NAME, QUESTION_TEXT_COLUMN_NAME, CORRECT_ANSWER_COLUMN_NAME};
 
-        Cursor cursor = database.query("QuestionBank", columns, "QuestionType =" + qType + "",
+        Cursor cursor = database.query(QUESTION_BANK_TABLE_NAME, columns, QUESTION_TYPE_COLUMN_NAME + " = " + qType,
                 null, null, null, null);
 
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            int iQType = cursor.getColumnIndex("QuestionType");
-            int iQText = cursor.getColumnIndex("QuestionText");
-            int iCorrectAns = cursor.getColumnIndex("CorrectAnswer");
+            int iQType = cursor.getColumnIndex(QUESTION_TEXT_COLUMN_NAME);
+            int iQText = cursor.getColumnIndex(QUESTION_TEXT_COLUMN_NAME);
+            int iCorrectAns = cursor.getColumnIndex(CORRECT_ANSWER_COLUMN_NAME);
 
 
             do {
@@ -95,18 +108,19 @@ public class DatabaseAccess {
 
     public ArrayList<Badge> getBadges() {
         ArrayList<Badge> badgeList = new ArrayList<>();
-        String[] columns = new String[]{"BadgeName", "BronzeUnlock", "SilverUnlock", "GoldUnlock", "Progress"};
+        String[] columns = new String[]{BADGE_NAME_COLUMN_NAME, BRONZE_UNLOCK_COLUMN_NAME,
+                                        SILVER_UNLOCK_COLUMN_NAME, GOLD_UNLOCK_COLUMN_NAME, PROGRESS_COLUMN_NAME};
 
-        Cursor cursor = database.query("Badges", columns, null,
+        Cursor cursor = database.query(BADGES_TABLE_NAME, columns, null,
                 null, null, null, null);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            int iName = cursor.getColumnIndex("BadgeName");
-            int iBronze = cursor.getColumnIndex("BronzeUnlock");
-            int iSilver = cursor.getColumnIndex("SilverUnlock");
-            int iGold = cursor.getColumnIndex("GoldUnlock");
-            int iProg = cursor.getColumnIndex("Progress");
+            int iName = cursor.getColumnIndex(BADGES_TABLE_NAME);
+            int iBronze = cursor.getColumnIndex(BRONZE_UNLOCK_COLUMN_NAME);
+            int iSilver = cursor.getColumnIndex(SILVER_UNLOCK_COLUMN_NAME);
+            int iGold = cursor.getColumnIndex(GOLD_UNLOCK_COLUMN_NAME);
+            int iProg = cursor.getColumnIndex(PROGRESS_COLUMN_NAME);
 
             do {
                 String badgeName = cursor.getString(iName);
@@ -128,40 +142,39 @@ public class DatabaseAccess {
     }
 
     public void updateBadgeProgress(String badgeName, int newProgress){
-        database.execSQL("UPDATE 'Badges' SET 'Progress' = " + newProgress + " WHERE 'BadgeName' = " + badgeName);
+        database.execSQL("UPDATE " + BADGES_TABLE_NAME + " SET " + PROGRESS_COLUMN_NAME + " = "
+                        + newProgress + " WHERE " + BADGE_NAME_COLUMN_NAME + " = " + badgeName);
     }
-    /*
-    public int getProgress(int position){
-        return progress;
-    }
-    */
 
-    public void saveQuestions(ArrayList<Question> savedQuestions){
+
+    public void saveQuestions(ArrayList<Question> savedQuestions) {
 
         int type = questionObject.getQuestionType();
         String question = questionObject.getQuestionText();
         boolean correctAnswer = questionObject.getCorrectAnswer();
 
 
-        for (int i = 0; i < savedQuestions.size(); i++){
-            database.execSQL("INSERT INTO 'SavedQuestions'(" + type + question + correctAnswer +"");
+        for ( int i = 0; i < savedQuestions.size(); i++ ) {
+            database.execSQL("INSERT INTO " + SAVED_QUESTION_TABLE_NAME + "(" + type + question + correctAnswer + ")");
         }
 
 
     }
 
+
+
     public ArrayList<Question> receiveSavedQuestions(){
         ArrayList<Question> savedQuestionArrayList = new ArrayList<>();
-        String[] columns = new String[]{"QuestionType", "QuestionText", "CorrectAnswer"};
+        String[] columns = new String[]{QUESTION_TYPE_COLUMN_NAME, QUESTION_TEXT_COLUMN_NAME, CORRECT_ANSWER_COLUMN_NAME};
 
-        Cursor cursor = database.query("SavedQuestions", columns, null,
+        Cursor cursor = database.query(SAVED_QUESTION_TABLE_NAME, columns, null,
                 null, null, null, null);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            int iQType = cursor.getColumnIndex("QuestionType");
-            int iQText = cursor.getColumnIndex("QuestionText");
-            int iCorrectAns = cursor.getColumnIndex("CorrectAnswer");
+            int iQType = cursor.getColumnIndex(QUESTION_TYPE_COLUMN_NAME);
+            int iQText = cursor.getColumnIndex(QUESTION_TEXT_COLUMN_NAME);
+            int iCorrectAns = cursor.getColumnIndex(CORRECT_ANSWER_COLUMN_NAME);
 
 
             do {
@@ -179,5 +192,19 @@ public class DatabaseAccess {
         }
         return savedQuestionArrayList;
     }
-}
 
+    public ArrayList<String> getQuestionTextList(){
+
+        ArrayList<Question> fullQuestionArrayList = receiveSavedQuestions();
+        ArrayList<String> savedQuestionTextList = new ArrayList<>();
+
+        int QuestionListLength = fullQuestionArrayList.size();
+
+        for (int i = 0; i < QuestionListLength; i++){
+            String questionText = questionObject.getQuestionText();
+            savedQuestionTextList.add(questionText);
+        }
+
+        return savedQuestionTextList;
+    }
+}

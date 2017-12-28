@@ -142,6 +142,7 @@ public class BadgeViewAdapter extends BaseAdapter {
         updater.apply();
 
         */
+        if(index < 0){index = 0;}
         badgeObject = badges.get(index);
         int bronze = badgeObject.getBronze();
         int silver = badgeObject.getSilver();

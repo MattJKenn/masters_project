@@ -2,6 +2,7 @@ package com.mjk.gamifiedlearn280817;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,19 @@ public class SavedQViewAdapter extends CursorAdapter {
 
 
 
-    public SavedQViewAdapter(Context context, Cursor cursor) {
+    SavedQViewAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
+
+    SQLiteDatabase database;
+    DatabaseAccess databaseAccess;
+
+    private static final String ID_COLUMN_MODIFIER = "ALTER TABLE SavedQuestions DROP column '_id'";
+
+    private static final String SAVED_QUESTIONS_TABLE_NAME = "SavedQuestions";
+    private static final String QUESTION_TEXT_COLUMN_NAME = "QuestionText";
+
+    private static final String CURSOR_SELECT_STATEMENT = "SELECT " + QUESTION_TEXT_COLUMN_NAME + " FROM " + SAVED_QUESTIONS_TABLE_NAME;
 
 
     @Override
@@ -33,13 +44,21 @@ public class SavedQViewAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        String question = "";
+
+
         TextView questionListView = (TextView) view.findViewById(R.id.saved_q_view);
 
-        if(cursor.getCount() != 0){question = cursor.getString(cursor.getColumnIndexOrThrow("QuestionText"));}
-        else{question = "Questions You Answer Incorrectly Will Appear Here";}
+        ArrayList<String> questionTextList = databaseAccess.getQuestionTextList();
 
-        questionListView.setText(question);
+        /*
+        if(cursor.getCount() != 0){
+            String iText = cursor.getString(cursor.getColumnIndexOrThrow(QUESTION_TEXT_COLUMN_NAME));}
+
+        else{questionTextList[0] = "Questions You Answer Incorrectly Will Appear Here";}
+        */
+        questionListView.setText((CharSequence) questionTextList);
+
+        cursor.close();
     }
 }
 /*

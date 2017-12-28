@@ -31,21 +31,22 @@ public class QuestionMain extends AppCompatActivity {
     public Question currentQuestion = new Question();
 
 
-    private String badgeKey;
+    //private String badgeKey;
     public int score = 0;
     private int currentQuestionNo = 1;
-    private int noOfQuestions; /*oldValue, newValue*/;
+    private int noOfQuestions; /*oldValue, newValue*/
+    ;
 
     ArrayList<Question> questions;
     ArrayList<Question> savedQuestions;
 
     // private int num = 1;
 
-    SQLiteDatabase database;
+    //SQLiteDatabase database;
     DatabaseAccess databaseAccess;
 
 
-    public SharedPreferences sharedPreferences;
+    //public SharedPreferences sharedPreferences;
 
     BadgeViewAdapter badgeViewAdapter;
 
@@ -60,12 +61,6 @@ public class QuestionMain extends AppCompatActivity {
 
         // create your questions there is no real reason to pass them via an intent
         questions = createQuestions(quizType);
-
-        switch(quizType){
-            case 1: badgeKey = "Badge1Progress";
-            case 2: badgeKey = "Badge2Progress";
-            default: badgeKey = "Badge1Progress";
-        }
 
         // set up ui elements
         trueButton = (Button) findViewById(R.id.true_button);
@@ -83,8 +78,7 @@ public class QuestionMain extends AppCompatActivity {
 
                 try {
                     checkQuestion(true);
-                }
-                catch (URISyntaxException e) {
+                } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
             }
@@ -96,8 +90,7 @@ public class QuestionMain extends AppCompatActivity {
 
                 try {
                     checkQuestion(false);
-                }
-                catch (URISyntaxException e) {
+                } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
             }
@@ -129,12 +122,12 @@ public class QuestionMain extends AppCompatActivity {
             score += 1;
             scoreText.setText("Score: " + score);
             //noCorrectAnswer++;
+        } else {
+            savedQuestions.add(currentQuestion);
         }
-        else{savedQuestions.add(currentQuestion);}
 
         updateQuestion();
     }
-
 
 
     private void updateQuestion() throws URISyntaxException {
@@ -146,7 +139,9 @@ public class QuestionMain extends AppCompatActivity {
 
 
             ArrayList<Badge> badges = badgeViewAdapter.receiveBadges();
-            for(int i = 0; i < badges.size(); i++){badgeViewAdapter.updateBadgeRank(i, badges, score);}
+            for ( int i = 0; i < badges.size(); i++ ) {
+                badgeViewAdapter.updateBadgeRank(i, badges, score);
+            }
             databaseAccess.saveQuestions(savedQuestions);
 
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
@@ -181,7 +176,6 @@ public class QuestionMain extends AppCompatActivity {
 
         int number = num + 1;
         questionNoText.setText("Question Number: " + number); // update the question number displayed to match question
-        //Log.wtf("Question Number", "Question Number = " + currentQuestionNo);
 
         currentQuestionNo = number;
     }
@@ -203,6 +197,7 @@ public class QuestionMain extends AppCompatActivity {
         return questions;
 
     }
+}
 
 //   public int getScore(){return score;}
 /*
@@ -213,7 +208,14 @@ public class QuestionMain extends AppCompatActivity {
         databaseAccess.close();
     }
 */
-}
+
+/*
+        switch(quizType){
+            case 1: badgeKey = "Badge1Progress";
+            case 2: badgeKey = "Badge2Progress";
+            default: badgeKey = "Badge1Progress";
+        }
+        */
 /*
         switch (questionType) {
             case (1):
