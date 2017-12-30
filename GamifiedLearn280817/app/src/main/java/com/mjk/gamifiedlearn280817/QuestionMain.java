@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -35,11 +36,11 @@ public class QuestionMain extends AppCompatActivity {
     public int score = 0;
     private int currentQuestionNo = 1;
     private int noOfQuestions; /*oldValue, newValue*/
-    ;
+    int quizType = 1;
 
-    ArrayList<Question> questions;
-    ArrayList<Question> savedQuestions;
-
+    ArrayList<Question> questions = new ArrayList<>();
+    ArrayList<Question> savedQuestions = new ArrayList<>();
+    ArrayList<Badge> badges = new ArrayList<>();
     // private int num = 1;
 
     //SQLiteDatabase database;
@@ -57,7 +58,7 @@ public class QuestionMain extends AppCompatActivity {
 
 
         Intent getType = getIntent();
-        int quizType = getType.getIntExtra("quiz_type", 1);
+        quizType = getType.getIntExtra("quiz_type", 1);
 
         // create your questions there is no real reason to pass them via an intent
         questions = createQuestions(quizType);
@@ -69,6 +70,10 @@ public class QuestionMain extends AppCompatActivity {
         questionText = (TextView) findViewById(R.id.quiz_textView);
         scoreText = (TextView) findViewById(R.id.score_textView);
         questionNoText = (TextView) findViewById(R.id.questionNo_textView);
+
+
+        int index = currentQuestionNo - 1;
+        currentQuestion = questions.get(index);
 
         // setup onclicklisteners
 
@@ -114,16 +119,24 @@ public class QuestionMain extends AppCompatActivity {
 
         setQuestion(0);
         //Question.setQuestionType(receivedType);
+
     }
 
 
     private void checkQuestion(Boolean usersAnswer) throws URISyntaxException {
+
         if (usersAnswer == correctAnswer) {
             score += 1;
             scoreText.setText("Score: " + score);
             //noCorrectAnswer++;
-        } else {
-            savedQuestions.add(currentQuestion);
+        }
+        else {
+            databaseAccess = DatabaseAccess.getInstance(this);
+            databaseAccess.open();
+            ArrayList<Question> savedQuestionChecker = databaseAccess.receiveSavedQuestions();
+            if (!savedQuestionChecker.contains(currentQuestion)) {savedQuestions.add(currentQuestion);}
+            databaseAccess.close();
+            Toast.makeText(this, "Question Incorrect! Saved.", Toast.LENGTH_LONG).show();
         }
 
         updateQuestion();
@@ -137,12 +150,15 @@ public class QuestionMain extends AppCompatActivity {
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
 
+            databaseAccess = DatabaseAccess.getInstance(this);
+            databaseAccess.open();
+            badges = databaseAccess.getBadges();
 
-            ArrayList<Badge> badges = badgeViewAdapter.receiveBadges();
             for ( int i = 0; i < badges.size(); i++ ) {
-                badgeViewAdapter.updateBadgeRank(i, badges, score);
+                badgeViewAdapter.updateBadgeRank(quizType, i, score);
             }
             databaseAccess.saveQuestions(savedQuestions);
+            databaseAccess.close();
 
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
 

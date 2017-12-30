@@ -31,7 +31,7 @@ public class DatabaseAccess {
     private static final String GOLD_UNLOCK_COLUMN_NAME = "GoldUnlock";
     private static final String PROGRESS_COLUMN_NAME = "Progress";
 
-    private static final String ID_COLUMN_MODIFIER = "ALTER TABLE SavedQuestions INSERT '_id', INT";
+    //private static final String ID_COLUMN_MODIFIER = "ALTER TABLE SavedQuestions INSERT '_id', INT";
     //private static final String CURSOR_SELECT_STATEMENT = "SELECT " + QUESTION_TEXT_COLUMN_NAME + " FROM " + SAVED_QUESTION_TABLE_NAME;
     //int progress;
 
@@ -155,9 +155,10 @@ public class DatabaseAccess {
 
 
         for ( int i = 0; i < savedQuestions.size(); i++ ) {
-            int type = questionObject.getQuestionType();
-            String question = questionObject.getQuestionText();
-            boolean correctAnswer = questionObject.getCorrectAnswer();
+            Question savedQuestion = savedQuestions.get(i);
+            int type = savedQuestion.getQuestionType();
+            String question = savedQuestion.getQuestionText();
+            boolean correctAnswer = savedQuestion.getCorrectAnswer();
             database.execSQL("INSERT INTO " + SAVED_QUESTION_TABLE_NAME + "(" + type + question + correctAnswer + ")");
         }
 
@@ -198,16 +199,16 @@ public class DatabaseAccess {
 
     public ArrayList<String> getQuestionTextList(){
 
-        ArrayList<Question> fullQuestionArrayList = receiveSavedQuestions();
+        //ArrayList<Question> fullQuestionArrayList = receiveSavedQuestions();
         ArrayList<String> savedQuestionTextList = new ArrayList<>();
-
+        /*
         int QuestionListLength = fullQuestionArrayList.size();
 
         for (int i = 0; i < QuestionListLength; i++){
             String questionText = "";
             savedQuestionTextList.add(questionText);
         }
-
+        */
         String[] columns = new String[]{CURSOR_TYPE_COLUMN_NAME, QUESTION_TEXT_COLUMN_NAME, CORRECT_ANSWER_COLUMN_NAME};
 
         Cursor cursor = database.query(SAVED_QUESTION_TABLE_NAME, columns, null,
@@ -215,8 +216,8 @@ public class DatabaseAccess {
 
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-
             do {
+
                 String text = cursor.getString(cursor.getColumnIndexOrThrow(QUESTION_TEXT_COLUMN_NAME));
                 savedQuestionTextList.add(text);
             }

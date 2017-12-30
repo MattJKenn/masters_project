@@ -67,13 +67,17 @@ public class BadgeViewAdapter extends BaseAdapter {
         this.progresses = progresses;
         this.context = context;
 
-        receiveBadges();
+        databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+        badges = databaseAccess.getBadges();
 
         for (int i = 0; i < progresses.length; i++ ) {
             progresses[i] = 0;
             score = 0;
-            updateBadgeRank(i, badges, score);
+            updateBadgeRank(i, i, score);
         }
+
+        databaseAccess.close();
 
     }
 
@@ -119,7 +123,7 @@ public class BadgeViewAdapter extends BaseAdapter {
         return badgeView;
     }
 
-
+    /*
     public ArrayList<Badge> receiveBadges(){
         databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
@@ -128,11 +132,11 @@ public class BadgeViewAdapter extends BaseAdapter {
 
         return badges;
     }
+    */
 
-
-    public void updateBadgeRank(int index, ArrayList<Badge> badges, int score) throws URISyntaxException {
+    public void updateBadgeRank(int qType, int index, int score) throws URISyntaxException {
         // assign display to asset in layout
-
+        badges = databaseAccess.getBadges();
         //sharedPreferences = context.getSharedPreferences("userInfo", MODE_PRIVATE);
         /*
         SharedPreferences.Editor updater = sharedPreferences.edit();
@@ -158,9 +162,9 @@ public class BadgeViewAdapter extends BaseAdapter {
 
         progress = progress + score;
 
+
+
         target[index] = bronze;
-
-
 
             //progress = sharedPreferences.getInt(dbtitles[i], 0);
 
@@ -179,9 +183,8 @@ public class BadgeViewAdapter extends BaseAdapter {
 
         badgeObject.setNewProgress(progress);
 
-        databaseAccess.open();
         databaseAccess.updateBadgeProgress(dbBadgeName, progress);
-        databaseAccess.close();
+
 
         progresses[index] = progress;
     }

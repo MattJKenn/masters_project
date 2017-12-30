@@ -3,6 +3,7 @@ package com.mjk.gamifiedlearn280817;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.media.MediaBrowserCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +22,17 @@ import java.util.List;
 public class SavedQViewAdapter extends CursorAdapter {
 
 
-
-    SavedQViewAdapter(Context context, Cursor cursor) {
-        super(context, cursor, 0);
+    public SavedQViewAdapter(Context context, Cursor cursor, int flag) {
+        super(context, cursor, flag);
     }
 
-    SQLiteDatabase database;
+
+    //SQLiteDatabase database;
     DatabaseAccess databaseAccess;
+
+    private static final String NO_SAVED_QUESTIONS_TEXT = "Questions You Answer Incorrectly Will Appear Here";
+
+
 
 
 
@@ -40,22 +45,24 @@ public class SavedQViewAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
 
-        TextView questionListView = (TextView) view.findViewById(R.id.saved_q_view);
+        TextView questionListView = (TextView) view.findViewById(R.id.saved_q_adapter);
 
+        databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
         ArrayList<String> questionTextList = databaseAccess.getQuestionTextList();
         databaseAccess.close();
 
-        /*
-        if(cursor.getCount() != 0){
-            String iText = cursor.getString(cursor.getColumnIndexOrThrow(QUESTION_TEXT_COLUMN_NAME));}
-
-        else{questionTextList[0] = "Questions You Answer Incorrectly Will Appear Here";}
-        */
-        questionListView.setText((CharSequence) questionTextList);
+        if (questionTextList.size() > 0){
+            for (int i = 0; i < questionTextList.size(); i++){
+                String question = questionTextList.get(i);
+                questionListView.setText(question);
+            }
+        }
+        else {questionListView.setText(NO_SAVED_QUESTIONS_TEXT);}
 
         cursor.close();
     }
+
 }
 /*
 
