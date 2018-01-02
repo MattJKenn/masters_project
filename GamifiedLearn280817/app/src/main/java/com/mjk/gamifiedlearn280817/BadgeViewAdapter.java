@@ -30,14 +30,14 @@ public class BadgeViewAdapter extends BaseAdapter {
 
 
 
-    int target[] = new int[3];
-    int badge[];
-    String title[];
-    int progresses [] = new int[3];
+    static int[] badge = {R.drawable.vanilla_badge1, R.drawable.vanilla_badge2, R.drawable.vanilla_badge3};
+    static String[] title;
+    static int[] progresses  = new int[3];
 
+    int targetQuiz, targetTotal;
 
+    int badgeLevels [] = {R.drawable.bronze_badge, R.drawable.silver_badge, R.drawable.gold_badge};
     //String dbtitles[] = {"Badge1Progress", "Badge2Progress", "BadgeTotalProgress"};
-    int score;
     //static String badgeKey;
     //static SharedPreferences preferences;
 
@@ -49,12 +49,13 @@ public class BadgeViewAdapter extends BaseAdapter {
 
     DatabaseAccess databaseAccess;
 
-    Badge badgeObject;
+    Badge quizBadgeObject, totalBadgeObject;
 
     QuestionMain questionMain;
 
     //GridView badgeView;
     ImageView badgeGraphic;
+    //int[] badgeGraphics = {R.drawable.bronze_badge, R.drawable.silver_badge, R.drawable.gold_badge};
 
 
 
@@ -70,13 +71,13 @@ public class BadgeViewAdapter extends BaseAdapter {
         databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
         badges = databaseAccess.getBadges();
-
+        /*
         for (int i = 0; i < progresses.length; i++ ) {
             progresses[i] = 0;
-            score = 0;
-            updateBadgeRank(i, i, score);
+            score[i] = 0;
+            updateBadgeRank(i, score);
         }
-
+        */
         databaseAccess.close();
 
     }
@@ -115,13 +116,17 @@ public class BadgeViewAdapter extends BaseAdapter {
 
 
 
+        boolean quizBadgeScanned = (progresses[position] != 2);
+
         badgeGraphic.setImageResource(badge[position]);
         titleText.setText(title[position]);
-        progress.setText(progresses[position] + "/" + target);
 
+        if(quizBadgeScanned) progress.setText(progresses[position] + "/" + targetQuiz);
+        else{progress.setText(progresses[2] + "/" + targetTotal);}
 
         return badgeView;
     }
+
 
     /*
     public ArrayList<Badge> receiveBadges(){
@@ -134,7 +139,7 @@ public class BadgeViewAdapter extends BaseAdapter {
     }
     */
 
-    public void updateBadgeRank(int qType, int index, int score) throws URISyntaxException {
+    public void updateBadgeRank(int quizType, int score) throws URISyntaxException {
         // assign display to asset in layout
         badges = databaseAccess.getBadges();
         //sharedPreferences = context.getSharedPreferences("userInfo", MODE_PRIVATE);
@@ -146,48 +151,76 @@ public class BadgeViewAdapter extends BaseAdapter {
         updater.apply();
 
         */
-        if(index < 0){index = 0;}
-        badgeObject = badges.get(index);
-        int bronze = badgeObject.getBronze();
-        int silver = badgeObject.getSilver();
-        int gold = badgeObject.getGold();
-        int progress = badgeObject.getProgress();
+
+        int index = quizType - 1;
+
+        quizBadgeObject = badges.get(index);
+        int quizBronze = quizBadgeObject.bronze;
+        int quizSilver = quizBadgeObject.silver;
+        int quizGold = quizBadgeObject.gold;
+        int quizProgress = quizBadgeObject.progress;
+
+        totalBadgeObject = badges.get(2);
+        int totalBronze = totalBadgeObject.bronze;
+        int totalSilver = totalBadgeObject.silver;
+        int totalGold = totalBadgeObject.gold;
+        int totalProgress = totalBadgeObject.progress;
 
         String dbBadgeName = "";
-        switch (index){
-            case(0): dbBadgeName = "'Quiz Badge 1'"; break;
-            case(1): dbBadgeName = "'Quiz Badge 2'"; break;
-            case(2): dbBadgeName = "'Quiz Total Badge'"; break;
+
+
+        switch (quizType){
+            case(1): dbBadgeName = "'Quiz Badge 1'"; break;
+            case(2): dbBadgeName = "'Quiz Badge 2'"; break;
         }
 
-        progress = progress + score;
 
+        quizProgress = quizProgress + score;
+        totalProgress = totalProgress + score;
 
-
-        target[index] = bronze;
 
             //progress = sharedPreferences.getInt(dbtitles[i], 0);
 
-        if(progress >= bronze && progress < silver){
-            badgeGraphic.setImageResource(R.drawable.bronze_badge);
-            target[index] = silver;
+
+        if(quizProgress < quizBronze){targetQuiz = quizBronze;}
+        else if(quizProgress >= quizBronze && quizProgress < quizSilver){
+            badge[index] = badgeLevels[0];
+            targetQuiz = quizSilver;
         }
-        else if(progress >= silver && progress < gold) {
-            badgeGraphic.setImageResource(R.drawable.silver_badge);
-            target[index] = gold;
+        else if(quizProgress >= quizSilver && quizProgress < quizGold) {
+            badge[index] = badgeLevels[1];
+            targetQuiz = quizGold;
         }
-        else if(progress >= gold){
-            badgeGraphic.setImageResource(R.drawable.gold_badge);
-            target[index] = progress;
+        else if(quizProgress >= quizGold){
+            badge[index] = badgeLevels[2];
+            targetQuiz = quizProgress;
         }
 
-        badgeObject.setNewProgress(progress);
+        if(totalProgress < totalBronze){targetTotal = totalBronze;}
+        else if(totalProgress >= totalBronze && totalProgress < totalSilver){
+            badge[2] = badgeLevels[0];
+            targetTotal = totalSilver;
+        }
+        else if(totalProgress >= totalSilver && totalProgress < totalGold){
+            badge[2] = badgeLevels[1];
+            targetTotal = totalGold;
+        }
+        else if(totalProgress >= totalGold){
+            badge[2] = badgeLevels[2];
+            targetTotal = totalProgress;
+        }
 
-        databaseAccess.updateBadgeProgress(dbBadgeName, progress);
 
 
-        progresses[index] = progress;
+        //badgeObject.setNewProgress(progress[index]);
+
+        databaseAccess.updateBadgeProgress(dbBadgeName, quizProgress);
+        databaseAccess.updateBadgeProgress("Quiz Total Badge", totalProgress);
+
+        progresses[index] = quizProgress;
+        progresses[2] = totalProgress;
     }
+
 
 
 

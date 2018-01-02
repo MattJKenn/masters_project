@@ -38,6 +38,10 @@ public class QuestionMain extends AppCompatActivity {
     private int noOfQuestions; /*oldValue, newValue*/
     int quizType = 1;
 
+    int badge[] = BadgeViewAdapter.badge;
+    String title[] = BadgeViewAdapter.title;
+    int progresses [] = BadgeViewAdapter.progresses;
+
     ArrayList<Question> questions = new ArrayList<>();
     ArrayList<Question> savedQuestions = new ArrayList<>();
     ArrayList<Badge> badges = new ArrayList<>();
@@ -49,7 +53,9 @@ public class QuestionMain extends AppCompatActivity {
 
     //public SharedPreferences sharedPreferences;
 
-    BadgeViewAdapter badgeViewAdapter;
+    BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
+
+    public QuestionMain() throws URISyntaxException {}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,9 +160,9 @@ public class QuestionMain extends AppCompatActivity {
             databaseAccess.open();
             badges = databaseAccess.getBadges();
 
-            for ( int i = 0; i < badges.size(); i++ ) {
-                badgeViewAdapter.updateBadgeRank(quizType, i, score);
-            }
+            //for ( int i = 0; i < badges.size(); i++ ) {
+                badgeViewAdapter.updateBadgeRank(quizType, score);
+            //}
             databaseAccess.saveQuestions(savedQuestions);
             databaseAccess.close();
 
