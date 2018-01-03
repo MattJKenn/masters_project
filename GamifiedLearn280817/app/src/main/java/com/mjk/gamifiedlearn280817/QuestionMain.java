@@ -155,12 +155,16 @@ public class QuestionMain extends AppCompatActivity {
             databaseAccess.saveQuestions(savedQuestions);
             databaseAccess.close();
 
+            questions.clear();
+
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
         }
         else {setQuestion(currentQuestionNo);}
     }
 
     private void setQuestion(int num) {
+
+        if (noOfQuestions == 0){questions = getQuestionsBackup(quizType);}
 
         currentQuestion = questions.get(num);
 
@@ -169,8 +173,8 @@ public class QuestionMain extends AppCompatActivity {
 
         int number = num + 1;
         questionNoText.setText("Question Number: " + number); // update the question number displayed to match question
-
         currentQuestionNo = number;
+
     }
 
     private void resetTextViews() {
@@ -190,6 +194,35 @@ public class QuestionMain extends AppCompatActivity {
 
         return questions;
 
+    }
+
+    public ArrayList<Question> getQuestionsBackup(int questionType) {
+        switch (questionType) {
+            case (1):
+                Question q1 = new Question(questionType, "This is easier than i thought", true);
+                questions.add(q1);
+                Question q2 = new Question(questionType, "The sky is green", false);
+                questions.add(q2);
+                Question q3 = new Question(questionType, "Earth is 70% land", false);
+                questions.add(q3);
+                Question q4 = new Question(questionType, "An elephant is smaller than the moon", true);
+                questions.add(q4);
+                Question q5 = new Question(questionType, "There are 2 hydrogen atoms in a water molecule", true);
+                questions.add(q5);
+
+            case (2):
+                Question q6 = new Question(questionType, "This is a second quiz", true);
+                questions.add(q6);
+                Question q7 = new Question(questionType, "Spiders have 2 eyes", false);
+                questions.add(q7);
+                Question q8 = new Question(questionType, "This is an achievement", true);
+                questions.add(q8);
+                Question q9 = new Question(questionType, "Java is not a type of teapot", true);
+                questions.add(q9);
+                Question q10 = new Question(questionType, "No human has eyes", false);
+                questions.add(q10);
+        }
+        return questions;
     }
 }
 /*
