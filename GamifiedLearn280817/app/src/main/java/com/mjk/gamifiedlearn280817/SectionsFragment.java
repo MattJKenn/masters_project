@@ -3,6 +3,7 @@ package com.mjk.gamifiedlearn280817;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,29 +40,22 @@ public class SectionsFragment extends Fragment {
 
     int quizType;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View sectionsView = inflater.inflate(R.layout.fragment_sections, container, false);
 
-        sectionsButton1 = (Button) sectionsView.findViewById(R.id.sections_button1);
-        sectionsButton1.setOnClickListener(new View.OnClickListener(){
 
-            @Override
-            public void onClick(View v) {
-                quizType = 1;
-                startQuiz();
-            }
-        });
+        sectionsButton1 = (Button) sectionsView.findViewById(R.id.sections_button1);
+        sectionsButton1.setOnClickListener(new View.OnClickListener(){@Override public void onClick(View v) {quizType = 1; startQuiz();}});
 
 
         sectionsButton2 = (Button) sectionsView.findViewById(R.id.sections_button2);
         sectionsButton2.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick (View v) {
-                quizType = 2;
-                startQuiz();
+            public void onClick (View v) {quizType = 2; startQuiz();
 
             }
         });

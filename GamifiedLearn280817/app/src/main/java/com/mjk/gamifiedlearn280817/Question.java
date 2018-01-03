@@ -24,7 +24,7 @@ public class Question {
     // Getters
     public int getQuestionType() {return type;}
     public String getQuestionText() {return question;}
-    public Boolean getCorrectAnswer() {return correctAnswer;}
+    public boolean getCorrectAnswer() {return correctAnswer;}
 
     // Setters
     public void setQuestionType (int QuestionType) {type = QuestionType;}

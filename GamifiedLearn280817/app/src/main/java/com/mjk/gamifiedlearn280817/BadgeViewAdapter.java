@@ -51,7 +51,7 @@ public class BadgeViewAdapter extends BaseAdapter {
 
     Badge quizBadgeObject, totalBadgeObject;
 
-    QuestionMain questionMain;
+    //QuestionMain questionMain;
 
     //GridView badgeView;
     ImageView badgeGraphic;
@@ -63,21 +63,14 @@ public class BadgeViewAdapter extends BaseAdapter {
 
 
     public BadgeViewAdapter(int[] badge, String[] titles, int [] progresses, Context context) throws URISyntaxException {
-        this.badge = badge;
-        this.title = titles;
-        this.progresses = progresses;
+        BadgeViewAdapter.badge = badge;
+        title = titles;
+        BadgeViewAdapter.progresses = progresses;
         this.context = context;
 
         databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
         badges = databaseAccess.getBadges();
-        /*
-        for (int i = 0; i < progresses.length; i++ ) {
-            progresses[i] = 0;
-            score[i] = 0;
-            updateBadgeRank(i, score);
-        }
-        */
         databaseAccess.close();
 
     }
@@ -142,15 +135,7 @@ public class BadgeViewAdapter extends BaseAdapter {
     public void updateBadgeRank(int quizType, int score) throws URISyntaxException {
         // assign display to asset in layout
         badges = databaseAccess.getBadges();
-        //sharedPreferences = context.getSharedPreferences("userInfo", MODE_PRIVATE);
-        /*
-        SharedPreferences.Editor updater = sharedPreferences.edit();
-        updater.putInt("Badge1Progress", badgeProgress1);
-        updater.putInt("Badge2Progress", badgeProgress2);
-        updater.putInt("BadgeTotalProgress", badgeProgressTotal);
-        updater.apply();
 
-        */
 
         int index = quizType - 1;
 
@@ -179,7 +164,7 @@ public class BadgeViewAdapter extends BaseAdapter {
         totalProgress = totalProgress + score;
 
 
-            //progress = sharedPreferences.getInt(dbtitles[i], 0);
+
 
 
         if(quizProgress < quizBronze){targetQuiz = quizBronze;}
@@ -210,23 +195,25 @@ public class BadgeViewAdapter extends BaseAdapter {
             targetTotal = totalProgress;
         }
 
-
-
-        //badgeObject.setNewProgress(progress[index]);
-
         databaseAccess.updateBadgeProgress(dbBadgeName, quizProgress);
-        databaseAccess.updateBadgeProgress("Quiz Total Badge", totalProgress);
+        databaseAccess.updateBadgeProgress("'Quiz Total Badge'", totalProgress);
 
         progresses[index] = quizProgress;
         progresses[2] = totalProgress;
     }
-
-
-
-
-
-
 }
+
+//sharedPreferences = context.getSharedPreferences("userInfo", MODE_PRIVATE);
+        /*
+        SharedPreferences.Editor updater = sharedPreferences.edit();
+        updater.putInt("Badge1Progress", badgeProgress1);
+        updater.putInt("Badge2Progress", badgeProgress2);
+        updater.putInt("BadgeTotalProgress", badgeProgressTotal);
+        updater.apply();
+
+        */
+
+//progress = sharedPreferences.getInt(dbtitles[i], 0);
 
 
 

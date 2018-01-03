@@ -40,33 +40,35 @@ public class QuestionMain extends AppCompatActivity {
 
     int badge[] = BadgeViewAdapter.badge;
     String title[] = BadgeViewAdapter.title;
-    int progresses [] = BadgeViewAdapter.progresses;
+    int progresses[] = BadgeViewAdapter.progresses;
 
     ArrayList<Question> questions = new ArrayList<>();
     ArrayList<Question> savedQuestions = new ArrayList<>();
     ArrayList<Badge> badges = new ArrayList<>();
     // private int num = 1;
 
-    //SQLiteDatabase database;
+
     DatabaseAccess databaseAccess;
-
-
     //public SharedPreferences sharedPreferences;
 
     BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
 
-    public QuestionMain() throws URISyntaxException {}
+    public QuestionMain() throws URISyntaxException {/* Empty default constructor required to throw exception for connecting to database */}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_main);
 
+        Context context = this;
+        databaseAccess = new DatabaseAccess(context);
 
         Intent getType = getIntent();
         quizType = getType.getIntExtra("quiz_type", 1);
 
         // create your questions there is no real reason to pass them via an intent
+
+
         questions = createQuestions(quizType);
 
         // set up ui elements
@@ -78,32 +80,21 @@ public class QuestionMain extends AppCompatActivity {
         questionNoText = (TextView) findViewById(R.id.questionNo_textView);
 
 
-        int index = currentQuestionNo - 1;
-        currentQuestion = questions.get(index);
-
         // setup onclicklisteners
 
         trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                try {
-                    checkQuestion(true);
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
+                try {checkQuestion(true);}
+                catch (URISyntaxException e) {e.printStackTrace();}
             }
         });
 
         falseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                try {
-                    checkQuestion(false);
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
+                try {checkQuestion(false);}
+                catch (URISyntaxException e) {e.printStackTrace();}
             }
         });
 
@@ -120,7 +111,6 @@ public class QuestionMain extends AppCompatActivity {
 
         // setup question
 
-
         noOfQuestions = questions.size();
 
         setQuestion(0);
@@ -134,15 +124,16 @@ public class QuestionMain extends AppCompatActivity {
         if (usersAnswer == correctAnswer) {
             score += 1;
             scoreText.setText("Score: " + score);
-            //noCorrectAnswer++;
-        }
-        else {
+            Toast.makeText(this, "Correct!", Toast.LENGTH_LONG).show();
+
+        } else {
             databaseAccess = DatabaseAccess.getInstance(this);
             databaseAccess.open();
+            currentQuestion.type = quizType;
             ArrayList<Question> savedQuestionChecker = databaseAccess.receiveSavedQuestions();
             if (!savedQuestionChecker.contains(currentQuestion)) {savedQuestions.add(currentQuestion);}
             databaseAccess.close();
-            Toast.makeText(this, "Question Incorrect! Saved.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Incorrect! Question Saved.", Toast.LENGTH_LONG).show();
         }
 
         updateQuestion();
@@ -160,39 +151,19 @@ public class QuestionMain extends AppCompatActivity {
             databaseAccess.open();
             badges = databaseAccess.getBadges();
 
-            //for ( int i = 0; i < badges.size(); i++ ) {
-                badgeViewAdapter.updateBadgeRank(quizType, score);
-            //}
+            badgeViewAdapter.updateBadgeRank(quizType, score);
             databaseAccess.saveQuestions(savedQuestions);
             databaseAccess.close();
 
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
-
-
-
-            /*
-            sharedPreferences = getSharedPreferences("userData", MODE_PRIVATE);
-            SharedPreferences.Editor updater = sharedPreferences.edit();
-
-            oldValue = sharedPreferences.getInt(badgeKey, 0);
-            newValue = oldValue + score;
-
-            updater.putInt(badgeKey, newValue);
-            updater.putInt("BadgeTotalProgress", newValue);
-
-            updater.apply();
-
-            finish();
-            */
-
-
-        } else {                            // moves to next question
-            setQuestion(currentQuestionNo);
         }
+        else {setQuestion(currentQuestionNo);}
     }
 
     private void setQuestion(int num) {
+
         currentQuestion = questions.get(num);
+
         questionText.setText(currentQuestion.question);
         correctAnswer = currentQuestion.correctAnswer;
 
@@ -208,6 +179,7 @@ public class QuestionMain extends AppCompatActivity {
     }
 
 
+
     // creates an array of questions
 
     public ArrayList<Question> createQuestions(int questionType) {
@@ -220,25 +192,25 @@ public class QuestionMain extends AppCompatActivity {
 
     }
 }
-
-//   public int getScore(){return score;}
 /*
-    public void saveQuestions(){
+   public int getScore(){return score;}
+
+   public void saveQuestions(){
         databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
         databaseAccess.saveQuestions(savedQuestions);
         databaseAccess.close();
     }
-*/
 
-/*
+
+
         switch(quizType){
             case 1: badgeKey = "Badge1Progress";
             case 2: badgeKey = "Badge2Progress";
             default: badgeKey = "Badge1Progress";
         }
-        */
-/*
+
+
         switch (questionType) {
             case (1):
                 Question q1 = new Question("This is easier than i thought", true);
@@ -266,6 +238,19 @@ public class QuestionMain extends AppCompatActivity {
                 questions.add(q10);
                 return questions;
         }
+
+            sharedPreferences = getSharedPreferences("userData", MODE_PRIVATE);
+            SharedPreferences.Editor updater = sharedPreferences.edit();
+
+            oldValue = sharedPreferences.getInt(badgeKey, 0);
+            newValue = oldValue + score;
+
+            updater.putInt(badgeKey, newValue);
+            updater.putInt("BadgeTotalProgress", newValue);
+
+            updater.apply();
+
+            finish();
 
         */
 

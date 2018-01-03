@@ -15,21 +15,27 @@ public class DatabaseAccess {
     private SQLiteDatabase database;
     private static DatabaseAccess instance;
 
-    Question questionObject = new Question();
 
     private static final String QUESTION_BANK_TABLE_NAME = "QuestionBank";
     private static final String SAVED_QUESTION_TABLE_NAME = "SavedQuestions";
     private static final String BADGES_TABLE_NAME = "Badges";
 
-    private static final String QUESTION_TYPE_COLUMN_NAME = "QuestionType";
-    private static final String CURSOR_TYPE_COLUMN_NAME = "_id";
-    private static final String QUESTION_TEXT_COLUMN_NAME = "QuestionText";
-    private static final String CORRECT_ANSWER_COLUMN_NAME = "CorrectAnswer";
-    private static final String BADGE_NAME_COLUMN_NAME = "BadgeName";
-    private static final String BRONZE_UNLOCK_COLUMN_NAME = "BronzeUnlock";
-    private static final String SILVER_UNLOCK_COLUMN_NAME = "SilverUnlock";
-    private static final String GOLD_UNLOCK_COLUMN_NAME = "GoldUnlock";
-    private static final String PROGRESS_COLUMN_NAME = "Progress";
+    private static final String QUESTION_TYPE_COLUMN_NAME = "'QuestionType'";
+    private static final String CURSOR_TYPE_COLUMN_NAME = "'_id'";
+    private static final String QUESTION_TEXT_COLUMN_NAME = "'QuestionText'";
+    private static final String CORRECT_ANSWER_COLUMN_NAME = "'CorrectAnswer'";
+    private static final String BADGE_NAME_COLUMN_NAME = "'BadgeName'";
+    private static final String BRONZE_UNLOCK_COLUMN_NAME = "'BronzeUnlock'";
+    private static final String SILVER_UNLOCK_COLUMN_NAME = "'SilverUnlock'";
+    private static final String GOLD_UNLOCK_COLUMN_NAME = "'GoldUnlock'";
+    private static final String PROGRESS_COLUMN_NAME = "'Progress'";
+
+    private static final String COMMA = ", ";
+    private static final String SINGLE_QUOTE = "'";
+
+    private static final String SAVED_Q_COLUMN_NAMES =
+            "VALUES(" + CURSOR_TYPE_COLUMN_NAME + COMMA + QUESTION_TEXT_COLUMN_NAME + COMMA + CORRECT_ANSWER_COLUMN_NAME + ")";
+
 
     //private static final String ID_COLUMN_MODIFIER = "ALTER TABLE SavedQuestions INSERT '_id', INT";
     //private static final String CURSOR_SELECT_STATEMENT = "SELECT " + QUESTION_TEXT_COLUMN_NAME + " FROM " + SAVED_QUESTION_TABLE_NAME;
@@ -41,9 +47,7 @@ public class DatabaseAccess {
      * @param context
      */
 
-    public DatabaseAccess(Context context) {
-        this.openHelper = new DatabaseOpenHelper(context);
-    }
+    DatabaseAccess(Context context) {this.openHelper = new DatabaseOpenHelper(context);}
 
 
     /**
@@ -52,10 +56,8 @@ public class DatabaseAccess {
      * @param context the Context
      * @return the instance of DabaseAccess
      */
-    public static DatabaseAccess getInstance(Context context) {
-        if (instance == null) {
-            instance = new DatabaseAccess(context);
-        }
+    static DatabaseAccess getInstance(Context context) {
+        if (instance == null) {instance = new DatabaseAccess(context);}
         return instance;
     }
 
@@ -63,21 +65,21 @@ public class DatabaseAccess {
     /**
      * Open the database connection.
      */
-    public void open() {
+    void open() {
         this.database = openHelper.getWritableDatabase();
     }
 
     /**
      * Close the database connection.
      */
-    public void close() {
+    void close() {
         if (database != null) {
             this.database.close();
         }
     }
 
 
-    public ArrayList<Question> getQuestions(int qType) {
+    ArrayList<Question> getQuestions(int qType) {
         ArrayList<Question> questionArrayList = new ArrayList<>();
         String[] columns = new String[]{QUESTION_TYPE_COLUMN_NAME, QUESTION_TEXT_COLUMN_NAME, CORRECT_ANSWER_COLUMN_NAME};
 
@@ -109,7 +111,7 @@ public class DatabaseAccess {
     }
 
 
-    public ArrayList<Badge> getBadges() {
+    ArrayList<Badge> getBadges() {
         ArrayList<Badge> badgeList = new ArrayList<>();
         String[] columns = new String[]{BADGE_NAME_COLUMN_NAME, BRONZE_UNLOCK_COLUMN_NAME,
                                         SILVER_UNLOCK_COLUMN_NAME, GOLD_UNLOCK_COLUMN_NAME, PROGRESS_COLUMN_NAME};
@@ -145,21 +147,25 @@ public class DatabaseAccess {
         return badgeList;
     }
 
-    public void updateBadgeProgress(String badgeName, int newProgress){
+    void updateBadgeProgress(String badgeName, int newProgress){
         database.execSQL("UPDATE " + BADGES_TABLE_NAME + " SET " + PROGRESS_COLUMN_NAME + " = "
                         + newProgress + " WHERE " + BADGE_NAME_COLUMN_NAME + " = " + badgeName);
     }
 
 
-    public void saveQuestions(ArrayList<Question> savedQuestions) {
+    void saveQuestions(ArrayList<Question> savedQuestions) {
 
 
         for ( int i = 0; i < savedQuestions.size(); i++ ) {
             Question savedQuestion = savedQuestions.get(i);
-            int type = savedQuestion.getQuestionType();
-            String question = savedQuestion.getQuestionText();
-            boolean correctAnswer = savedQuestion.getCorrectAnswer();
-            database.execSQL("INSERT INTO " + SAVED_QUESTION_TABLE_NAME + "(" + type + question + correctAnswer + ")");
+            int type = savedQuestion.type;
+            String question = savedQuestion.question;
+            boolean correctAnswer = savedQuestion.correctAnswer;
+            int rawCorrectAnswer = (correctAnswer) ? 1:0;
+
+            database.execSQL("INSERT INTO " + SAVED_QUESTION_TABLE_NAME + SAVED_Q_COLUMN_NAMES +
+                    SINGLE_QUOTE + type + SINGLE_QUOTE + COMMA + SINGLE_QUOTE + question +
+                    SINGLE_QUOTE + COMMA + SINGLE_QUOTE + rawCorrectAnswer + SINGLE_QUOTE + ")");
         }
 
 
@@ -167,7 +173,7 @@ public class DatabaseAccess {
 
 
 
-    public ArrayList<Question> receiveSavedQuestions(){
+    ArrayList<Question> receiveSavedQuestions(){
         ArrayList<Question> savedQuestionArrayList = new ArrayList<>();
         String[] columns = new String[]{CURSOR_TYPE_COLUMN_NAME, QUESTION_TEXT_COLUMN_NAME, CORRECT_ANSWER_COLUMN_NAME};
 
@@ -197,7 +203,7 @@ public class DatabaseAccess {
         return savedQuestionArrayList;
     }
 
-    public ArrayList<String> getQuestionTextList(){
+    ArrayList<String> getQuestionTextList(){
 
         //ArrayList<Question> fullQuestionArrayList = receiveSavedQuestions();
         ArrayList<String> savedQuestionTextList = new ArrayList<>();
