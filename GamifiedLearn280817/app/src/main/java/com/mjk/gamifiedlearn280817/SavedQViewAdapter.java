@@ -50,7 +50,7 @@ public class SavedQViewAdapter extends CursorAdapter {
         databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
         ArrayList<String> questionTextList = databaseAccess.getQuestionTextList();
-        databaseAccess.close();
+
 
         if (questionTextList.size() > 0){
             for (int i = 0; i < questionTextList.size(); i++){
@@ -61,6 +61,7 @@ public class SavedQViewAdapter extends CursorAdapter {
         else {questionListView.setText(NO_SAVED_QUESTIONS_TEXT);}
 
         cursor.close();
+        databaseAccess.close();
     }
 
 }
