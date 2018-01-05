@@ -160,6 +160,7 @@ public class QuestionMain extends AppCompatActivity {
             questions.clear();
 
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
+            finish();
         }
         else {setQuestion(currentQuestionNo);}
     }
