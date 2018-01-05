@@ -113,6 +113,8 @@ public class QuestionMain extends AppCompatActivity {
 
         noOfQuestions = questions.size();
 
+        if (noOfQuestions == 0){questions = getQuestionsBackup(quizType); noOfQuestions = questions.size();}
+
         setQuestion(0);
         //Question.setQuestionType(receivedType);
 
@@ -164,8 +166,6 @@ public class QuestionMain extends AppCompatActivity {
 
     private void setQuestion(int num) {
 
-        if (noOfQuestions == 0){questions = getQuestionsBackup(quizType);}
-
         currentQuestion = questions.get(num);
 
         questionText.setText(currentQuestion.question);
@@ -210,6 +210,7 @@ public class QuestionMain extends AppCompatActivity {
                 Question q5 = new Question(questionType, "There are 2 hydrogen atoms in a water molecule", true);
                 questions.add(q5);
 
+                return questions;
             case (2):
                 Question q6 = new Question(questionType, "This is a second quiz", true);
                 questions.add(q6);
@@ -221,6 +222,8 @@ public class QuestionMain extends AppCompatActivity {
                 questions.add(q9);
                 Question q10 = new Question(questionType, "No human has eyes", false);
                 questions.add(q10);
+
+                return questions;
         }
         return questions;
     }

@@ -231,6 +231,7 @@ public class DatabaseAccess {
 
             cursor.close();
         }
+
         return savedQuestionTextList;
     }
 }
