@@ -1,7 +1,6 @@
 package com.mjk.gamifiedlearn280817;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,11 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.net.URISyntaxException;
-import java.util.ArrayList;
+
 
 
 /**

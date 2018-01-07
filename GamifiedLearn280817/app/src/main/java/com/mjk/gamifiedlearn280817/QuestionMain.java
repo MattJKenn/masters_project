@@ -2,14 +2,9 @@ package com.mjk.gamifiedlearn280817;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,7 +12,7 @@ import android.widget.Toast;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.List;
+
 
 
 
@@ -151,9 +146,12 @@ public class QuestionMain extends AppCompatActivity {
 
             databaseAccess = DatabaseAccess.getInstance(this);
             databaseAccess.open();
-            badges = databaseAccess.getBadges();
 
+            badges = databaseAccess.getBadges();
+            databaseAccess.close();
             badgeViewAdapter.updateBadgeRank(quizType, score);
+
+            databaseAccess.open();
             databaseAccess.saveQuestions(savedQuestions);
             databaseAccess.close();
 

@@ -1,8 +1,5 @@
 package com.mjk.gamifiedlearn280817;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;

@@ -10,7 +10,10 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
     public static final String DATABASE_NAME = "AppData.db";
     public static final int DATABASE_VERSION = 1;
 
+
     public static final String TABLE_NAMES = "QuestionBank, Badges, SavedQuestions";
+
+
 
 
 
@@ -25,3 +28,37 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
     }
 
 }
+
+/*
+    private static final String QUESTION_BANK_TABLE_NAME = "QuestionBank";
+    private static final String SAVED_QUESTION_TABLE_NAME = "SavedQuestions";
+    private static final String BADGES_TABLE_NAME = "Badges";
+
+    private static final String QUESTION_TYPE_COLUMN_NAME = "'QuestionType'";
+    private static final String CURSOR_TYPE_COLUMN_NAME = "'_id'";
+    private static final String QUESTION_TEXT_COLUMN_NAME = "'QuestionText'";
+    private static final String CORRECT_ANSWER_COLUMN_NAME = "'CorrectAnswer'";
+    private static final String BADGE_NAME_COLUMN_NAME = "'BadgeName'";
+    private static final String BRONZE_UNLOCK_COLUMN_NAME = "'BronzeUnlock'";
+    private static final String SILVER_UNLOCK_COLUMN_NAME = "'SilverUnlock'";
+    private static final String GOLD_UNLOCK_COLUMN_NAME = "'GoldUnlock'";
+    private static final String PROGRESS_COLUMN_NAME = "'Progress'";
+
+    private static final String SCAN_FULL_TABLE_SQL = "SELECT * FROM ";
+    public static final String[] qbColumns = {QUESTION_TYPE_COLUMN_NAME, QUESTION_TEXT_COLUMN_NAME, CORRECT_ANSWER_COLUMN_NAME};
+    public static final String[] badgeColumns = {BADGE_NAME_COLUMN_NAME, BRONZE_UNLOCK_COLUMN_NAME, SILVER_UNLOCK_COLUMN_NAME,
+                                                GOLD_UNLOCK_COLUMN_NAME, PROGRESS_COLUMN_NAME};
+    public static final String[] sqColumns = {CURSOR_TYPE_COLUMN_NAME, QUESTION_TEXT_COLUMN_NAME, CORRECT_ANSWER_COLUMN_NAME};
+
+    public Cursor getData(int type){
+        SQLiteDatabase database = this.getWritableDatabase();
+        String table = "";
+        switch(type){
+            case(0): table = QUESTION_BANK_TABLE_NAME; break;
+            case(1): table = BADGES_TABLE_NAME; break;
+            case(2): table = SAVED_QUESTION_TABLE_NAME; break;
+        }
+
+        return database.rawQuery(SCAN_FULL_TABLE_SQL + table, null);
+    }
+    */

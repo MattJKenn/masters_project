@@ -2,18 +2,17 @@ package com.mjk.gamifiedlearn280817;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.media.MediaBrowserCompat;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+
 import android.widget.CursorAdapter;
-import android.widget.ListView;
+
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Created by owner on 23/12/2017.

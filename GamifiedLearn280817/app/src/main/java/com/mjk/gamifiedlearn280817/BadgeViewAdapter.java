@@ -1,8 +1,6 @@
 package com.mjk.gamifiedlearn280817;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,7 @@ import android.widget.TextView;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.List;
+
 
 
 /**
@@ -70,6 +68,12 @@ public class BadgeViewAdapter extends BaseAdapter {
         title = titles;
         BadgeViewAdapter.progresses = progresses;
         this.context = context;
+
+        try {updateBadgeRank(1, 0);}
+        catch (URISyntaxException e) {e.printStackTrace();}
+
+        try {updateBadgeRank(2,0);}
+        catch (URISyntaxException e) {e.printStackTrace();}
     }
 
     @Override
@@ -105,20 +109,11 @@ public class BadgeViewAdapter extends BaseAdapter {
         TextView progress = (TextView) badgeView.findViewById(R.id.progress);
 
 
-        try {updateBadgeRank(1, 0);}
-        catch (URISyntaxException e) {e.printStackTrace();}
-
-        try {updateBadgeRank(2,0);}
-        catch (URISyntaxException e) {e.printStackTrace();}
-
-
         badgeGraphic.setImageResource(badge[position]);
         titleText.setText(title[position]);
 
-        boolean quizBadgeScanned = (position != 2);
-
-        if(quizBadgeScanned) progress.setText(progresses[position] + "/" + targetQuiz);
-        else{progress.setText(progresses[position] + "/" + targetTotal);}
+        if(position != 2) progress.setText(progresses[position] + "/" + targetQuiz);
+        else{progress.setText(progresses[2] + "/" + targetTotal);}
 
 
         return badgeView;
@@ -138,13 +133,12 @@ public class BadgeViewAdapter extends BaseAdapter {
 
     public void updateBadgeRank(int quizType, int score) throws URISyntaxException {
         // assign display to asset in layout
-
         databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
-
         ArrayList<Badge> badges = databaseAccess.getBadges();
 
         int index = quizType - 1;
+
 
         quizBadgeObject = badges.get(index);
         int quizBronze = 10;//quizBadgeObject.getBronze();
@@ -161,9 +155,9 @@ public class BadgeViewAdapter extends BaseAdapter {
         String dbBadgeName = "";
 
 
-        switch (quizType){
-            case(1): dbBadgeName = "'Quiz Badge 1'"; break;
-            case(2): dbBadgeName = "'Quiz Badge 2'"; break;
+        switch (quizType) {
+            case (1): dbBadgeName = "'Quiz Badge 1'"; break;
+            case (2): dbBadgeName = "'Quiz Badge 2'"; break;
         }
 
 
@@ -171,33 +165,34 @@ public class BadgeViewAdapter extends BaseAdapter {
         totalProgress = totalProgress + score;
 
 
-        if(quizProgress < quizBronze){targetQuiz = quizBronze;}
-        else if(quizProgress >= quizBronze && quizProgress < quizSilver){
-            badge[index] = badgeLevels[0];
-            targetQuiz = quizSilver;
+        if (quizProgress < quizBronze) {targetQuiz = quizBronze;}
+        if (quizProgress >= quizBronze && quizProgress < quizSilver) {
+                badge[index] = badgeLevels[0];
+                targetQuiz = quizSilver;
         }
-        else if(quizProgress >= quizSilver && quizProgress < quizGold) {
-            badge[index] = badgeLevels[1];
-            targetQuiz = quizGold;
+        if (quizProgress >= quizSilver && quizProgress < quizGold) {
+                badge[index] = badgeLevels[1];
+                targetQuiz = quizGold;
         }
-        else if(quizProgress >= quizGold){
-            badge[index] = badgeLevels[2];
-            targetQuiz = quizProgress;
-        }
+        if (quizProgress >= quizGold) {
+                badge[index] = badgeLevels[2];
+                targetQuiz = quizProgress;
+            }
 
         if(totalProgress < totalBronze){targetTotal = totalBronze;}
-        else if(totalProgress >= totalBronze && totalProgress < totalSilver){
+        if(totalProgress >= totalBronze && totalProgress < totalSilver){
             badge[2] = badgeLevels[0];
             targetTotal = totalSilver;
         }
-        else if(totalProgress >= totalSilver && totalProgress < totalGold){
+        if(totalProgress >= totalSilver && totalProgress < totalGold){
             badge[2] = badgeLevels[1];
             targetTotal = totalGold;
         }
-        else if(totalProgress >= totalGold){
+        if(totalProgress >= totalGold){
             badge[2] = badgeLevels[2];
             targetTotal = totalProgress;
         }
+
 
         databaseAccess.updateBadgeProgress(dbBadgeName, quizProgress);
         databaseAccess.updateBadgeProgress("'Quiz Total Badge'", totalProgress);
