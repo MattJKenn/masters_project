@@ -1,6 +1,7 @@
 package com.mjk.gamifiedlearn280817;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,22 +34,17 @@ public class BadgeViewAdapter extends BaseAdapter {
     int targetTotal = 25;
 
     int badgeLevels [] = {R.drawable.bronze_badge, R.drawable.silver_badge, R.drawable.gold_badge};
-    //String dbtitles[] = {"Badge1Progress", "Badge2Progress", "BadgeTotalProgress"};
-    //static String badgeKey;
-    //static SharedPreferences preferences;
 
-    /*
-    int bronzeTypeValue = 0;
-    int silverTypeValue = 1;
-    int goldTypeValue = 2;
-    int progressTypeValue = 3;
-````*/
 
-    private Context context;
 
-    private LayoutInflater layoutInflater;
+    Context context;
+
+
+    LayoutInflater layoutInflater;
 
     DatabaseAccess databaseAccess;
+
+
 
     Badge quizBadgeObject, totalBadgeObject;
 
@@ -67,13 +63,22 @@ public class BadgeViewAdapter extends BaseAdapter {
         BadgeViewAdapter.badge = badge;
         title = titles;
         BadgeViewAdapter.progresses = progresses;
-        this.context = context;
+        this.context = context.getApplicationContext();
+
+        DatabaseOpenHelper openHelper = new DatabaseOpenHelper(context);
+        databaseAccess = new DatabaseAccess(context);
+        databaseAccess.open();
+        Cursor Badges = openHelper.getData(1);
+        databaseAccess.close();
 
         try {updateBadgeRank(1, 0);}
         catch (URISyntaxException e) {e.printStackTrace();}
 
         try {updateBadgeRank(2,0);}
         catch (URISyntaxException e) {e.printStackTrace();}
+
+        Badges.close();
+
     }
 
     @Override

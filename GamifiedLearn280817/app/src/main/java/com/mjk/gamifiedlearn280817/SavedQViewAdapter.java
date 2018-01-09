@@ -20,6 +20,8 @@ import java.util.ArrayList;
 
 public class SavedQViewAdapter extends CursorAdapter {
 
+    static Cursor SavedQuestions;
+    DatabaseOpenHelper openHelper;
 
     public SavedQViewAdapter(Context context, Cursor cursor, int flag) {
         super(context, cursor, flag);
@@ -43,6 +45,8 @@ public class SavedQViewAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
+        openHelper = new DatabaseOpenHelper(context);
+        SavedQuestions = openHelper.getData(2);
 
         TextView questionListView = (TextView) view.findViewById(R.id.saved_q_adapter);
 
@@ -59,9 +63,11 @@ public class SavedQViewAdapter extends CursorAdapter {
         }
         else {questionListView.setText(NO_SAVED_QUESTIONS_TEXT);}
 
-        cursor.close();
+        SavedQuestions.close();
         databaseAccess.close();
+
     }
+
 
 }
 /*

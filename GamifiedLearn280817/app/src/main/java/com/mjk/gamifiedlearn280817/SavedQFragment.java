@@ -33,18 +33,15 @@ public class SavedQFragment extends Fragment {
         View savedQView = inflater.inflate(R.layout.fragment_saved_q, container, false);
 
 
-        DatabaseOpenHelper databaseOpenHelper = new DatabaseOpenHelper(getContext());
-        SQLiteDatabase database = databaseOpenHelper.getWritableDatabase();
-
-        Cursor cursor = database.rawQuery("SELECT _id, QuestionText FROM SavedQuestions", null);
-
         ListView savedQs = (ListView) savedQView.findViewById(R.id.savedq_list);
 
-        SavedQViewAdapter savedQViewAdapter = new SavedQViewAdapter(getContext(), cursor, 0);
+        Cursor SavedQuestions = SavedQViewAdapter.SavedQuestions;
+
+        SavedQViewAdapter savedQViewAdapter = new SavedQViewAdapter(getContext(), SavedQuestions, 0);
 
         savedQs.setAdapter(savedQViewAdapter);
 
-        cursor.close();
+        //SavedQuestions.close();
 
         return savedQView;
     }

@@ -3,6 +3,7 @@ package com.mjk.gamifiedlearn280817;
 import android.content.Context;
 import android.content.Intent;
 
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +27,7 @@ public class QuestionMain extends AppCompatActivity {
 
     public Question currentQuestion = new Question();
 
+    Cursor QuestionBank;
 
     //private String badgeKey;
     public int score = 0;
@@ -44,7 +46,7 @@ public class QuestionMain extends AppCompatActivity {
 
 
     DatabaseAccess databaseAccess;
-    //public SharedPreferences sharedPreferences;
+    DatabaseOpenHelper openHelper;
 
     BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
 
@@ -55,8 +57,11 @@ public class QuestionMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_main);
 
+
         Context context = this;
         databaseAccess = new DatabaseAccess(context);
+        databaseAccess.open();
+        QuestionBank = openHelper.getData(0);
 
         Intent getType = getIntent();
         quizType = getType.getIntExtra("quiz_type", 1);
@@ -112,7 +117,8 @@ public class QuestionMain extends AppCompatActivity {
 
         setQuestion(0);
         //Question.setQuestionType(receivedType);
-
+        QuestionBank.close();
+        databaseAccess.close();
     }
 
 
