@@ -42,8 +42,8 @@ public class BadgeViewAdapter extends BaseAdapter {
 
     LayoutInflater layoutInflater;
 
-    DatabaseAccess databaseAccess;
-
+    DatabaseAccess databaseAccess = new DatabaseAccess(getContext());
+    DatabaseOpenHelper openHelper = new DatabaseOpenHelper(getContext());
 
 
     Badge quizBadgeObject, totalBadgeObject;
@@ -59,14 +59,16 @@ public class BadgeViewAdapter extends BaseAdapter {
     //public SharedPreferences sharedPreferences;
 
 
-    public BadgeViewAdapter(int[] badge, String[] titles, int [] progresses, Context context) throws URISyntaxException {
+    public BadgeViewAdapter(int[] badge, String[] titles, int [] progresses, Context context,
+                            DatabaseAccess databaseAccess, DatabaseOpenHelper openHelper) throws URISyntaxException {
         BadgeViewAdapter.badge = badge;
         title = titles;
         BadgeViewAdapter.progresses = progresses;
-        this.context = context.getApplicationContext();
+        this.context = context;
+        this.databaseAccess = databaseAccess;
+        this.openHelper = openHelper;
 
-        DatabaseOpenHelper openHelper = new DatabaseOpenHelper(context);
-        databaseAccess = new DatabaseAccess(context);
+
         databaseAccess.open();
         Cursor Badges = openHelper.getData(1);
         databaseAccess.close();
@@ -80,6 +82,11 @@ public class BadgeViewAdapter extends BaseAdapter {
         Badges.close();
 
     }
+
+    public Context getContext(){return context;}
+
+    public void setContext(Context context){this.context = context;}
+
 
     @Override
     public int getCount() {
@@ -207,6 +214,7 @@ public class BadgeViewAdapter extends BaseAdapter {
 
         databaseAccess.close();
     }
+
 }
 
 //sharedPreferences = context.getSharedPreferences("userInfo", MODE_PRIVATE);

@@ -45,10 +45,10 @@ public class QuestionMain extends AppCompatActivity {
     // private int num = 1;
 
 
-    DatabaseAccess databaseAccess;
-    DatabaseOpenHelper openHelper;
+    DatabaseAccess databaseAccess = new DatabaseAccess(getBaseContext());
+    DatabaseOpenHelper openHelper = new DatabaseOpenHelper(getBaseContext());
 
-    BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
+    BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this, databaseAccess, openHelper);
 
     public QuestionMain() throws URISyntaxException {/* Empty default constructor required to throw exception for connecting to database */}
 
