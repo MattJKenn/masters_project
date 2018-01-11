@@ -28,7 +28,7 @@ public class ProfileFragment extends Fragment {
 
     int progress[] = new int[3];
 
-    Context context;
+    //Context context;
 
 
 
@@ -45,10 +45,10 @@ public class ProfileFragment extends Fragment {
         View profileView = inflater.inflate(R.layout.fragment_profile, container, false);
         badgeView = (GridView) profileView.findViewById(R.id.badge_view);
 
-        DatabaseAccess databaseAccess = new DatabaseAccess(context);
-        DatabaseOpenHelper openHelper = new DatabaseOpenHelper(context);
+        //DatabaseAccess databaseAccess = new DatabaseAccess(context);
+        //DatabaseOpenHelper openHelper = new DatabaseOpenHelper(context);
         BadgeViewAdapter badgeViewAdapter = null;
-        try {badgeViewAdapter = new BadgeViewAdapter(badge, badgeTitle, progress, ProfileFragment.super.getContext(), databaseAccess, openHelper);}
+        try {badgeViewAdapter = new BadgeViewAdapter(badge, badgeTitle, progress, ProfileFragment.super.getContext());} //databaseAccess, openHelper);}
         catch (URISyntaxException e) {e.printStackTrace();}
 
         badgeView.setAdapter(badgeViewAdapter);

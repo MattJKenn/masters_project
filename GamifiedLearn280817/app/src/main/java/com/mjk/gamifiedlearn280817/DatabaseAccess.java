@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 public class DatabaseAccess {
-    private DatabaseOpenHelper openHelper;
+    public static DatabaseOpenHelper openHelper;
     private SQLiteDatabase database;
     private static DatabaseAccess instance;
 

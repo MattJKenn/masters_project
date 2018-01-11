@@ -45,10 +45,10 @@ public class QuestionMain extends AppCompatActivity {
     // private int num = 1;
 
 
-    DatabaseAccess databaseAccess = new DatabaseAccess(getBaseContext());
-    DatabaseOpenHelper openHelper = new DatabaseOpenHelper(getBaseContext());
+    DatabaseAccess databaseAccess;
+    DatabaseOpenHelper openHelper;
 
-    BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this, databaseAccess, openHelper);
+    BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
 
     public QuestionMain() throws URISyntaxException {/* Empty default constructor required to throw exception for connecting to database */}
 
@@ -60,6 +60,7 @@ public class QuestionMain extends AppCompatActivity {
 
         Context context = this;
         databaseAccess = new DatabaseAccess(context);
+        openHelper = new DatabaseOpenHelper(context);
         databaseAccess.open();
         QuestionBank = openHelper.getData(0);
 
