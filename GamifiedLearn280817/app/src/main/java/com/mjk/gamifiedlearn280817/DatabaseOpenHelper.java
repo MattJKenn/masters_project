@@ -24,12 +24,12 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
     private static final String BRONZE_UNLOCK_COLUMN_NAME = "'BronzeUnlock'";
     private static final String SILVER_UNLOCK_COLUMN_NAME = "'SilverUnlock'";
     private static final String GOLD_UNLOCK_COLUMN_NAME = "'GoldUnlock'";
-    private static final String PROGRESS_COLUMN_NAME = "'Progress'";
+    //private static final String PROGRESS_COLUMN_NAME = "'Progress'";
 
     private static final String SCAN_FULL_TABLE_SQL = "SELECT * FROM ";
     public static final String[] qbColumns = {QUESTION_TYPE_COLUMN_NAME, QUESTION_TEXT_COLUMN_NAME, CORRECT_ANSWER_COLUMN_NAME};
     public static final String[] badgeColumns = {BADGE_NAME_COLUMN_NAME, BRONZE_UNLOCK_COLUMN_NAME, SILVER_UNLOCK_COLUMN_NAME,
-            GOLD_UNLOCK_COLUMN_NAME, PROGRESS_COLUMN_NAME};
+            GOLD_UNLOCK_COLUMN_NAME};
     public static final String[] sqColumns = {CURSOR_TYPE_COLUMN_NAME, QUESTION_TEXT_COLUMN_NAME, CORRECT_ANSWER_COLUMN_NAME};
 
 

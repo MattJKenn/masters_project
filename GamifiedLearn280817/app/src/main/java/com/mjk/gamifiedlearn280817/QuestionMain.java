@@ -86,16 +86,22 @@ public class QuestionMain extends AppCompatActivity {
         trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {checkQuestion(true);}
-                catch (URISyntaxException e) {e.printStackTrace();}
+                try {
+                    checkQuestion(true);
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         falseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {checkQuestion(false);}
-                catch (URISyntaxException e) {e.printStackTrace();}
+                try {
+                    checkQuestion(false);
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -114,10 +120,10 @@ public class QuestionMain extends AppCompatActivity {
 
         noOfQuestions = questions.size();
 
-        if (noOfQuestions == 0){questions = getQuestionsBackup(quizType); noOfQuestions = questions.size();}
+
 
         setQuestion(0);
-        //Question.setQuestionType(receivedType);
+
         QuestionBank.close();
         databaseAccess.close();
     }
@@ -135,7 +141,9 @@ public class QuestionMain extends AppCompatActivity {
             databaseAccess.open();
             currentQuestion.type = quizType;
             ArrayList<Question> savedQuestionChecker = databaseAccess.receiveSavedQuestions();
-            if (!savedQuestionChecker.contains(currentQuestion)) {savedQuestions.add(currentQuestion);}
+            if (!savedQuestionChecker.contains(currentQuestion)) {
+                savedQuestions.add(currentQuestion);
+            }
             databaseAccess.close();
             Toast.makeText(this, "Incorrect! Question Saved.", Toast.LENGTH_LONG).show();
         }
@@ -166,8 +174,9 @@ public class QuestionMain extends AppCompatActivity {
 
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
             finish();
+        } else {
+            setQuestion(currentQuestionNo);
         }
-        else {setQuestion(currentQuestionNo);}
     }
 
     private void setQuestion(int num) {
@@ -189,7 +198,6 @@ public class QuestionMain extends AppCompatActivity {
     }
 
 
-
     // creates an array of questions
 
     public ArrayList<Question> createQuestions(int questionType) {
@@ -202,7 +210,8 @@ public class QuestionMain extends AppCompatActivity {
 
     }
 
-    public ArrayList<Question> getQuestionsBackup(int questionType) {
+}
+    /*public ArrayList<Question> getQuestionsBackup(int questionType) {
         switch (questionType) {
             case (1):
                 Question q1 = new Question(questionType, "This is easier than i thought", true);
@@ -233,6 +242,8 @@ public class QuestionMain extends AppCompatActivity {
         }
         return questions;
     }
+
+   if (noOfQuestions == 0){questions = getQuestionsBackup(quizType); noOfQuestions = questions.size();}
 }
 /*
    public int getScore(){return score;}

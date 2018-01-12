@@ -20,15 +20,15 @@ public class DatabaseAccess {
     private static final String SAVED_QUESTION_TABLE_NAME = "SavedQuestions";
     private static final String BADGES_TABLE_NAME = "Badges";
 
-    private static final String QUESTION_TYPE_COLUMN_NAME = "'QuestionType'";
+    private static final String QUESTION_TYPE_COLUMN_NAME = "QuestionType";
     private static final String CURSOR_TYPE_COLUMN_NAME = "'_id'";
-    private static final String QUESTION_TEXT_COLUMN_NAME = "'QuestionText'";
-    private static final String CORRECT_ANSWER_COLUMN_NAME = "'CorrectAnswer'";
+    private static final String QUESTION_TEXT_COLUMN_NAME = "QuestionText";
+    private static final String CORRECT_ANSWER_COLUMN_NAME = "CorrectAnswer";
     private static final String BADGE_NAME_COLUMN_NAME = "'BadgeName'";
     private static final String BRONZE_UNLOCK_COLUMN_NAME = "'BronzeUnlock'";
     private static final String SILVER_UNLOCK_COLUMN_NAME = "'SilverUnlock'";
     private static final String GOLD_UNLOCK_COLUMN_NAME = "'GoldUnlock'";
-    private static final String PROGRESS_COLUMN_NAME = "'Progress'";
+    //private static final String PROGRESS_COLUMN_NAME = "'Progress'";
 
     private static final String COMMA = ", ";
     private static final String SINGLE_QUOTE = "'";
@@ -47,7 +47,8 @@ public class DatabaseAccess {
      * @param context
      */
 
-    DatabaseAccess(Context context) {this.openHelper = new DatabaseOpenHelper(context);}
+    DatabaseAccess(Context context) {
+        openHelper = new DatabaseOpenHelper(context);}
 
 
     /**
@@ -87,11 +88,11 @@ public class DatabaseAccess {
                 null, null, null, null);
 
 
-        if (cursor != null && cursor.getCount() > 0) {
+        if (cursor != null) {
             cursor.moveToFirst();
-            int iQType = cursor.getColumnIndex(QUESTION_TEXT_COLUMN_NAME);
-            int iQText = cursor.getColumnIndex(QUESTION_TEXT_COLUMN_NAME);
-            int iCorrectAns = cursor.getColumnIndex(CORRECT_ANSWER_COLUMN_NAME);
+            int iQType = cursor.getColumnIndexOrThrow(QUESTION_TYPE_COLUMN_NAME);
+            int iQText = cursor.getColumnIndexOrThrow(QUESTION_TEXT_COLUMN_NAME);
+            int iCorrectAns = cursor.getColumnIndexOrThrow(CORRECT_ANSWER_COLUMN_NAME);
 
 
             do {
@@ -114,7 +115,7 @@ public class DatabaseAccess {
     ArrayList<Badge> getBadges() {
         ArrayList<Badge> badgeList = new ArrayList<>();
         String[] columns = new String[]{BADGE_NAME_COLUMN_NAME, BRONZE_UNLOCK_COLUMN_NAME,
-                                        SILVER_UNLOCK_COLUMN_NAME, GOLD_UNLOCK_COLUMN_NAME, PROGRESS_COLUMN_NAME};
+                                        SILVER_UNLOCK_COLUMN_NAME, GOLD_UNLOCK_COLUMN_NAME};
 
         Cursor cursor = database.query(BADGES_TABLE_NAME, columns, null,
                 null, null, null, null);
@@ -133,10 +134,10 @@ public class DatabaseAccess {
                 int bronzeUnlock = cursor.getInt(cursor.getColumnIndexOrThrow(BRONZE_UNLOCK_COLUMN_NAME));
                 int silverUnlock = cursor.getInt(cursor.getColumnIndexOrThrow(SILVER_UNLOCK_COLUMN_NAME));
                 int goldUnlock = cursor.getInt(cursor.getColumnIndexOrThrow(GOLD_UNLOCK_COLUMN_NAME));
-                int progress = cursor.getInt(cursor.getColumnIndexOrThrow(PROGRESS_COLUMN_NAME));
+                //int progress = cursor.getInt(cursor.getColumnIndexOrThrow(PROGRESS_COLUMN_NAME));
 
 
-                Badge badge = new Badge(badgeName, bronzeUnlock, silverUnlock, goldUnlock, progress);
+                Badge badge = new Badge(badgeName, bronzeUnlock, silverUnlock, goldUnlock);
                 badgeList.add(badge);
             }
             while (cursor.moveToNext());
@@ -147,10 +148,7 @@ public class DatabaseAccess {
         return badgeList;
     }
 
-    void updateBadgeProgress(String badgeName, int newProgress){
-        database.execSQL("UPDATE " + BADGES_TABLE_NAME + " SET " + PROGRESS_COLUMN_NAME + " = "
-                        + newProgress + " WHERE " + BADGE_NAME_COLUMN_NAME + " = " + badgeName);
-    }
+
 
 
     void saveQuestions(ArrayList<Question> savedQuestions) {

@@ -1,7 +1,9 @@
 package com.mjk.gamifiedlearn280817;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.net.URISyntaxException;
@@ -24,11 +27,10 @@ public class BadgeViewAdapter extends BaseAdapter {
 
 
 
-
-
     static int[] badge = {R.drawable.vanilla_badge1, R.drawable.vanilla_badge2, R.drawable.vanilla_badge3};
     static String[] title;
     static int[] progresses  = new int[3];
+
 
     int targetQuiz = 10;
     int targetTotal = 25;
@@ -55,6 +57,14 @@ public class BadgeViewAdapter extends BaseAdapter {
     //int[] badgeGraphics = {R.drawable.bronze_badge, R.drawable.silver_badge, R.drawable.gold_badge};
 
 
+    public static final String userData = "USER_DATA";
+    public static final String badge1Prog = "BADGE_1";
+    public static final String badge2Prog = "BADGE_2";
+    public static final String badgeTotalProg = "BADGE_TOTAL";
+
+    int progressB1, progressB2, progressBTotal, Default = 0;
+
+    SharedPreferences UserData;
 
     //public SharedPreferences sharedPreferences;
 
@@ -64,7 +74,6 @@ public class BadgeViewAdapter extends BaseAdapter {
         title = titles;
         BadgeViewAdapter.progresses = progresses;
         this.context = context;
-
 
         databaseAccess = DatabaseAccess.getInstance(context);
         openHelper = DatabaseAccess.openHelper;
@@ -155,78 +164,87 @@ public class BadgeViewAdapter extends BaseAdapter {
         int quizBronze = 10;//quizBadgeObject.getBronze();
         int quizSilver = 25;//quizBadgeObject.getSilver();
         int quizGold = 50;//quizBadgeObject.getGold();
-        int quizProgress = quizBadgeObject.getProgress();
+
 
         totalBadgeObject = badges.get(2);
         int totalBronze = 25;//totalBadgeObject.getBronze();
         int totalSilver = 50;//totalBadgeObject.getSilver();
         int totalGold = 100;//totalBadgeObject.getGold();
-        int totalProgress = totalBadgeObject.getProgress();
-
-        String dbBadgeName = "";
 
 
-        switch (quizType) {
-            case (1): dbBadgeName = "'Quiz Badge 1'"; break;
-            case (2): dbBadgeName = "'Quiz Badge 2'"; break;
-        }
+        int progress = updateProgress(quizType, score);
+        int progressTotal = updateProgress(3, score);
 
-
-        quizProgress = quizProgress + score;
-        totalProgress = totalProgress + score;
-
-
-        if (quizProgress < quizBronze) {targetQuiz = quizBronze;}
-        if (quizProgress >= quizBronze && quizProgress < quizSilver) {
+        if (progress < quizBronze) {targetQuiz = quizBronze;}
+        if (progress >= quizBronze && progress < quizSilver) {
                 badge[index] = badgeLevels[0];
                 targetQuiz = quizSilver;
         }
-        if (quizProgress >= quizSilver && quizProgress < quizGold) {
+        if (progress >= quizSilver && progress < quizGold) {
                 badge[index] = badgeLevels[1];
                 targetQuiz = quizGold;
         }
-        if (quizProgress >= quizGold) {
+        if (progress >= quizGold) {
                 badge[index] = badgeLevels[2];
-                targetQuiz = quizProgress;
-            }
+                targetQuiz = progress;
+        }
 
-        if(totalProgress < totalBronze){targetTotal = totalBronze;}
-        if(totalProgress >= totalBronze && totalProgress < totalSilver){
+        if(progressTotal < totalBronze){targetTotal = totalBronze;}
+        if(progressTotal >= totalBronze && progressTotal < totalSilver){
             badge[2] = badgeLevels[0];
             targetTotal = totalSilver;
         }
-        if(totalProgress >= totalSilver && totalProgress < totalGold){
+        if(progressTotal >= totalSilver && progressTotal < totalGold){
             badge[2] = badgeLevels[1];
             targetTotal = totalGold;
         }
-        if(totalProgress >= totalGold){
+        if(progressTotal >= totalGold){
             badge[2] = badgeLevels[2];
-            targetTotal = totalProgress;
+            targetTotal = progressTotal;
         }
 
 
-        databaseAccess.updateBadgeProgress(dbBadgeName, quizProgress);
-        databaseAccess.updateBadgeProgress("'Quiz Total Badge'", totalProgress);
+        //databaseAccess.updateBadgeProgress(dbBadgeName, quizProgress);
+        //databaseAccess.updateBadgeProgress("'Quiz Total Badge'", totalProgress);
 
-        progresses[index] = quizProgress;
-        progresses[2] = totalProgress;
+        progresses[index] = progress;
+        progresses[2] = progressTotal;
 
         databaseAccess.close();
     }
 
+
+    private int updateProgress(int badge, int score) {
+            UserData = context.getSharedPreferences(userData, Context.MODE_PRIVATE);
+
+            progressB1 = UserData.getInt(badge1Prog, Default);
+            progressB2 = UserData.getInt(badge2Prog, Default);
+            progressBTotal = UserData.getInt(badgeTotalProg, Default);
+
+            SharedPreferences.Editor updater = UserData.edit();
+            int progress = 0;
+
+
+            switch (badge){
+                case(1):
+                    progress = progressB1 + score;
+                    updater.putInt(badge1Prog, progress);
+                    break;
+                case(2):
+                    progress = progressB2 + score;
+                    updater.putInt(badge2Prog, progress);
+                case(3):
+                    progress = progressBTotal + score;
+                    updater.putInt(badgeTotalProg, progress);
+            }
+
+            Toast.makeText(context, "Badge Updated: " + badge, Toast.LENGTH_SHORT).show();
+
+            updater.apply();
+
+        return progress;
+        }
 }
-
-//sharedPreferences = context.getSharedPreferences("userInfo", MODE_PRIVATE);
-        /*
-        SharedPreferences.Editor updater = sharedPreferences.edit();
-        updater.putInt("Badge1Progress", badgeProgress1);
-        updater.putInt("Badge2Progress", badgeProgress2);
-        updater.putInt("BadgeTotalProgress", badgeProgressTotal);
-        updater.apply();
-
-        */
-
-//progress = sharedPreferences.getInt(dbtitles[i], 0);
 
 
 

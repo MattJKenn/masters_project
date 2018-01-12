@@ -35,10 +35,12 @@ public class AppMain extends AppCompatActivity {
     public static final String badge2Prog = "BADGE_2";
     public static final String badgeTotalProg = "BADGE_TOTAL";
 
-    int progressB1, progressB2, progressBTotal;
+    int progressB1, progressB2, progressBTotal, firstTimeCheck;
     int Default = 0;
 
-    SharedPreferences sharedPreferences;
+
+
+    SharedPreferences UserData;
 
 
     @Override
@@ -102,7 +104,13 @@ public class AppMain extends AppCompatActivity {
         });
         setupViewPager(viewPager);
 
-        //loadUserData();
+        UserData = this.getSharedPreferences(userData, MODE_PRIVATE);
+        SharedPreferences.Editor create = UserData.edit();
+        if(!UserData.contains(badge1Prog)){create.putInt(badge1Prog, 0);}
+        if(!UserData.contains(badge2Prog)){create.putInt(badge2Prog, 0);}
+        if(!UserData.contains(badgeTotalProg)){create.putInt(badgeTotalProg, 0);}
+        create.apply();
+
     }
 
     void setupViewPager(ViewPager viewPager) {
@@ -118,27 +126,17 @@ public class AppMain extends AppCompatActivity {
         System.out.println(adapter.getCount());
     }
 
-    /*void loadUserData(){
-
-        sharedPreferences = getSharedPreferences(userData, MODE_PRIVATE);
-
-        if(sharedPreferences == null) {
-            SharedPreferences.Editor edit = sharedPreferences.edit();
-            edit.putInt(badge1Prog, Default);
-            edit.putInt(badge1Prog, Default);
-            edit.putInt(badge1Prog, Default);
-
-            edit.apply();
-        }
 
 
-        progressB1 = sharedPreferences.getInt(badge1Prog, Default);
-        progressB2 = sharedPreferences.getInt(badge2Prog, Default);
-        progressBTotal = sharedPreferences.getInt(badgeTotalProg, Default);
+
+
+
+
 
 
         //badgeProgressPref =;
         //badgeRankPref =;
-    }
-*/
+
 }
+
+
