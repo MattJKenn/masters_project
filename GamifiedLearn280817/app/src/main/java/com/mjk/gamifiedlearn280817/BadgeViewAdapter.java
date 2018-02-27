@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class BadgeViewAdapter extends BaseAdapter {
 
 
 
-    Context context = this.getContext();
+    Context context = getContext();
 
 
     LayoutInflater layoutInflater;
@@ -50,12 +51,11 @@ public class BadgeViewAdapter extends BaseAdapter {
 
     Badge quizBadgeObject, totalBadgeObject;
 
-    //QuestionMain questionMain;
+    ProfileFragment profileFragment;
 
-    //GridView badgeView;
+
     ImageView badgeGraphic;
     //int[] badgeGraphics = {R.drawable.bronze_badge, R.drawable.silver_badge, R.drawable.gold_badge};
-
 
     public static final String userData = "USER_DATA";
     public static final String badge1Prog = "BADGE_1";
@@ -64,9 +64,9 @@ public class BadgeViewAdapter extends BaseAdapter {
 
     int progressB1, progressB2, progressBTotal, Default = 0;
 
+
     SharedPreferences UserData;
 
-    //public SharedPreferences sharedPreferences;
 
 
     public BadgeViewAdapter(int[] badge, String[] titles, int [] progresses, Context context) throws URISyntaxException {
@@ -132,6 +132,23 @@ public class BadgeViewAdapter extends BaseAdapter {
         badgeGraphic.setImageResource(badge[position]);
         titleText.setText(title[position]);
 
+
+
+
+        SharedPreferences.Editor create = UserData.edit();
+
+
+        if(!UserData.contains(badge1Prog)){create.putInt(badge1Prog, 0);}
+        if(!UserData.contains(badge2Prog)){create.putInt(badge2Prog, 0);}
+        if(!UserData.contains(badgeTotalProg)){create.putInt(badgeTotalProg, 0);}
+        create.apply();
+
+
+        progresses[0] = progressB1;
+        progresses[1] = progressB2;
+        progresses[2] = progressBTotal;
+
+
         if(position != 2) progress.setText(progresses[position] + "/" + targetQuiz);
         else{progress.setText(progresses[2] + "/" + targetTotal);}
 
@@ -151,7 +168,7 @@ public class BadgeViewAdapter extends BaseAdapter {
     }
     */
 
-    public void updateBadgeRank(int quizType, int score) throws URISyntaxException {
+    void updateBadgeRank(int quizType, int score) throws URISyntaxException {
         // assign display to asset in layout
         databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
@@ -214,28 +231,34 @@ public class BadgeViewAdapter extends BaseAdapter {
     }
 
 
+
+
     private int updateProgress(int badge, int score) {
-            UserData = context.getSharedPreferences(userData, Context.MODE_PRIVATE);
 
-            progressB1 = UserData.getInt(badge1Prog, Default);
-            progressB2 = UserData.getInt(badge2Prog, Default);
-            progressBTotal = UserData.getInt(badgeTotalProg, Default);
+        UserData = getContext().getSharedPreferences(userData, Context.MODE_PRIVATE);
 
-            SharedPreferences.Editor updater = UserData.edit();
-            int progress = 0;
+        progressB1 = UserData.getInt(badge1Prog, Default);
+        progressB2 = UserData.getInt(badge2Prog, Default);
+        progressBTotal = UserData.getInt(badgeTotalProg, Default);
 
+        SharedPreferences.Editor updater = UserData.edit();
 
-            switch (badge){
-                case(1):
-                    progress = progressB1 + score;
-                    updater.putInt(badge1Prog, progress);
-                    break;
-                case(2):
-                    progress = progressB2 + score;
-                    updater.putInt(badge2Prog, progress);
-                case(3):
-                    progress = progressBTotal + score;
-                    updater.putInt(badgeTotalProg, progress);
+        int progress = 0;
+
+        switch (badge){
+
+            case(1):
+                progress = progressB1 + score;
+                updater.putInt(badge1Prog, progress);
+                break;
+            case(2):
+                progress = progressB2 + score;
+                updater.putInt(badge2Prog, progress);
+                break;
+            case(3):
+                progress = progressBTotal + score;
+                updater.putInt(badgeTotalProg, progress);
+                break;
             }
 
             Toast.makeText(context, "Badge Updated: " + badge, Toast.LENGTH_SHORT).show();
@@ -244,6 +267,9 @@ public class BadgeViewAdapter extends BaseAdapter {
 
         return progress;
         }
+
+
+
 }
 
 

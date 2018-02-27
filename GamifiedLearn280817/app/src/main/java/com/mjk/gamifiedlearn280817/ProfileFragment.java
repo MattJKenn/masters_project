@@ -2,7 +2,9 @@ package com.mjk.gamifiedlearn280817;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,8 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import java.net.URISyntaxException;
-
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -28,8 +31,13 @@ public class ProfileFragment extends Fragment {
 
     int progress[] = new int[3];
 
+    SharedPreferences UserData;
     //Context context;
 
+    public static final String userData = "USER_DATA";
+    public static final String badge1Prog = "BADGE_1";
+    public static final String badge2Prog = "BADGE_2";
+    public static final String badgeTotalProg = "BADGE_TOTAL";
 
 
     public ProfileFragment() {
@@ -48,8 +56,10 @@ public class ProfileFragment extends Fragment {
         //DatabaseAccess databaseAccess = new DatabaseAccess(context);
         //DatabaseOpenHelper openHelper = new DatabaseOpenHelper(context);
         BadgeViewAdapter badgeViewAdapter = null;
+
         try {badgeViewAdapter = new BadgeViewAdapter(badge, badgeTitle, progress, ProfileFragment.super.getContext());} //databaseAccess, openHelper);}
         catch (URISyntaxException e) {e.printStackTrace();}
+
 
         badgeView.setAdapter(badgeViewAdapter);
 
@@ -62,6 +72,28 @@ public class ProfileFragment extends Fragment {
 
         return profileView;
     }
+/*
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        UserData = getUserData();
+        SharedPreferences.Editor create = UserData.edit();
+
+        if(!UserData.contains(badge1Prog)){create.putInt(badge1Prog, 0);}
+        if(!UserData.contains(badge2Prog)){create.putInt(badge2Prog, 0);}
+        if(!UserData.contains(badgeTotalProg)){create.putInt(badgeTotalProg, 0);}
+        create.apply();
+
+        setUserData(UserData);
+    }
+*/
+    private void setUserData(SharedPreferences userData){this.UserData = userData;}
+
+    public SharedPreferences getUserData(){return getActivity().getSharedPreferences(userData, Context.MODE_PRIVATE);}
+
+
+
 
 }
 

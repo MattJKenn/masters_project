@@ -104,12 +104,6 @@ public class AppMain extends AppCompatActivity {
         });
         setupViewPager(viewPager);
 
-        UserData = this.getSharedPreferences(userData, MODE_PRIVATE);
-        SharedPreferences.Editor create = UserData.edit();
-        if(!UserData.contains(badge1Prog)){create.putInt(badge1Prog, 0);}
-        if(!UserData.contains(badge2Prog)){create.putInt(badge2Prog, 0);}
-        if(!UserData.contains(badgeTotalProg)){create.putInt(badgeTotalProg, 0);}
-        create.apply();
 
     }
 
