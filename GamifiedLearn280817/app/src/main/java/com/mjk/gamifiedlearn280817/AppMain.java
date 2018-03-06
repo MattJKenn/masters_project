@@ -1,5 +1,6 @@
 package com.mjk.gamifiedlearn280817;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.renderscript.Sampler;
@@ -38,8 +39,6 @@ public class AppMain extends AppCompatActivity {
     int progressB1, progressB2, progressBTotal, firstTimeCheck;
     int Default = 0;
 
-
-
     SharedPreferences UserData;
 
 
@@ -51,7 +50,6 @@ public class AppMain extends AppCompatActivity {
         viewPager = (NonSwipeableViewPager) findViewById(R.id.viewPager);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         fragmentManager = getSupportFragmentManager();
-
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -80,7 +78,8 @@ public class AppMain extends AppCompatActivity {
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
@@ -100,11 +99,10 @@ public class AppMain extends AppCompatActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
         setupViewPager(viewPager);
-
-
     }
 
     void setupViewPager(ViewPager viewPager) {
@@ -121,16 +119,16 @@ public class AppMain extends AppCompatActivity {
     }
 
 
+}
 
 
 
 
 
 
-
-        //badgeProgressPref =;
+    //badgeProgressPref =;
         //badgeRankPref =;
 
-}
+
 
 

@@ -164,7 +164,7 @@ public class QuestionMain extends AppCompatActivity {
 
             badges = databaseAccess.getBadges();
             databaseAccess.close();
-            badgeViewAdapter.updateBadgeRank(quizType, score);
+            badgeViewAdapter.updateBadgeRank(quizType, score, this);
 
             databaseAccess.open();
             databaseAccess.saveQuestions(savedQuestions);

@@ -23,13 +23,14 @@ import java.util.Set;
  */
 public class ProfileFragment extends Fragment {
 
-    static GridView badgeView;
+    GridView badgeView;
 
     String badgeTitle[] = {"Quiz Badge 1", "Quiz Badge 2", "Quiz Total Badge"};
 
     int badge[] = {R.drawable.vanilla_badge1, R.drawable.vanilla_badge2, R.drawable.vanilla_badge3};
 
     int progress[] = new int[3];
+
 
     SharedPreferences UserData;
     //Context context;
@@ -43,8 +44,6 @@ public class ProfileFragment extends Fragment {
     public ProfileFragment() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,6 +60,7 @@ public class ProfileFragment extends Fragment {
         catch (URISyntaxException e) {e.printStackTrace();}
 
 
+
         badgeView.setAdapter(badgeViewAdapter);
 
         badgeView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -72,28 +72,6 @@ public class ProfileFragment extends Fragment {
 
         return profileView;
     }
-/*
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        UserData = getUserData();
-        SharedPreferences.Editor create = UserData.edit();
-
-        if(!UserData.contains(badge1Prog)){create.putInt(badge1Prog, 0);}
-        if(!UserData.contains(badge2Prog)){create.putInt(badge2Prog, 0);}
-        if(!UserData.contains(badgeTotalProg)){create.putInt(badgeTotalProg, 0);}
-        create.apply();
-
-        setUserData(UserData);
-    }
-*/
-    private void setUserData(SharedPreferences userData){this.UserData = userData;}
-
-    public SharedPreferences getUserData(){return getActivity().getSharedPreferences(userData, Context.MODE_PRIVATE);}
-
-
-
 
 }
 
