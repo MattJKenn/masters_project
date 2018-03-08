@@ -79,6 +79,7 @@ public class BadgeViewAdapter extends BaseAdapter {
         this.context = context;
 
 
+        progressData.create(context);
 
         databaseAccess = DatabaseAccess.getInstance(context);
         openHelper = DatabaseAccess.openHelper;
