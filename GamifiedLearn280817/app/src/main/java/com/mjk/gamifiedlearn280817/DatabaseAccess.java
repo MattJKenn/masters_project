@@ -149,6 +149,7 @@ public class DatabaseAccess {
     }
 
 
+    /*
 
 
     void saveQuestions(ArrayList<Question> savedQuestions) {
@@ -165,9 +166,10 @@ public class DatabaseAccess {
                     SINGLE_QUOTE + type + SINGLE_QUOTE + COMMA + SINGLE_QUOTE + question +
                     SINGLE_QUOTE + COMMA + SINGLE_QUOTE + rawCorrectAnswer + SINGLE_QUOTE + ")");
         }
+        }
 
+    */
 
-    }
 
 
 

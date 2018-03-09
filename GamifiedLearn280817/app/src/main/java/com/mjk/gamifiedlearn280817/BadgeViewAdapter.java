@@ -1,18 +1,14 @@
 package com.mjk.gamifiedlearn280817;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 
 import java.net.URISyntaxException;
@@ -24,13 +20,13 @@ import java.util.ArrayList;
  * Created by owner on 13/11/2017.
  */
 
-public class BadgeViewAdapter extends BaseAdapter {
+public class BadgeViewAdapter extends BaseAdapter{
 
 
 
     static int[] badge = {R.drawable.vanilla_badge1, R.drawable.vanilla_badge2, R.drawable.vanilla_badge3};
     static String[] title;
-    static int[] progresses  = new int[3];
+    static int[] progresses = new int[3];
 
 
     int targetQuiz = 10;
@@ -52,21 +48,19 @@ public class BadgeViewAdapter extends BaseAdapter {
 
     Badge quizBadgeObject, totalBadgeObject;
 
-    SharedPreferencesData progressData;
+
+    ResultsScreen resultsScreen;
 
 
     ImageView badgeGraphic;
     //int[] badgeGraphics = {R.drawable.bronze_badge, R.drawable.silver_badge, R.drawable.gold_badge};
 
-    public static final String userData = "USER_DATA";
-    public static final String badge1Prog = "BADGE_1";
-    public static final String badge2Prog = "BADGE_2";
-    public static final String badgeTotalProg = "BADGE_TOTAL";
-
-    int progressB1, progressB2, progressBTotal, progress, progressTotal = 0;
 
 
-    //SharedPreferences UserData;
+    int progressB1, progressB2, progressBTotal, progress, progressTotal;
+
+
+    SharedPreferencesData progressData = new SharedPreferencesData();
 
     AppMain appContext;
 
@@ -79,7 +73,7 @@ public class BadgeViewAdapter extends BaseAdapter {
         this.context = context;
 
 
-        progressData.create(context);
+        progressData.create();
 
         databaseAccess = DatabaseAccess.getInstance(context);
         openHelper = DatabaseAccess.openHelper;
@@ -89,11 +83,16 @@ public class BadgeViewAdapter extends BaseAdapter {
 
 
 
-        try {updateBadgeRank(1, 0, context);}
+        try {updateBadgeRank(1, 0);}
         catch (URISyntaxException e) {e.printStackTrace();}
 
-        try {updateBadgeRank(2,0, context);}
+        try {updateBadgeRank(2,0);}
         catch (URISyntaxException e) {e.printStackTrace();}
+
+
+        progresses[0] = progressB1;
+        progresses[1] = progressB2;
+        progresses[2] = progressBTotal;
 
         Badges.close();
 
@@ -137,16 +136,11 @@ public class BadgeViewAdapter extends BaseAdapter {
         TextView progress = (TextView) badgeView.findViewById(R.id.progress);
 
 
+
         badgeGraphic.setImageResource(badge[position]);
         titleText.setText(title[position]);
 
-        progresses[0] = progressB1;
-        progresses[1] = progressB2;
-        progresses[2] = progressBTotal;
 
-
-
-        //setUserData(UserData);
 
 
 
@@ -169,9 +163,9 @@ public class BadgeViewAdapter extends BaseAdapter {
     }
     */
 
-    void updateBadgeRank(int quizType, int score, Context context) throws URISyntaxException {
+
+    void updateBadgeRank(int quizType, int score) throws URISyntaxException {
         // assign display to asset in layout
-        this.context = context;
 
         databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
@@ -192,8 +186,9 @@ public class BadgeViewAdapter extends BaseAdapter {
         int totalGold = 100;//totalBadgeObject.getGold();
 
 
-        progress = progressData.update(quizType, score, context);
-        progressTotal = progressData.update(3, score,context);
+
+        progress = progressData.update(quizType, score);
+        progressTotal = progressData.update(3, score);
 
         if (progress < quizBronze) {targetQuiz = quizBronze;}
         if (progress >= quizBronze && progress < quizSilver) {
@@ -224,8 +219,6 @@ public class BadgeViewAdapter extends BaseAdapter {
         }
 
 
-        //databaseAccess.updateBadgeProgress(dbBadgeName, quizProgress);
-        //databaseAccess.updateBadgeProgress("'Quiz Total Badge'", totalProgress);
 
         progresses[index] = progress;
         progresses[2] = progressTotal;

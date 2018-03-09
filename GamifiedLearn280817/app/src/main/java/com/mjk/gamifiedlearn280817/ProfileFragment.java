@@ -1,10 +1,9 @@
 package com.mjk.gamifiedlearn280817;
 
 
-import android.content.Context;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +13,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import java.net.URISyntaxException;
-import java.util.Map;
-import java.util.Set;
+
 
 
 /**
@@ -52,13 +50,14 @@ public class ProfileFragment extends Fragment {
         View profileView = inflater.inflate(R.layout.fragment_profile, container, false);
         badgeView = (GridView) profileView.findViewById(R.id.badge_view);
 
+
         //DatabaseAccess databaseAccess = new DatabaseAccess(context);
         //DatabaseOpenHelper openHelper = new DatabaseOpenHelper(context);
         BadgeViewAdapter badgeViewAdapter = null;
 
+
         try {badgeViewAdapter = new BadgeViewAdapter(badge, badgeTitle, progress, ProfileFragment.super.getContext());} //databaseAccess, openHelper);}
         catch (URISyntaxException e) {e.printStackTrace();}
-
 
 
         badgeView.setAdapter(badgeViewAdapter);

@@ -4,13 +4,12 @@ package com.mjk.gamifiedlearn280817;
  * Created by owner on 06/03/2018.
  */
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.preference.PreferenceManager;
-import android.widget.Toast;
 
-public class SharedPreferencesData {
+import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
+
+
+public class SharedPreferencesData extends AppCompatActivity {
 
     public static final String userData = "USER_DATA";
     public static final String badge1Prog = "BADGE_1";
@@ -18,16 +17,13 @@ public class SharedPreferencesData {
     public static final String badgeTotalProg = "BADGE_TOTAL";
 
 
-    public SharedPreferencesData() {
-        super();
-    }
+    public SharedPreferencesData () {super();}
 
-    public void create(Context context){
-        SharedPreferences UserData;
-        SharedPreferences.Editor create;
 
-        UserData = context.getSharedPreferences(userData, Context.MODE_PRIVATE);
-        create = UserData.edit();
+    public void create(){
+
+        SharedPreferences UserData = getSharedPreferences(userData, MODE_PRIVATE);
+        SharedPreferences.Editor create = UserData.edit();
 
         if (!UserData.contains(badge1Prog)) {
             create.putInt(badge1Prog, 0);
@@ -42,13 +38,11 @@ public class SharedPreferencesData {
 
     }
 
-    public int update(int badge, int score, Context context) {
 
-        SharedPreferences UserData;
-        UserData = context.getSharedPreferences(userData, Context.MODE_PRIVATE);
+    public int update(int badge, int score) {
 
         String name = "";
-        int progress = 0;
+        int progress;
 
         switch(badge){
             case(1): name = badge1Prog;
@@ -59,9 +53,13 @@ public class SharedPreferencesData {
             break;
         }
 
+        SharedPreferences UserData = getSharedPreferences(userData, MODE_PRIVATE);
+
         progress = UserData.getInt(name, 0);
 
         progress = progress + score;
+
+
 
         SharedPreferences.Editor updater = UserData.edit();
 

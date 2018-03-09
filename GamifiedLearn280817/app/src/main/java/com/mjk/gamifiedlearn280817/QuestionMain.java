@@ -159,17 +159,19 @@ public class QuestionMain extends AppCompatActivity {
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
 
+
             databaseAccess = DatabaseAccess.getInstance(this);
             databaseAccess.open();
 
             badges = databaseAccess.getBadges();
             databaseAccess.close();
-            badgeViewAdapter.updateBadgeRank(quizType, score, this);
+            badgeViewAdapter.updateBadgeRank(quizType, score);
 
+            /*
             databaseAccess.open();
             databaseAccess.saveQuestions(savedQuestions);
             databaseAccess.close();
-
+            */
             questions.clear();
 
             startActivity(displayResults);                      // sends intent with score to ResultsScreen

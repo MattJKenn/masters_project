@@ -1,5 +1,6 @@
 package com.mjk.gamifiedlearn280817;
 
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,8 +14,6 @@ public class ResultsScreen extends AppCompatActivity {
     Button endQuizButton;
     TextView finalScoreText;
 
-    private int score;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,19 +24,14 @@ public class ResultsScreen extends AppCompatActivity {
         finalScoreText = (TextView)findViewById(R.id.finalScore_textView);
 
         Intent result = getIntent();
-        score = result.getIntExtra("final_score", 0);
+        int score = result.getIntExtra("final_score", 0);
 
         finalScoreText.setText("Your Score is: " + score);
 
-        
 
         endQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                finish();
-            }
+            public void onClick(View v) {finish();}
         });
     }
-
-
 }
