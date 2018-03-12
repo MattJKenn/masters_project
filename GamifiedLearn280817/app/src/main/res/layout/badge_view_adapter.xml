@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/badges"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:contentDescription="Badge for the First Quiz"
+        android:scaleType="fitCenter"
+        android:src="@drawable/vanilla_badge1" />
+
+    <TextView
+        android:id="@+id/badge_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/badges"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="71dp"
+        android:text="Quiz 1 Badge" />
+
+    <TextView
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/badge_text"
+        android:layout_centerHorizontal="true"
+        android:text="/"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+
+</RelativeLayout>

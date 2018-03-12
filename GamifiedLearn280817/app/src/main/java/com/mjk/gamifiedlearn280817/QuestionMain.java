@@ -1,32 +1,79 @@
 package com.mjk.gamifiedlearn280817;
 
+import android.content.Context;
 import android.content.Intent;
+
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+
+
+
 public class QuestionMain extends AppCompatActivity {
+
 
     private Button trueButton, falseButton, quitButton;
     private TextView scoreText, questionText, questionNoText;
 
-    private boolean correctAnswer;
-    private Question currentQuestion;
-    private int score = 0;
-    private int currentQuestionNo = 0;
-    private ArrayList<Question> questions;
+    private Boolean correctAnswer;
+
+    public Question currentQuestion = new Question();
+
+    Cursor QuestionBank;
+
+    //private String badgeKey;
+    public int score = 0;
+    private int currentQuestionNo = 1;
+    private int noOfQuestions; /*oldValue, newValue*/
+    int quizType = 1;
+
+    int badge[] = BadgeViewAdapter.badge;
+    String title[] = BadgeViewAdapter.title;
+    int progresses[] = BadgeViewAdapter.progresses;
+
+    ArrayList<Question> questions = new ArrayList<>();
+    ArrayList<Question> savedQuestions = new ArrayList<>();
+    ArrayList<Badge> badges = new ArrayList<>();
+    // private int num = 1;
+
+
+    DatabaseAccess databaseAccess;
+    DatabaseOpenHelper openHelper;
+
+    BadgeViewAdapter badgeViewAdapter = null;
+
+    public QuestionMain()  {/* Empty default constructor required to throw exception for connecting to database */}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_main);
 
+        badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
+
+
+        Context context = this;
+        databaseAccess = new DatabaseAccess(context);
+        openHelper = new DatabaseOpenHelper(context);
+        databaseAccess.open();
+        QuestionBank = openHelper.getData(0);
+
+        Intent getType = getIntent();
+        quizType = getType.getIntExtra("quiz_type", 1);
+
         // create your questions there is no real reason to pass them via an intent
-        questions = createQuestions();
+
+
+        questions = createQuestions(quizType);
 
         // set up ui elements
         trueButton = (Button) findViewById(R.id.true_button);
@@ -36,18 +83,28 @@ public class QuestionMain extends AppCompatActivity {
         scoreText = (TextView) findViewById(R.id.score_textView);
         questionNoText = (TextView) findViewById(R.id.questionNo_textView);
 
+
         // setup onclicklisteners
+
         trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkQuestion(true);
+                try {
+                    checkQuestion(true);
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         falseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkQuestion(false);
+                try {
+                    checkQuestion(false);
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -59,24 +116,67 @@ public class QuestionMain extends AppCompatActivity {
 
         });
 
+        resetTextViews();
+
+
         // setup question
-        scoreText.setText("Score: " + score);
+
+        noOfQuestions = questions.size();
+
+
+
         setQuestion(0);
+
+        QuestionBank.close();
+        databaseAccess.close();
     }
 
-    private void checkQuestion(boolean usersAnswer) {
+
+    private void checkQuestion(Boolean usersAnswer) throws URISyntaxException {
+
         if (usersAnswer == correctAnswer) {
             score += 1;
             scoreText.setText("Score: " + score);
+            Toast.makeText(this, "Correct!", Toast.LENGTH_LONG).show();
+
+        } else {
+            databaseAccess = DatabaseAccess.getInstance(this);
+            databaseAccess.open();
+            currentQuestion.type = quizType;
+            ArrayList<Question> savedQuestionChecker = databaseAccess.receiveSavedQuestions();
+            if (!savedQuestionChecker.contains(currentQuestion)) {
+                savedQuestions.add(currentQuestion);
+            }
+            databaseAccess.close();
+            Toast.makeText(this, "Incorrect! Question Saved.", Toast.LENGTH_LONG).show();
         }
+
         updateQuestion();
     }
 
-    private void updateQuestion() {
-        currentQuestionNo += 1;
-        if (currentQuestionNo >= questions.size()) {                   // if the quiz is over
+
+    private void updateQuestion() throws URISyntaxException {
+
+        if (currentQuestionNo >= noOfQuestions) {   // if the quiz is over
+
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
+
+
+            databaseAccess = DatabaseAccess.getInstance(this);
+            databaseAccess.open();
+
+            badges = databaseAccess.getBadges();
+            databaseAccess.close();
+            badgeViewAdapter.updateBadgeRank(quizType, score);
+
+            /*
+            databaseAccess.open();
+            databaseAccess.saveQuestions(savedQuestions);
+            databaseAccess.close();
+            */
+            questions.clear();
+
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
             finish();
         } else {
@@ -85,28 +185,131 @@ public class QuestionMain extends AppCompatActivity {
     }
 
     private void setQuestion(int num) {
+
         currentQuestion = questions.get(num);
+
         questionText.setText(currentQuestion.question);
-        correctAnswer = currentQuestion.answer;
+        correctAnswer = currentQuestion.correctAnswer;
 
         int number = num + 1;
         questionNoText.setText("Question Number: " + number); // update the question number displayed to match question
+        currentQuestionNo = number;
 
     }
 
-    // creates an array of questions. This function could be used to load questions from a database
-    public static ArrayList<Question> createQuestions() {
-        ArrayList<Question> questions = new ArrayList<>();
-        Question q1 = new Question("This is easier than i thought", true);
-        Question q2 = new Question("The sky is green", false);
-        Question q3 = new Question("Earth is 70% land", false);
-        Question q4 = new Question("An elephant is smaller than the moon", true);
-        Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", true);
-        questions.add(q1);
-        questions.add(q2);
-        questions.add(q3);
-        questions.add(q4);
-        questions.add(q5);
+    private void resetTextViews() {
+        questionNoText.setText("Question Number: " + currentQuestionNo);
+        scoreText.setText("Score: " + score);
+    }
+
+
+    // creates an array of questions
+
+    public ArrayList<Question> createQuestions(int questionType) {
+        databaseAccess = DatabaseAccess.getInstance(this);
+        databaseAccess.open();
+        questions = databaseAccess.getQuestions(questionType);
+        databaseAccess.close();
+
+        return questions;
+
+    }
+
+}
+    /*public ArrayList<Question> getQuestionsBackup(int questionType) {
+        switch (questionType) {
+            case (1):
+                Question q1 = new Question(questionType, "This is easier than i thought", true);
+                questions.add(q1);
+                Question q2 = new Question(questionType, "The sky is green", false);
+                questions.add(q2);
+                Question q3 = new Question(questionType, "Earth is 70% land", false);
+                questions.add(q3);
+                Question q4 = new Question(questionType, "An elephant is smaller than the moon", true);
+                questions.add(q4);
+                Question q5 = new Question(questionType, "There are 2 hydrogen atoms in a water molecule", true);
+                questions.add(q5);
+
+                return questions;
+            case (2):
+                Question q6 = new Question(questionType, "This is a second quiz", true);
+                questions.add(q6);
+                Question q7 = new Question(questionType, "Spiders have 2 eyes", false);
+                questions.add(q7);
+                Question q8 = new Question(questionType, "This is an achievement", true);
+                questions.add(q8);
+                Question q9 = new Question(questionType, "Java is not a type of teapot", true);
+                questions.add(q9);
+                Question q10 = new Question(questionType, "No human has eyes", false);
+                questions.add(q10);
+
+                return questions;
+        }
         return questions;
     }
+
+   if (noOfQuestions == 0){questions = getQuestionsBackup(quizType); noOfQuestions = questions.size();}
 }
+/*
+   public int getScore(){return score;}
+
+   public void saveQuestions(){
+        databaseAccess = DatabaseAccess.getInstance(this);
+        databaseAccess.open();
+        databaseAccess.saveQuestions(savedQuestions);
+        databaseAccess.close();
+    }
+
+
+
+        switch(quizType){
+            case 1: badgeKey = "Badge1Progress";
+            case 2: badgeKey = "Badge2Progress";
+            default: badgeKey = "Badge1Progress";
+        }
+
+
+        switch (questionType) {
+            case (1):
+                Question q1 = new Question("This is easier than i thought", true);
+                questions.add(q1);
+                Question q2 = new Question("The sky is green", false);
+                questions.add(q2);
+                Question q3 = new Question("Earth is 70% land", false);
+                questions.add(q3);
+                Question q4 = new Question("An elephant is smaller than the moon", true);
+                questions.add(q4);
+                Question q5 = new Question("There are 2 hydrogen atoms in a water molecule", true);
+                questions.add(q5);
+                return questions;
+
+            case (2):
+                Question q6 = new Question("This is a second quiz", true);
+                questions.add(q6);
+                Question q7 = new Question("Spiders have 2 eyes", false);
+                questions.add(q7);
+                Question q8 = new Question("This is an achievement", true);
+                questions.add(q8);
+                Question q9 = new Question("Java is not a type of teapot", true);
+                questions.add(q9);
+                Question q10 = new Question("No human has eyes", false);
+                questions.add(q10);
+                return questions;
+        }
+
+            sharedPreferences = getSharedPreferences("userData", MODE_PRIVATE);
+            SharedPreferences.Editor updater = sharedPreferences.edit();
+
+            oldValue = sharedPreferences.getInt(badgeKey, 0);
+            newValue = oldValue + score;
+
+            updater.putInt(badgeKey, newValue);
+            updater.putInt("BadgeTotalProgress", newValue);
+
+            updater.apply();
+
+            finish();
+
+        */
+
+

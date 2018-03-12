@@ -1,9 +1,6 @@
 package com.mjk.gamifiedlearn280817;
 
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 /**
  * Created by owner on 29/08/2017.
  */
@@ -11,13 +8,29 @@ import java.util.ArrayList;
 
 public class Question {
 
-    String question;
-    boolean answer;
+    public Question() {}
 
-    public Question(String question, boolean answer) {
+    int type;
+    String question;
+    boolean correctAnswer;
+
+    public Question(int type, String question, boolean answer) {
+        this.type = type;
         this.question = question;
-        this.answer = answer;
+        this.correctAnswer = answer;
     }
+
+
+    // Getters
+    public int getQuestionType() {return type;}
+    public String getQuestionText() {return question;}
+    public boolean getCorrectAnswer() {return correctAnswer;}
+
+    // Setters
+    public void setQuestionType (int QuestionType) {type = QuestionType;}
+    public void setQuestionText(String QuestionText) {question = QuestionText;}
+    public void setCorrectAnswer(Boolean CorrectAnswer) {correctAnswer = CorrectAnswer;}
+
 }
 
 

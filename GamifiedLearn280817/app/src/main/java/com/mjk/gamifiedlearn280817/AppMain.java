@@ -1,6 +1,9 @@
 package com.mjk.gamifiedlearn280817;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +11,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.GridView;
+import android.widget.ImageView;
+
+import com.mjk.gamifiedlearn280817.Badge;
 
 public class AppMain extends AppCompatActivity {
 
@@ -24,6 +31,17 @@ public class AppMain extends AppCompatActivity {
     MenuItem prevMenuItem = null;
     int tabPosition = 0;
 
+    public static final String userData = "USER_DATA";
+    public static final String badge1Prog = "BADGE_1";
+    public static final String badge2Prog = "BADGE_2";
+    public static final String badgeTotalProg = "BADGE_TOTAL";
+
+    int progressB1, progressB2, progressBTotal, firstTimeCheck;
+    int Default = 0;
+
+    SharedPreferences UserData;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +50,7 @@ public class AppMain extends AppCompatActivity {
         viewPager = (NonSwipeableViewPager) findViewById(R.id.viewPager);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         fragmentManager = getSupportFragmentManager();
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -59,7 +78,8 @@ public class AppMain extends AppCompatActivity {
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
@@ -79,7 +99,8 @@ public class AppMain extends AppCompatActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
         setupViewPager(viewPager);
     }
@@ -96,4 +117,18 @@ public class AppMain extends AppCompatActivity {
 
         System.out.println(adapter.getCount());
     }
+
+
 }
+
+
+
+
+
+
+    //badgeProgressPref =;
+        //badgeRankPref =;
+
+
+
+
