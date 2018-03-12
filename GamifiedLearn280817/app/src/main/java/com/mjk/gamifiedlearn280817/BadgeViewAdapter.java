@@ -2,6 +2,7 @@ package com.mjk.gamifiedlearn280817;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,7 @@ public class BadgeViewAdapter extends BaseAdapter{
     AppMain appContext;
 
 
-    public BadgeViewAdapter(int[] badge, String[] titles, int [] progresses, Context context) throws URISyntaxException {
+    public BadgeViewAdapter(int[] badge, String[] titles, int [] progresses, Context context)  {
 
         BadgeViewAdapter.badge = badge;
         title = titles;
@@ -73,8 +74,9 @@ public class BadgeViewAdapter extends BaseAdapter{
         this.context = context;
 
 
-        progressData.create();
-
+        if (context != null) {
+            SharedPreferencesData.setup(context);
+        }
         databaseAccess = DatabaseAccess.getInstance(context);
         openHelper = DatabaseAccess.openHelper;
         databaseAccess.open();
@@ -142,11 +144,8 @@ public class BadgeViewAdapter extends BaseAdapter{
 
 
 
-
-
         if(position != 2) progress.setText(progresses[position] + "/" + targetQuiz);
         else{progress.setText(progresses[2] + "/" + targetTotal);}
-
 
         return badgeView;
     }
@@ -187,8 +186,8 @@ public class BadgeViewAdapter extends BaseAdapter{
 
 
 
-        progress = progressData.update(quizType, score);
-        progressTotal = progressData.update(3, score);
+        progress = progressData.update(quizType, score, context);
+        progressTotal = progressData.update(3, score, context);
 
         if (progress < quizBronze) {targetQuiz = quizBronze;}
         if (progress >= quizBronze && progress < quizSilver) {

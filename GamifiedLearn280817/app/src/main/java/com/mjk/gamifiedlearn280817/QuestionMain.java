@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -48,14 +49,16 @@ public class QuestionMain extends AppCompatActivity {
     DatabaseAccess databaseAccess;
     DatabaseOpenHelper openHelper;
 
-    BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
+    BadgeViewAdapter badgeViewAdapter = null;
 
-    public QuestionMain() throws URISyntaxException {/* Empty default constructor required to throw exception for connecting to database */}
+    public QuestionMain()  {/* Empty default constructor required to throw exception for connecting to database */}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_main);
+
+        badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
 
 
         Context context = this;

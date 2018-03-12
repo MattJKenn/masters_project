@@ -5,8 +5,10 @@ package com.mjk.gamifiedlearn280817;
  */
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 
 public class SharedPreferencesData extends AppCompatActivity {
@@ -15,14 +17,13 @@ public class SharedPreferencesData extends AppCompatActivity {
     public static final String badge1Prog = "BADGE_1";
     public static final String badge2Prog = "BADGE_2";
     public static final String badgeTotalProg = "BADGE_TOTAL";
+    private Context context = null;
 
 
     public SharedPreferencesData () {super();}
 
-
-    public void create(){
-
-        SharedPreferences UserData = getSharedPreferences(userData, MODE_PRIVATE);
+    static void setup(Context context) {
+        SharedPreferences UserData = context.getSharedPreferences(userData, MODE_PRIVATE);
         SharedPreferences.Editor create = UserData.edit();
 
         if (!UserData.contains(badge1Prog)) {
@@ -35,11 +36,34 @@ public class SharedPreferencesData extends AppCompatActivity {
             create.putInt(badgeTotalProg, 0);
         }
         create.apply();
-
     }
 
 
-    public int update(int badge, int score) {
+    public void create(Context context){
+        this.context = context;
+
+        if(this.context != null) {
+                SharedPreferences UserData = this.context.getSharedPreferences(userData, MODE_PRIVATE);
+                SharedPreferences.Editor create = UserData.edit();
+
+                if (!UserData.contains(badge1Prog)) {
+                    create.putInt(badge1Prog, 0);
+                }
+                if (!UserData.contains(badge2Prog)) {
+                    create.putInt(badge2Prog, 0);
+                }
+                if (!UserData.contains(badgeTotalProg)) {
+                    create.putInt(badgeTotalProg, 0);
+                }
+                create.apply();
+
+        } else {
+            Log.e("sharedPref","context is null");
+        }
+    }
+
+
+    public int update(int badge, int score, Context context) {
 
         String name = "";
         int progress;
@@ -53,7 +77,7 @@ public class SharedPreferencesData extends AppCompatActivity {
             break;
         }
 
-        SharedPreferences UserData = getSharedPreferences(userData, MODE_PRIVATE);
+        SharedPreferences UserData = context.getSharedPreferences(userData, MODE_PRIVATE);
 
         progress = UserData.getInt(name, 0);
 

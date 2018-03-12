@@ -56,8 +56,7 @@ public class ProfileFragment extends Fragment {
         BadgeViewAdapter badgeViewAdapter = null;
 
 
-        try {badgeViewAdapter = new BadgeViewAdapter(badge, badgeTitle, progress, ProfileFragment.super.getContext());} //databaseAccess, openHelper);}
-        catch (URISyntaxException e) {e.printStackTrace();}
+        badgeViewAdapter = new BadgeViewAdapter(badge, badgeTitle, progress, ProfileFragment.super.getContext()); //databaseAccess, openHelper);}
 
 
         badgeView.setAdapter(badgeViewAdapter);
