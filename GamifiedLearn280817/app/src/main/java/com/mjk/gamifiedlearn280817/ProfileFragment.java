@@ -1,8 +1,7 @@
 package com.mjk.gamifiedlearn280817;
 
 
-
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -30,7 +29,6 @@ public class ProfileFragment extends Fragment {
     int progress[] = new int[3];
 
 
-    SharedPreferences UserData;
     //Context context;
 
     public static final String userData = "USER_DATA";
@@ -53,6 +51,7 @@ public class ProfileFragment extends Fragment {
 
         //DatabaseAccess databaseAccess = new DatabaseAccess(context);
         //DatabaseOpenHelper openHelper = new DatabaseOpenHelper(context);
+
         BadgeViewAdapter badgeViewAdapter = null;
 
 

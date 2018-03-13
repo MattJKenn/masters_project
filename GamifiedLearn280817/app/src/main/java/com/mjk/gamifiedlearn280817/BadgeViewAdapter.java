@@ -1,6 +1,7 @@
 package com.mjk.gamifiedlearn280817;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,44 +50,42 @@ public class BadgeViewAdapter extends BaseAdapter{
     Badge quizBadgeObject, totalBadgeObject;
 
 
-    ResultsScreen resultsScreen;
-
+    SharedPreferencesData progressData = new SharedPreferencesData();
 
     ImageView badgeGraphic;
     //int[] badgeGraphics = {R.drawable.bronze_badge, R.drawable.silver_badge, R.drawable.gold_badge};
 
-
+    public static final String userData = "USER_DATA";
 
     int progressB1, progressB2, progressBTotal, progress, progressTotal;
 
 
-    SharedPreferencesData progressData = new SharedPreferencesData();
-
-    AppMain appContext;
 
 
-    public BadgeViewAdapter(int[] badge, String[] titles, int [] progresses, Context context) throws URISyntaxException {
+    public BadgeViewAdapter (int[] badge, String[] titles, int [] progresses, Context context) throws URISyntaxException{
 
         BadgeViewAdapter.badge = badge;
         title = titles;
         BadgeViewAdapter.progresses = progresses;
         this.context = context;
 
+        SharedPreferences progressUpdater = context.getSharedPreferences(userData, Context.MODE_PRIVATE);
 
-        progressData.create();
+        progressData.create(progressUpdater);
 
         databaseAccess = DatabaseAccess.getInstance(context);
         openHelper = DatabaseAccess.openHelper;
+
         databaseAccess.open();
         Cursor Badges = openHelper.getData(1);
         databaseAccess.close();
 
 
 
-        try {updateBadgeRank(1, 0);}
+        try {updateBadgeRank(progressUpdater, 1, 0);}
         catch (URISyntaxException e) {e.printStackTrace();}
 
-        try {updateBadgeRank(2,0);}
+        try {updateBadgeRank(progressUpdater, 2,0);}
         catch (URISyntaxException e) {e.printStackTrace();}
 
 
@@ -164,7 +163,7 @@ public class BadgeViewAdapter extends BaseAdapter{
     */
 
 
-    void updateBadgeRank(int quizType, int score) throws URISyntaxException {
+    void updateBadgeRank(SharedPreferences progressUpdater, int quizType, int score) throws URISyntaxException {
         // assign display to asset in layout
 
         databaseAccess = DatabaseAccess.getInstance(context);
@@ -186,9 +185,8 @@ public class BadgeViewAdapter extends BaseAdapter{
         int totalGold = 100;//totalBadgeObject.getGold();
 
 
-
-        progress = progressData.update(quizType, score);
-        progressTotal = progressData.update(3, score);
+        progress = progressData.update(progressUpdater, quizType, score);
+        progressTotal = progressData.update(progressUpdater,3, score);
 
         if (progress < quizBronze) {targetQuiz = quizBronze;}
         if (progress >= quizBronze && progress < quizSilver) {

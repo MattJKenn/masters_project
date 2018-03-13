@@ -11,7 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 
 public class SharedPreferencesData extends AppCompatActivity {
 
-    public static final String userData = "USER_DATA";
+
     public static final String badge1Prog = "BADGE_1";
     public static final String badge2Prog = "BADGE_2";
     public static final String badgeTotalProg = "BADGE_TOTAL";
@@ -20,9 +20,8 @@ public class SharedPreferencesData extends AppCompatActivity {
     public SharedPreferencesData () {super();}
 
 
-    public void create(){
+    public void create(SharedPreferences UserData){
 
-        SharedPreferences UserData = getSharedPreferences(userData, MODE_PRIVATE);
         SharedPreferences.Editor create = UserData.edit();
 
         if (!UserData.contains(badge1Prog)) {
@@ -39,7 +38,9 @@ public class SharedPreferencesData extends AppCompatActivity {
     }
 
 
-    public int update(int badge, int score) {
+    public int update(SharedPreferences UserData, int badge, int score) {
+
+        SharedPreferences.Editor updater;
 
         String name = "";
         int progress;
@@ -53,15 +54,12 @@ public class SharedPreferencesData extends AppCompatActivity {
             break;
         }
 
-        SharedPreferences UserData = getSharedPreferences(userData, MODE_PRIVATE);
 
         progress = UserData.getInt(name, 0);
 
         progress = progress + score;
 
-
-
-        SharedPreferences.Editor updater = UserData.edit();
+        updater = UserData.edit();
 
         updater.putInt(name, progress);
 

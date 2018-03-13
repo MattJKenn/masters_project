@@ -3,6 +3,7 @@ package com.mjk.gamifiedlearn280817;
 import android.content.Context;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,16 +40,18 @@ public class QuestionMain extends AppCompatActivity {
     String title[] = BadgeViewAdapter.title;
     int progresses[] = BadgeViewAdapter.progresses;
 
+    public static final String userData = "USER_DATA";
+
     ArrayList<Question> questions = new ArrayList<>();
     ArrayList<Question> savedQuestions = new ArrayList<>();
     ArrayList<Badge> badges = new ArrayList<>();
     // private int num = 1;
 
+    Context context = this;
 
     DatabaseAccess databaseAccess;
     DatabaseOpenHelper openHelper;
 
-    BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
 
     public QuestionMain() throws URISyntaxException {/* Empty default constructor required to throw exception for connecting to database */}
 
@@ -58,7 +61,6 @@ public class QuestionMain extends AppCompatActivity {
         setContentView(R.layout.activity_question_main);
 
 
-        Context context = this;
         databaseAccess = new DatabaseAccess(context);
         openHelper = new DatabaseOpenHelper(context);
         databaseAccess.open();
@@ -137,7 +139,7 @@ public class QuestionMain extends AppCompatActivity {
             Toast.makeText(this, "Correct!", Toast.LENGTH_LONG).show();
 
         } else {
-            databaseAccess = DatabaseAccess.getInstance(this);
+            databaseAccess = DatabaseAccess.getInstance(context);
             databaseAccess.open();
             currentQuestion.type = quizType;
             ArrayList<Question> savedQuestionChecker = databaseAccess.receiveSavedQuestions();
@@ -160,12 +162,17 @@ public class QuestionMain extends AppCompatActivity {
             displayResults.putExtra("final_score", score);      // adds score value to intent
 
 
-            databaseAccess = DatabaseAccess.getInstance(this);
+            databaseAccess = DatabaseAccess.getInstance(context);
             databaseAccess.open();
+
+
+            SharedPreferences progressUpdater = getSharedPreferences(userData, Context.MODE_PRIVATE);
 
             badges = databaseAccess.getBadges();
             databaseAccess.close();
-            badgeViewAdapter.updateBadgeRank(quizType, score);
+
+            BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
+            badgeViewAdapter.updateBadgeRank(progressUpdater, quizType, score);
 
             /*
             databaseAccess.open();
@@ -203,7 +210,7 @@ public class QuestionMain extends AppCompatActivity {
     // creates an array of questions
 
     public ArrayList<Question> createQuestions(int questionType) {
-        databaseAccess = DatabaseAccess.getInstance(this);
+        databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
         questions = databaseAccess.getQuestions(questionType);
         databaseAccess.close();
