@@ -89,10 +89,6 @@ public class BadgeViewAdapter extends BaseAdapter{
         catch (URISyntaxException e) {e.printStackTrace();}
 
 
-        progresses[0] = progressB1;
-        progresses[1] = progressB2;
-        progresses[2] = progressBTotal;
-
         Badges.close();
 
     }
