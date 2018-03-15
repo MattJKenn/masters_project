@@ -149,7 +149,7 @@ public class DatabaseAccess {
     }
 
 
-    /*
+
 
 
     void saveQuestions(ArrayList<Question> savedQuestions) {
@@ -166,9 +166,9 @@ public class DatabaseAccess {
                     SINGLE_QUOTE + type + SINGLE_QUOTE + COMMA + SINGLE_QUOTE + question +
                     SINGLE_QUOTE + COMMA + SINGLE_QUOTE + rawCorrectAnswer + SINGLE_QUOTE + ")");
         }
-        }
+    }
 
-    */
+
 
 
 
@@ -205,16 +205,16 @@ public class DatabaseAccess {
 
     ArrayList<String> getQuestionTextList(){
 
-        //ArrayList<Question> fullQuestionArrayList = receiveSavedQuestions();
+        ArrayList<Question> fullQuestionArrayList = receiveSavedQuestions();
         ArrayList<String> savedQuestionTextList = new ArrayList<>();
-        /*
+
         int QuestionListLength = fullQuestionArrayList.size();
 
         for (int i = 0; i < QuestionListLength; i++){
             String questionText = "";
             savedQuestionTextList.add(questionText);
         }
-        */
+
         String[] columns = new String[]{CURSOR_TYPE_COLUMN_NAME, QUESTION_TEXT_COLUMN_NAME, CORRECT_ANSWER_COLUMN_NAME};
 
         Cursor cursor = database.query(SAVED_QUESTION_TABLE_NAME, columns, null,

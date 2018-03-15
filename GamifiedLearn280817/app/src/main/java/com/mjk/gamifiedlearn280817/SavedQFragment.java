@@ -22,10 +22,6 @@ public class SavedQFragment extends Fragment {
     public SavedQFragment() {}
 
 
-
-    //ArrayList<Question> savedQuestions = new ArrayList<>();
-    //List<String> questionList = new ArrayList<>();
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

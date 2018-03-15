@@ -30,7 +30,6 @@
         android:layout_alignRight="@+id/username_textView"
         android:layout_alignStart="@+id/username_textView"
         android:layout_below="@+id/username_textView"
-        android:layout_marginTop="51dp"
         android:contentDescription="User Image Placeholder"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
@@ -40,8 +39,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/user_imageView"
-        android:layout_marginTop="88dp"
+        android:layout_below="@+id/badges_title_text"
+        android:layout_marginTop="14dp"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth" />
 
@@ -51,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_imageView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="22dp"
         android:fontFamily="monospace"
         android:text="BADGES"
         android:textAlignment="center"

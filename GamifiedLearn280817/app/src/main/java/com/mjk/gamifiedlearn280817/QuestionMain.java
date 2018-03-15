@@ -165,6 +165,7 @@ public class QuestionMain extends AppCompatActivity {
             databaseAccess = DatabaseAccess.getInstance(context);
             databaseAccess.open();
 
+            databaseAccess.saveQuestions(savedQuestions);
 
             SharedPreferences progressUpdater = getSharedPreferences(userData, Context.MODE_PRIVATE);
 
@@ -174,18 +175,14 @@ public class QuestionMain extends AppCompatActivity {
             BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
             badgeViewAdapter.updateBadgeRank(progressUpdater, quizType, score);
 
-            /*
-            databaseAccess.open();
-            databaseAccess.saveQuestions(savedQuestions);
-            databaseAccess.close();
-            */
+
             questions.clear();
 
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
             finish();
-        } else {
-            setQuestion(currentQuestionNo);
+
         }
+        else {setQuestion(currentQuestionNo);}
     }
 
     private void setQuestion(int num) {
