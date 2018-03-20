@@ -5,12 +5,16 @@ package com.mjk.gamifiedlearn280817;
 import android.database.Cursor;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 
 
 /**
@@ -21,6 +25,11 @@ public class SavedQFragment extends Fragment {
 
     public SavedQFragment() {}
 
+    SectionsFragment sectionsFragment;
+    DatabaseAccess databaseAccess;
+    ArrayList<Question> savedQuestions = new ArrayList<>();
+
+    int quizType;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,6 +37,22 @@ public class SavedQFragment extends Fragment {
         // Inflate the layout for this fragment
         View savedQView = inflater.inflate(R.layout.fragment_saved_q, container, false);
 
+        Button savedQuestionQuiz = (Button) savedQView.findViewById(R.id.saved_quiz_button);
+        savedQuestionQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseAccess = DatabaseAccess.getInstance(SavedQFragment.super.getContext());
+                databaseAccess.open();
+                savedQuestions = databaseAccess.receiveSavedQuestions();
+                if (savedQuestions.size() != 0){
+                    quizType = 3;
+                    sectionsFragment.startQuiz(quizType);
+                }
+                else{Toast.makeText(SavedQFragment.super.getContext(), "There are No Saved Questions to Answer!", Toast.LENGTH_SHORT).show();}
+
+                databaseAccess.close();
+            }
+        });
 
         ListView savedQs = (ListView) savedQView.findViewById(R.id.savedq_list);
 

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseAccess {
     public static DatabaseOpenHelper openHelper;
@@ -162,7 +163,7 @@ public class DatabaseAccess {
             boolean correctAnswer = savedQuestion.correctAnswer;
             int rawCorrectAnswer = (correctAnswer) ? 1:0;
 
-            database.execSQL("INSERT INTO " + SAVED_QUESTION_TABLE_NAME + SAVED_Q_COLUMN_NAMES +
+            database.execSQL("INSERT INTO " + SAVED_QUESTION_TABLE_NAME + " VALUES(" +
                     SINGLE_QUOTE + type + SINGLE_QUOTE + COMMA + SINGLE_QUOTE + question +
                     SINGLE_QUOTE + COMMA + SINGLE_QUOTE + rawCorrectAnswer + SINGLE_QUOTE + ")");
         }
@@ -203,17 +204,13 @@ public class DatabaseAccess {
         return savedQuestionArrayList;
     }
 
-    ArrayList<String> getQuestionTextList(){
+    List<String> getQuestionTextList(){
 
-        ArrayList<Question> fullQuestionArrayList = receiveSavedQuestions();
-        ArrayList<String> savedQuestionTextList = new ArrayList<>();
+        //ArrayList<Question> fullQuestionArrayList = receiveSavedQuestions();
+        List<String> savedQuestionTextList = new ArrayList<>();
 
-        int QuestionListLength = fullQuestionArrayList.size();
+        //int QuestionListLength = fullQuestionArrayList.size();
 
-        for (int i = 0; i < QuestionListLength; i++){
-            String questionText = "";
-            savedQuestionTextList.add(questionText);
-        }
 
         String[] columns = new String[]{CURSOR_TYPE_COLUMN_NAME, QUESTION_TEXT_COLUMN_NAME, CORRECT_ANSWER_COLUMN_NAME};
 
@@ -223,7 +220,6 @@ public class DatabaseAccess {
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             do {
-
                 String text = cursor.getString(cursor.getColumnIndexOrThrow(QUESTION_TEXT_COLUMN_NAME));
                 savedQuestionTextList.add(text);
             }

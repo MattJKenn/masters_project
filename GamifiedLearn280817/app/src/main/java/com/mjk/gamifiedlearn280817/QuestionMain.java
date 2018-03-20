@@ -136,18 +136,22 @@ public class QuestionMain extends AppCompatActivity {
         if (usersAnswer == correctAnswer) {
             score += 1;
             scoreText.setText("Score: " + score);
-            Toast.makeText(this, "Correct!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
 
-        } else {
-            databaseAccess = DatabaseAccess.getInstance(context);
-            databaseAccess.open();
-            currentQuestion.type = quizType;
-            ArrayList<Question> savedQuestionChecker = databaseAccess.receiveSavedQuestions();
-            if (!savedQuestionChecker.contains(currentQuestion)) {
-                savedQuestions.add(currentQuestion);
+        }
+        else {
+            if (quizType != 3) {
+                databaseAccess = DatabaseAccess.getInstance(context);
+                databaseAccess.open();
+                currentQuestion.type = quizType;
+                ArrayList<Question> savedQuestionChecker = databaseAccess.receiveSavedQuestions();
+                if (!savedQuestionChecker.contains(currentQuestion)) {
+                    savedQuestions.add(currentQuestion);
+                }
+                databaseAccess.close();
+                Toast.makeText(this, "Incorrect! Question Saved.", Toast.LENGTH_SHORT).show();
             }
-            databaseAccess.close();
-            Toast.makeText(this, "Incorrect! Question Saved.", Toast.LENGTH_LONG).show();
+            else{Toast.makeText(this, "Incorrect!", Toast.LENGTH_SHORT).show();}
         }
 
         updateQuestion();
@@ -162,22 +166,22 @@ public class QuestionMain extends AppCompatActivity {
             displayResults.putExtra("final_score", score);      // adds score value to intent
 
 
-            databaseAccess = DatabaseAccess.getInstance(context);
-            databaseAccess.open();
-
-            databaseAccess.saveQuestions(savedQuestions);
-
             SharedPreferences progressUpdater = getSharedPreferences(userData, Context.MODE_PRIVATE);
 
-            badges = databaseAccess.getBadges();
-            databaseAccess.close();
+            if (quizType != 3) {
+                databaseAccess = DatabaseAccess.getInstance(context);
+                databaseAccess.open();
 
-            BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
-            badgeViewAdapter.updateBadgeRank(progressUpdater, quizType, score);
+                databaseAccess.saveQuestions(savedQuestions);
 
+                badges = databaseAccess.getBadges();
+                databaseAccess.close();
 
-            questions.clear();
+                BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
+                badgeViewAdapter.updateBadgeRank(progressUpdater, quizType, score);
 
+                questions.clear();
+            }
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
             finish();
 
@@ -207,9 +211,11 @@ public class QuestionMain extends AppCompatActivity {
     // creates an array of questions
 
     public ArrayList<Question> createQuestions(int questionType) {
+
         databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
-        questions = databaseAccess.getQuestions(questionType);
+        if (questionType != 3){questions = databaseAccess.getQuestions(questionType);}
+        else{questions = databaseAccess.receiveSavedQuestions();}
         databaseAccess.close();
 
         return questions;

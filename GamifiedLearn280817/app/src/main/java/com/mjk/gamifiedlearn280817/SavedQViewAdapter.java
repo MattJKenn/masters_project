@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import android.widget.CursorAdapter;
 
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.lang.reflect.Array;
@@ -27,7 +28,7 @@ public class SavedQViewAdapter extends CursorAdapter {
     private LayoutInflater layoutInflater;
 
     ArrayList<Question> savedQuestions = new ArrayList<>();
-    List<String> questionList = new ArrayList<>();
+    //List<String> questionList = new ArrayList<>();
 
     DatabaseAccess databaseAccess;
     static Cursor SavedQuestions;
@@ -50,21 +51,23 @@ public class SavedQViewAdapter extends CursorAdapter {
 
         View savedQView = convertView;
 
-
         if (convertView == null) {
-            layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+            layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             assert layoutInflater != null;
             savedQView = layoutInflater.inflate(R.layout.saved_q_view_adapter, parent, false);
+
+
         }
 
         return savedQView;
     }
 
 
-    public void setSavedQuestions(ArrayList<Question> savedQuestions) {
+    public void setSavedQuestions(List<String> questionList) {
 
-        if (savedQuestions.size() > 0) {
+
+        if (questionList.size() > 0) {
             for (int i = 0; i < savedQuestions.size(); i++) {
                 Question selectedQ = savedQuestions.get(i);
                 String question = selectedQ.getQuestionText();
@@ -74,6 +77,8 @@ public class SavedQViewAdapter extends CursorAdapter {
         else {
             questionList.add(0, NO_SAVED_QUESTIONS_TEXT);
         }
+
+
     }
 
 
@@ -86,17 +91,18 @@ public class SavedQViewAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
         openHelper = new DatabaseOpenHelper(context);
-        SavedQuestions = openHelper.getData(2);
-
-        TextView questionListView = (TextView) view.findViewById(R.id.saved_q_adapter);
+        Cursor SavedQuestions = openHelper.getData(2);
 
         databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
 
-        savedQuestions = databaseAccess.receiveSavedQuestions();
 
-        questionList = databaseAccess.getQuestionTextList();
+        List<String> questionList = databaseAccess.getQuestionTextList();
 
+        setSavedQuestions(questionList);
+
+
+        /*
         if (questionList.size() > 0){
             for (int i = 0; i < questionList.size(); i++){
                 String question = questionList.get(i);
@@ -104,7 +110,7 @@ public class SavedQViewAdapter extends CursorAdapter {
             }
         }
         else {questionListView.setText(NO_SAVED_QUESTIONS_TEXT);}
-
+        */
         SavedQuestions.close();
         databaseAccess.close();
 
