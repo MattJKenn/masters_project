@@ -82,6 +82,7 @@ public class QuestionMain extends AppCompatActivity {
         scoreText = (TextView) findViewById(R.id.score_textView);
         questionNoText = (TextView) findViewById(R.id.questionNo_textView);
 
+        scoreText.setText("");
 
         // setup onclicklisteners
 
@@ -134,8 +135,11 @@ public class QuestionMain extends AppCompatActivity {
     private void checkQuestion(Boolean usersAnswer) throws URISyntaxException {
 
         if (usersAnswer == correctAnswer) {
-            score += 1;
-            scoreText.setText("Score: " + score);
+            if (quizType == 3){databaseAccess.clearQuestion(currentQuestion);}
+            else {
+                score += 1;
+                scoreText.setText("Score: " + score);
+            }
             Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
 
         }
@@ -164,7 +168,7 @@ public class QuestionMain extends AppCompatActivity {
 
             Intent displayResults = new Intent(QuestionMain.this, ResultsScreen.class);
             displayResults.putExtra("final_score", score);      // adds score value to intent
-
+            displayResults.putExtra("quiz_type", quizType);
 
             SharedPreferences progressUpdater = getSharedPreferences(userData, Context.MODE_PRIVATE);
 
@@ -180,8 +184,9 @@ public class QuestionMain extends AppCompatActivity {
                 BadgeViewAdapter badgeViewAdapter = new BadgeViewAdapter(badge, title, progresses, this);
                 badgeViewAdapter.updateBadgeRank(progressUpdater, quizType, score);
 
-                questions.clear();
+
             }
+            questions.clear();
             startActivity(displayResults);                      // sends intent with score to ResultsScreen
             finish();
 
@@ -204,7 +209,7 @@ public class QuestionMain extends AppCompatActivity {
 
     private void resetTextViews() {
         questionNoText.setText("Question Number: " + currentQuestionNo);
-        scoreText.setText("Score: " + score);
+        if (quizType != 3){scoreText.setText("Score: " + score);};
     }
 
 

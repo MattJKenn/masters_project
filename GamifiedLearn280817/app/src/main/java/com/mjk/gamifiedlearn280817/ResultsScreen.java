@@ -25,8 +25,9 @@ public class ResultsScreen extends AppCompatActivity {
 
         Intent result = getIntent();
         int score = result.getIntExtra("final_score", 0);
+        int quizType = result.getIntExtra("quiz_type", 1);
 
-        finalScoreText.setText("Your Score is: " + score);
+        if(quizType != 3){finalScoreText.setText("Your Score is: " + score);}
 
 
         endQuizButton.setOnClickListener(new View.OnClickListener() {

@@ -1,4 +1,4 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,40 +11,35 @@
         android:id="@+id/savedq_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
         android:text="Saved Questions"
         android:textAlignment="center"
         android:textSize="24sp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Click on the button to attempt these questions"
+        android:layout_below="@+id/savedq_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="86dp"
+        android:text="Click on this button to reattempt questions"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@+id/savedq_title"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <ListView
-        android:id="@+id/savedq_list"
-        android:layout_width="289dp"
-        android:layout_height="415dp"
-        android:layout_marginLeft="48dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="116dp"
-        android:background="@android:color/holo_blue_bright"
-        android:scrollbars="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subtitle" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/savedq_title" />
 
     <Button
         android:id="@+id/saved_quiz_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/subtitle"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:text="Start Quiz"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -52,4 +47,15 @@
         app:layout_constraintTop_toBottomOf="@+id/subtitle"
         tools:text="Start Quiz" />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/clear_quiz_button"
+        android:layout_width="159dp"
+        android:layout_height="61dp"
+        android:layout_below="@+id/saved_quiz_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp"
+        android:text="Clear Questions"
+        tools:layout_editor_absoluteX="113dp"
+        tools:layout_editor_absoluteY="198dp" />
+
+</RelativeLayout>

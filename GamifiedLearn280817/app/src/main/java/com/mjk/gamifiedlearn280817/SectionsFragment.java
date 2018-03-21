@@ -1,6 +1,7 @@
 package com.mjk.gamifiedlearn280817;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -49,21 +50,19 @@ public class SectionsFragment extends Fragment {
 
 
         sectionsButton1 = (Button) sectionsView.findViewById(R.id.sections_button1);
-        sectionsButton1.setOnClickListener(new View.OnClickListener(){@Override public void onClick(View v) {quizType = 1; startQuiz(quizType);}});
+        sectionsButton1.setOnClickListener(new View.OnClickListener(){@Override public void onClick(View v) {quizType = 1; startQuiz();}});
 
 
         sectionsButton2 = (Button) sectionsView.findViewById(R.id.sections_button2);
         sectionsButton2.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick (View v) {quizType = 2; startQuiz(quizType);
-
-            }
+            public void onClick (View v) {quizType = 2; startQuiz();}
         });
 
         return sectionsView;
     }
 
-    public void startQuiz(int quizType){
+    public void startQuiz(){
         Intent startQuiz = new Intent(getContext(), QuestionMain.class);
         startQuiz.putExtra("quiz_type", quizType);
         startActivity(startQuiz);

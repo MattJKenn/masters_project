@@ -5,14 +5,14 @@ package com.mjk.gamifiedlearn280817;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
+import android.util.Log;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseAccess {
-    public static DatabaseOpenHelper openHelper;
+    static DatabaseOpenHelper openHelper;
     private SQLiteDatabase database;
     private static DatabaseAccess instance;
 
@@ -33,14 +33,16 @@ public class DatabaseAccess {
 
     private static final String COMMA = ", ";
     private static final String SINGLE_QUOTE = "'";
-
+    private static final String EQUALS = " = ";
     private static final String SAVED_Q_COLUMN_NAMES =
-            "VALUES(" + CURSOR_TYPE_COLUMN_NAME + COMMA + QUESTION_TEXT_COLUMN_NAME + COMMA + CORRECT_ANSWER_COLUMN_NAME + ")";
+            " (" + CURSOR_TYPE_COLUMN_NAME + COMMA + QUESTION_TEXT_COLUMN_NAME + COMMA + CORRECT_ANSWER_COLUMN_NAME + ") ";
 
 
-    //private static final String ID_COLUMN_MODIFIER = "ALTER TABLE SavedQuestions INSERT '_id', INT";
-    //private static final String CURSOR_SELECT_STATEMENT = "SELECT " + QUESTION_TEXT_COLUMN_NAME + " FROM " + SAVED_QUESTION_TABLE_NAME;
-    //int progress;
+    private int type, rawCorrectAnswer;
+    private String question = "";
+    private boolean correctAnswer;
+
+
 
     /**
      * Private constructor to avoid object creation from outside classes.
@@ -80,12 +82,29 @@ public class DatabaseAccess {
         }
     }
 
+    void clearQuestion(Question currentQuestion) {
+        type = currentQuestion.type;
+        question = currentQuestion.question;
+        correctAnswer = currentQuestion.correctAnswer;
+        rawCorrectAnswer = (correctAnswer) ? 1:0;
+        open();
+        database.execSQL("DELETE FROM " + SAVED_QUESTION_TABLE_NAME + " WHERE " + CURSOR_TYPE_COLUMN_NAME + EQUALS +
+                SINGLE_QUOTE + type + SINGLE_QUOTE + " AND " + QUESTION_TEXT_COLUMN_NAME + EQUALS + SINGLE_QUOTE + question + SINGLE_QUOTE +
+                " AND " + CORRECT_ANSWER_COLUMN_NAME + EQUALS + SINGLE_QUOTE + rawCorrectAnswer + SINGLE_QUOTE);
+        close();
+    }
+
+    void clear(){
+        open();
+        database.execSQL("DELETE FROM " + SAVED_QUESTION_TABLE_NAME);
+        close();
+    }
 
     ArrayList<Question> getQuestions(int qType) {
         ArrayList<Question> questionArrayList = new ArrayList<>();
         String[] columns = new String[]{QUESTION_TYPE_COLUMN_NAME, QUESTION_TEXT_COLUMN_NAME, CORRECT_ANSWER_COLUMN_NAME};
 
-        Cursor cursor = database.query(QUESTION_BANK_TABLE_NAME, columns, QUESTION_TYPE_COLUMN_NAME + " = " + qType,
+        Cursor cursor = database.query(QUESTION_BANK_TABLE_NAME, columns, QUESTION_TYPE_COLUMN_NAME + EQUALS + qType,
                 null, null, null, null);
 
 
@@ -158,14 +177,16 @@ public class DatabaseAccess {
 
         for ( int i = 0; i < savedQuestions.size(); i++ ) {
             Question savedQuestion = savedQuestions.get(i);
-            int type = savedQuestion.type;
-            String question = savedQuestion.question;
-            boolean correctAnswer = savedQuestion.correctAnswer;
-            int rawCorrectAnswer = (correctAnswer) ? 1:0;
+            type = savedQuestion.type;
+            question = savedQuestion.question;
+            correctAnswer = savedQuestion.correctAnswer;
+            rawCorrectAnswer = (correctAnswer) ? 1:0;
 
-            database.execSQL("INSERT INTO " + SAVED_QUESTION_TABLE_NAME + " VALUES(" +
+            database.execSQL("INSERT INTO " + SAVED_QUESTION_TABLE_NAME + SAVED_Q_COLUMN_NAMES + "VALUES(" +
                     SINGLE_QUOTE + type + SINGLE_QUOTE + COMMA + SINGLE_QUOTE + question +
                     SINGLE_QUOTE + COMMA + SINGLE_QUOTE + rawCorrectAnswer + SINGLE_QUOTE + ")");
+
+
         }
     }
 

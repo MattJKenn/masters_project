@@ -2,10 +2,12 @@ package com.mjk.gamifiedlearn280817;
 
 
 
+import android.content.Intent;
 import android.database.Cursor;
 
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +27,7 @@ public class SavedQFragment extends Fragment {
 
     public SavedQFragment() {}
 
-    SectionsFragment sectionsFragment;
+    SectionsFragment sectionsFragment = new SectionsFragment();
     DatabaseAccess databaseAccess;
     ArrayList<Question> savedQuestions = new ArrayList<>();
 
@@ -44,9 +46,11 @@ public class SavedQFragment extends Fragment {
                 databaseAccess = DatabaseAccess.getInstance(SavedQFragment.super.getContext());
                 databaseAccess.open();
                 savedQuestions = databaseAccess.receiveSavedQuestions();
-                if (savedQuestions.size() != 0){
+                if (!savedQuestions.isEmpty()){
                     quizType = 3;
-                    sectionsFragment.startQuiz(quizType);
+                    Intent startQuiz = new Intent(getActivity(), QuestionMain.class);
+                    startQuiz.putExtra("quiz_type", quizType);
+                    startActivity(startQuiz);
                 }
                 else{Toast.makeText(SavedQFragment.super.getContext(), "There are No Saved Questions to Answer!", Toast.LENGTH_SHORT).show();}
 
@@ -54,7 +58,21 @@ public class SavedQFragment extends Fragment {
             }
         });
 
+        Button clearQuestions = (Button) savedQView.findViewById(R.id.clear_quiz_button);
+        clearQuestions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseAccess.clear();
+                Toast.makeText(SavedQFragment.super.getContext(), "Saved List Cleared", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return savedQView;
+    }
+        /*
+
         ListView savedQs = (ListView) savedQView.findViewById(R.id.savedq_list);
+
 
         Cursor SavedQuestions = SavedQViewAdapter.SavedQuestions;
 
@@ -62,10 +80,10 @@ public class SavedQFragment extends Fragment {
 
         savedQs.setAdapter(savedQViewAdapter);
 
-        //SavedQuestions.close();
+        SavedQuestions.close();
+        */
 
-        return savedQView;
-    }
+
 /*
     public void getSavedQuestions(){
         databaseAccess = new DatabaseAccess(getContext());
