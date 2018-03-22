@@ -148,14 +148,28 @@ public class QuestionMain extends AppCompatActivity {
                 databaseAccess = DatabaseAccess.getInstance(context);
                 databaseAccess.open();
                 currentQuestion.type = quizType;
-                ArrayList<Question> savedQuestionChecker = databaseAccess.receiveSavedQuestions();
-                if (!savedQuestionChecker.contains(currentQuestion)) {
-                    savedQuestions.add(currentQuestion);
+
+                Toast.makeText(this, "Incorrect!", Toast.LENGTH_SHORT).show();
+
+
+                if (savedQuestions.isEmpty()){savedQuestions.add(currentQuestion);}
+
+                else {
+                    for (int i = 0; i < savedQuestions.size(); i++ ) {
+
+                        if (!savedQuestions.get(i).equals(currentQuestion)) {
+                            savedQuestions.add(currentQuestion);
+                            Toast.makeText(this, "Question Saved", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
                 }
+                // Check list, is it empty or does it have the question you are trying to add?
+                // If yes, then the question is added to the array and the loop ends. If not, then the loop continues.
+
                 databaseAccess.close();
-                Toast.makeText(this, "Incorrect! Question Saved.", Toast.LENGTH_SHORT).show();
             }
-            else{Toast.makeText(this, "Incorrect!", Toast.LENGTH_SHORT).show();}
+           Toast.makeText(this, "Incorrect!", Toast.LENGTH_SHORT).show();
         }
 
         updateQuestion();
